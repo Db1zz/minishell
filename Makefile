@@ -8,6 +8,13 @@ OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
+ifeq ($(LIBFT_DIR))
+	@echo "Libft found!"
+else
+	@echo "Libft not found, downloading library from https://github.com/Db1zz/libft"
+	git clone https://github.com/Db1zz/libft
+endif
+
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
