@@ -1,5 +1,5 @@
 
-# Contributing to ProjectName
+# Contributing to Minishell
 
 This page describes how to write code that corresponds to the norms of this project.
 
