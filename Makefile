@@ -15,7 +15,8 @@ ifneq ($(wildcard $(LIBFT_DIR)),)
 	@echo "Libft found!"
 else
 	@echo "Libft not found, downloading library from https://github.com/Db1zz/libft"
-	git clone https://github.com/Db1zz/libft
+	git clone https://github.com/Db1zz/libft libft
+	rm -rf ./libft/.git
 endif
 
 $(LIBFT):
