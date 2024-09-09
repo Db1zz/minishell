@@ -1,6 +1,6 @@
 # Project compiler settings
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -arch x86_64 -Wall -Werror -Wextra
 # CFLAGS = -fsanitize=address
 
 # Project/Binary Name

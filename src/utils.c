@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/08 20:45:05 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/08 20:31:54 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/08 20:35:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	minishell_process_input(char *input)
+void	print_2dmatrix(const char **matrix)
 {
-	s_cmd	**cmd_table;
+	int	i;
 
-	cmd_table = parse_input(input);
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+		ft_printf("%s\n", matrix[i++]);
 }
 
-static void	minishell_loop(char	**envp)
+void	free_2dmatrix(char **matrix)
 {
-	char	*input;
+	int	i;
 
-	while (true)
-	{
-		input = readline("minishell> ");
-		if (input)
-			minishell_process_input(input);
-	}
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	minishell_loop(envp);
-	return (0);
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }

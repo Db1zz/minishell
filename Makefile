@@ -1,8 +1,10 @@
 # Project settings
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-SRCS =	main.c	\
+CFLAGS = -arch x86_64 -Wall -Wextra -lreadline
+SRCS =	src/main.c	\
+		src/utils.c	\
+		src/parsing/p_parse.c	\
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = ./libft
