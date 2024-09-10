@@ -5,6 +5,8 @@ CFLAGS = -arch x86_64 -Wall -Wextra -lreadline
 SRCS =	src/main.c	\
 		src/utils.c	\
 		src/parsing/p_parse.c	\
+		src/parsing/p_tokenizer.c	\
+		src/parsing/p_utils.c	\
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = ./libft

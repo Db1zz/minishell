@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   p_parse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/09 21:18:30 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/06 16:40:56 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/10 12:04:00 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-static void	minishell_process_input(char *input)
+t_cmd	**parse_input(char *input)
 {
-	parse_input(input);
-}
+	// s_cmd	*cmd_table[ARG_MAX]; // Temporary
+	// s_cmd	**result;
+	t_list		*tokens;
 
-static void	minishell_loop(char	**envp)
-{
-	char	*input;
-
-	while (true)
-	{
-		input = readline("minishell> ");
-		if (input)
-			minishell_process_input(input);
-	}
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	minishell_loop(envp);
-	return (0);
+	if (!input)
+		return (NULL);
+	// result = NULL;
+	tokens = tokenize(input);
+	print_tokens(tokens);
+	free (input);
 }
