@@ -1,12 +1,19 @@
 # Project settings
 NAME = minishell
 CC = cc
-CFLAGS = -arch x86_64 -Wall -Wextra -lreadline
+ARCH := $(shell uname -m)
+ifneq ($(ARCH),x86_64)
+	CFLAGS = -arch $(ARCH) -Wall -Wextra -lreadline
+else
+	CFLAGS = -Wall -Wextra -lreadline
+endif
+
 SRCS =	src/main.c	\
 		src/utils.c	\
-		src/parsing/p_parse.c	\
+		src/parsing/p_parse.c		\
 		src/parsing/p_tokenizer.c	\
-		src/parsing/p_utils.c	\
+		src/parsing/p_utils.c		\
+		
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = ./libft

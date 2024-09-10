@@ -1,6 +1,11 @@
 # Project compiler settings
 CC = cc
-CFLAGS = -arch x86_64 -Wall -Werror -Wextra
+ARCH := $(shell uname -m)
+ifneq ($(ARCH),x86_64)
+	CFLAGS = -arch $(ARCH) -Wall -Werror -Wextra
+else
+	CFLAGS = -Wall -Werror -Wextra
+endif
 # CFLAGS = -fsanitize=address
 
 # Project/Binary Name

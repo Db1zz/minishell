@@ -6,36 +6,11 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/09 21:50:24 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:59:40 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static size_t	count_tokens(char const *s)
-{
-	size_t	i;
-	size_t	result;
-	int		is_word;
-
-	i = 0;
-	result = 0;
-	is_word = 0;
-	while (s[i])
-	{
-		if ((is_metachar(s + i) || is_space(s[i])) && is_word == 1)
-		{
-			result++;
-			is_word = 0;
-		}
-		else if (!is_space(s[i]) && is_word == 0)
-			is_word = 1;
-		i++;
-	}
-	if (is_word == 1)
-		result++;
-	return (result);
-}
 
 static t_list	*alloc_token(char const *s, size_t len)
 {

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/09 21:32:14 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:38:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdbool.h>
 # include "limits.h"
 # include "../libft/libft.h"
+
+# ifndef ARG_MAX
+#  define ARG_MAX	131072
+# endif
 
 // Tokens
 # define TOKEN_UNKNOWN		0
