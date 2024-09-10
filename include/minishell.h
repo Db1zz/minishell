@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/10 12:38:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:03:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,5 @@ int		str_to_token_type(const char *s);
 */
 void	print_2dmatrix(const char **matrix);
 void	free_2dmatrix(char **matrix);
-/*
-	grep -i "$(err)" logfile.txt | echo > errors.txt
-	cmd flag arg 	in file 	pipe cmd 				out file
-	
-	We can give for each cmd set of tokens, for example above input will looks like this:
-		cmd + tokens[in file -> flag -> arg -> out(pipe)]
-		cmd	+ tokens[in(pipe) -> arg -> out file]
-	But how to parse $()? 
-	< error.txt cat | grep f > $(pwd)/out.txt
-
-	Короч, впизду эту ебаную структуру которую я сделал
-	ща захуярим иначе
-*/
 
 #endif // MINISHELL_H
