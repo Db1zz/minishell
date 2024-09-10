@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/10 13:03:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:22:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdbool.h>
 # include "limits.h"
 # include "../libft/libft.h"
+
+#define SHELL_NAME "Minishell"
 
 # ifndef ARG_MAX
 #  define ARG_MAX	131072
@@ -67,9 +69,14 @@ t_list	*tokenize(char *s);
 	p_utils.c
 */
 void	print_tokens(t_list *lst);
-bool	is_space(const char	c);
-int		is_metachar(const char *s);
 int		str_to_token_type(const char *s);
+/*
+	p_booleans.c
+*/
+bool	is_space(char c);
+bool	is_quote(char c);
+bool	is_operator(const char *s);
+bool	is_metachar(const char *s);
 
 /*
 	utils.c

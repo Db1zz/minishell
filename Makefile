@@ -8,11 +8,12 @@ else
 	CFLAGS = -Wall -Wextra -lreadline
 endif
 
-SRCS =	src/main.c	\
-		src/utils.c	\
+SRCS =	src/main.c					\
+		src/utils.c					\
 		src/parsing/p_parse.c		\
 		src/parsing/p_tokenizer.c	\
 		src/parsing/p_utils.c		\
+		src/parsing/p_booleans.c	\
 		
 
 OBJS = $(SRCS:.c=.o)

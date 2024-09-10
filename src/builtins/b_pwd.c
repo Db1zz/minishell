@@ -6,10 +6,9 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:31:06 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/06 14:37:02 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:58:00 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
