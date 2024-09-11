@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/10 18:47:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:01:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,30 @@ static int	parse_quote(char const *s, t_list **tokens)
 		return (0);
 	quote = *s;
 	start = ++s;
-	// in this loop we also have to do the variable expansion $
 	while (*s && *s != quote)
 		s++;
 	if (!(*s))
 	{
 		ft_printf("%s: found unclosed quote.\n", SHELL_NAME);
-		return (0); // TODO: Set exit status and exit from parsing.
+		return (0);
 	}
-	ft_lstadd_back(tokens, alloc_token(start, s + 1 - start));
-	return (s + 1 - start);
+	ft_lstadd_back(tokens, alloc_token(start, s - start));
+	return (s + 2 - start);
 }
 
 static int	parse_operator(char const *s, t_list **tokens)
 {
-	char const	*start;
-	char		*operator;
-	char		c;
+	int	operator_len;
 
-	if (!*s || !is_operator(s))
+	operator_len = is_operator(s);
+	if (!operator_len)
 		return (0);
-	c = s[0];
-	start = s;
-	while (*s && *s == c)
-		s++;
-	operator = ft_substr(start, 0, s - start);
-	if (operator)
+	ft_lstadd_back(tokens, alloc_token(s, operator_len));
+	return (operator_len);
 }
 
 /*
-	Current task:	Implement quotes
-	The problem:
-		Metachars are shouldn't be treated as a separators 
-		for tokenizer(while in "").
+	Current task:	Expand Variables
 	echo <in"hello, $(USER) :"
 */
 static t_list	*parse_tokens(char const *s)

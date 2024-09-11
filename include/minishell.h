@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/10 18:22:17 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/11 09:53:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		str_to_token_type(const char *s);
 */
 bool	is_space(char c);
 bool	is_quote(char c);
-bool	is_operator(const char *s);
+int		is_operator(const char *s);
 bool	is_metachar(const char *s);
 
 /*
