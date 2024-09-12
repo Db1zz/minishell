@@ -6,13 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 20:31:54 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/08 20:35:34 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/12 00:13:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	print_2dmatrix(const char **matrix)
+void	print_2dmatrix(char const **matrix)
 {
 	int	i;
 

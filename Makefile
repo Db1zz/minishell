@@ -7,6 +7,7 @@ ifneq ($(ARCH),x86_64)
 else
 	CFLAGS = -Wall -Wextra -lreadline
 endif
+DEBUG_FLAGS = -fsanitize=address
 
 SRCS =	src/main.c					\
 		src/utils.c					\
@@ -35,7 +36,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

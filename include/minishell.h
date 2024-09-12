@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/11 09:53:57 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:43:48 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ typedef struct s_cmd
 /*
 	p_parse.c
 */
-t_cmd	**parse_input(char *input);
+t_cmd	**parse_input(char *input, char **envp);
 
 /*
 	p_tokenizer.c
 */
-t_list	*tokenize(char *s);
+t_list	*tokenize(char *s, char const **envp);
 
 /*
 	p_utils.c
@@ -81,7 +81,7 @@ bool	is_metachar(const char *s);
 /*
 	utils.c
 */
-void	print_2dmatrix(const char **matrix);
+void	print_2dmatrix(char const **matrix);
 void	free_2dmatrix(char **matrix);
 
 #endif // MINISHELL_H
