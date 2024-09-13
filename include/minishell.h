@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 16:09:33 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:23:07 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,20 @@ t_cmd	**parse_input(char *input, char **envp);
 	p_tokenizer.c
 */
 t_list	*tokenize(char *s, char const **envp);
+
+/*
+	p_tokenizer_utils.c
+*/
+t_list	*alloc_token(char const *s, size_t len);
+t_token *combine_words(t_list *words);
 int		expand_variable(char const *s, char const **envp, t_list **words);
+int		str_to_token_type(const char *s);
+void	print_tokens(t_list *lst);
 
 /*
 	p_utils.c
 */
-void	print_tokens(t_list *lst);
-int		str_to_token_type(const char *s);
+
 /*
 	p_booleans.c
 */

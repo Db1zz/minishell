@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:19:19 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 16:09:49 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:14:09 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ bool	is_metachar(const char *s)
 		return (false);
 	return (is_space(s[0]) || is_operator(s));
 }
-

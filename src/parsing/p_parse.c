@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:40:56 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 15:08:37 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:16:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 t_cmd	**parse_input(char *input, char **envp)
 {
-	// s_cmd	*cmd_table[ARG_MAX]; // Temporary
-	// s_cmd	**result;
 	t_list		*tokens;
 
 	if (!input)
 		return (NULL);
-	// result = NULL;
 	tokens = tokenize(input, envp);
 	print_tokens(tokens);
 	free (input);
