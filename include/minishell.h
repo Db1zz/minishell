@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/12 18:41:46 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:09:33 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_cmd	**parse_input(char *input, char **envp);
 	p_tokenizer.c
 */
 t_list	*tokenize(char *s, char const **envp);
+int		expand_variable(char const *s, char const **envp, t_list **words);
 
 /*
 	p_utils.c
@@ -76,7 +77,7 @@ int		str_to_token_type(const char *s);
 bool	is_space(char c);
 bool	is_quote(char c);
 int		is_operator(const char *s);
-bool	is_metachar(const char *s, char quote);
+bool	is_metachar(const char *s);
 
 /*
 	utils.c

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/12 11:53:14 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:08:50 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,5 @@ static void	minishell_loop(char	**envp)
 int	main(int argc, char **argv, char **envp)
 {
 	minishell_loop(envp);
-	// expand_variable("$PWD<", envp);
 	return (0);
 }

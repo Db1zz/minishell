@@ -7,7 +7,6 @@ ifneq ($(ARCH),x86_64)
 else
 	CFLAGS = -Wall -Wextra -lreadline
 endif
-DEBUG_FLAGS = -fsanitize=address
 
 SRCS =	src/main.c					\
 		src/utils.c					\
