@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 17:23:07 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:08:40 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,26 @@ typedef struct s_cmd
 	char	*cmd;
 	char	*path;
 	t_token	*arg[ARG_MAX];
-	int		in;
-	int		out;
-	int		err;
 }	t_cmd;
 
 /*
 	p_parse.c
 */
-t_cmd	**parse_input(char *input, char **envp);
+t_cmd	**parse_input(char *input, t_list *env);
 
 /*
 	p_tokenizer.c
 */
-t_list	*tokenize(char *s, char const **envp);
+t_list	*tokenize(char *s, t_list *env);
 
 /*
 	p_tokenizer_utils.c
 */
 t_list	*alloc_token(char const *s, size_t len);
 t_token *combine_words(t_list *words);
-int		expand_variable(char const *s, char const **envp, t_list **words);
+int		expand_variable(char const *s, t_list *env, t_list **words);
 int		str_to_token_type(const char *s);
 void	print_tokens(t_list *lst);
-
 /*
 	p_utils.c
 */
@@ -91,5 +87,11 @@ bool	is_metachar(const char *s);
 */
 void	print_2dmatrix(char const **matrix);
 void	free_2dmatrix(char **matrix);
+
+/*
+	env.c
+*/
+t_list	*get_env(t_list *env_list, char *key);
+t_list	*create_env_list(char **envp);
 
 #endif // MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 17:42:28 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:07:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_token	*combine_words(t_list *words)
 		word = ft_strjoin(word, (char *)words->content);
 		words = words->next;
 	}
+	alloc_token(word, sizeof(word));
 	token = ft_calloc(1, sizeof(t_token));
 	token->value = word;
 	token->token = TOKEN_WORD;
@@ -82,7 +83,7 @@ t_token	*combine_words(t_list *words)
  * 
  * @return i: The number of characters processed in the input string.
  */
-int	expand_variable(char const *s, char const **envp, t_list **words)
+int	expand_variable(char const *s, t_list *env, t_list **words)
 {
 	int		i;
 	char	*key;
@@ -91,23 +92,20 @@ int	expand_variable(char const *s, char const **envp, t_list **words)
 	if (!s || s[0] != '$')
 		return (0);
 	i = 1;
-	while (s[i] && !is_metachar(s + i) && !is_quote(s[i]))
+	while (s[i] && !is_metachar(s + i) && !is_quote(s[i]) && s[i] != '$')
 		i++;
-	key = ft_substr(s, 1, i);
-	val = NULL;
-	while (*envp)
+	if (i == 1)
+		return (ft_lstadd_back(words, ft_lstnew(ft_substr("$", 0, 1))), 1);
+	key = ft_substr(s, 1, i - 1);
+	env = get_env(env, key);
+	if (env)
 	{
-		if (ft_strncmp(key, *envp, i - 1) == 0)
-		{
-			val = ft_substr(*envp, i, ft_strlen((*envp) + i));
-			if (val)
-				ft_lstadd_back(words, ft_lstnew(val));
-			break ;
-		}
-		envp++;
+		val = ft_substr((char *)env->content, i,
+				ft_strlen((char *)env->content + i));
+		if (val)
+			ft_lstadd_back(words, ft_lstnew(val));
 	}
-	free(key);
-	return (i);
+	return (free(key), i);
 }
 
 /**

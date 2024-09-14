@@ -7,13 +7,14 @@ ifneq ($(ARCH),x86_64)
 else
 	CFLAGS = -Wall -Wextra -lreadline
 endif
+DEBUG_FLAGS = -g 
 
 SRCS =	src/main.c						\
 		src/utils.c						\
+		src/env/env.c					\
 		src/parsing/p_parse.c			\
 		src/parsing/p_tokenizer.c		\
 		src/parsing/p_tokenizer_utils.c	\
-		src/parsing/p_utils.c			\
 		src/parsing/p_booleans.c		\
 		
 

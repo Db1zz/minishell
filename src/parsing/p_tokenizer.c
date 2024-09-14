@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/13 17:43:55 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:09:09 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
  * 
  * @return i + 1: The number of characters processed, including the closing quote, or 0 if the input is invalid.
  */
-static int	parse_quote(char const *s, char const **envp, t_list **words)
+static int	parse_quote(char const *s, t_list *env, t_list **words)
 {
 	char		quote;
 	int			i;
@@ -43,7 +43,7 @@ static int	parse_quote(char const *s, char const **envp, t_list **words)
 		if (i > j)
 			ft_lstadd_back(words, ft_lstnew(ft_substr(s + j, 0, i - j)));
 		if (quote == '"' && s[i] == '$')
-			i += expand_variable(s + i, envp, words);
+			i += expand_variable(s + i, env, words);
 	}
 	return (i + 1);
 }
@@ -61,7 +61,7 @@ static int	parse_quote(char const *s, char const **envp, t_list **words)
  * 
  * @return i: The number of characters processed in the word.
  */
-static int	parse_word(char const *s, char const **envp, t_list **tokens)
+static int	parse_word(char const *s, t_list *env, t_list **tokens)
 {
 	t_list	*words;
 	int		i;
@@ -73,10 +73,10 @@ static int	parse_word(char const *s, char const **envp, t_list **tokens)
 	words = NULL;
 	while (s[i] && !is_metachar(s + i))
 	{
-		if (s[i] == '$')
-			i += expand_variable(s + i, envp, &words);
-		else if (is_quote(s[i]))
-			i += parse_quote(s + i, envp, &words);
+		while (s[i] == '$')
+			i += expand_variable(s + i, env, &words);
+		while (is_quote(s[i]))
+			i += parse_quote(s + i, env, &words);
 		j = i;
 		while (s[i] && !is_metachar(s + i) && !is_quote(s[i]))
 			i++;
@@ -89,7 +89,7 @@ static int	parse_word(char const *s, char const **envp, t_list **tokens)
 }
 
 /**
- * parse_operator - Parses an operator (such as `&&`, `||`, etc.) from the input string.
+ * parse_operator - Parses an operator (such as `<`, `>>`, etc.) from the input string.
  * 
  * @param s: The string that may start with an operator.
  * @param tokens: A list of tokens to which the operator token will be appended.
@@ -122,7 +122,7 @@ static int	parse_operator(char const *s, t_list **tokens)
  * 
  * @return result: A list of tokens parsed from the string.
  */
-static t_list	*parse_tokens(char const *s, char const **envp)
+static t_list	*parse_tokens(char const *s, t_list *env)
 {
 	t_list		*result;
 	int			i;
@@ -136,7 +136,7 @@ static t_list	*parse_tokens(char const *s, char const **envp)
 		if (s[i])
 		{
 			i += parse_operator(s + i, &result);
-			i += parse_word(s + i, envp, &result);
+			i += parse_word(s + i, env, &result);
 		}
 	}
 	return (result);
@@ -153,12 +153,12 @@ static t_list	*parse_tokens(char const *s, char const **envp)
  * 
  * @return result: A list of tokens representing the parsed input, or NULL if the input is invalid.
  */
-t_list	*tokenize(char *s, char const **envp)
+t_list	*tokenize(char *s, t_list *env)
 {
 	t_list	*result;
 
 	if (!s)
 		return (NULL);
-	result = parse_tokens(s, envp);
+	result = parse_tokens(s, env);
 	return (result);
 }

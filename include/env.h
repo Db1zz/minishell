@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_parse.c                                          :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 16:40:56 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 14:10:24 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/14 13:37:22 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/14 13:48:43 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#ifndef ENV_H
+# define ENV_H
 
-t_cmd	**parse_input(char *input, t_list *env)
+typedef struct s_env
 {
-	t_list		*tokens;
+	char	*value;
+	t_env	*next;
+}	t_env;
 
-	if (!input)
-		return (NULL);
-	tokens = tokenize(input, env);
-	print_tokens(tokens);
-	free (input);
-	return (NULL); // TODO
-}
+
+
+#endif // ENV_H

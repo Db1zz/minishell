@@ -1,1 +1,10 @@
+# VS-code files
 .vscode
+
+# MacOS system files
+*.DS_Store
+
+# Binaries, objects and debugging symbols
+*.o
+minishell
+minishell.dSYM
