@@ -6,5 +6,6 @@
 
 # Binaries, objects and debugging symbols
 *.o
+*.a
 minishell
 minishell.dSYM
