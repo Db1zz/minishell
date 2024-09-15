@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 15:15:53 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:58:54 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@
 # include <stdbool.h>
 # include <string.h>
 # include <errno.h>
+# include <signal.h>
 # include "limits.h"
 # include "../libft/libft.h"
-
-extern int GLOBAL_SIGNAL;
 
 #define SHELL_NAME "Minishell"
 
@@ -86,10 +85,13 @@ bool	is_metachar(const char *s);
 bool	is_word(const char *s);
 
 /*
+	p_token_validator.c
+*/
+bool	check_syntax(char const *input);
+
+/*
 	signal.c
 */
-void	signal_sigint_handler(int signal);
-void	signal_sigquit_handler(int signal);
 void	setup_signals(void);
 
 /*
@@ -103,5 +105,9 @@ void	free_2dmatrix(char **matrix);
 */
 char	*get_env(t_list *env_list, char *key);
 t_list	*create_env_list(char **envp);
+/*
+	error.c
+*/
+void	display_error(const char **msg, int errnum);
 
 #endif // MINISHELL_H

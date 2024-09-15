@@ -17,8 +17,7 @@ else
 	READLINE_DIR = $(shell brew --prefix readline)
 	READLINE_LIB =	-I$(READLINE_DIR)/include/			\
 					-L$(READLINE_DIR)/lib/				\
-					-lreadline							\
-
+					-lreadline
 endif
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -33,8 +32,7 @@ SRCS =	src/main.c						\
 		src/parsing/p_tokenizer.c		\
 		src/parsing/p_tokenizer_utils.c	\
 		src/parsing/p_booleans.c		\
-		
-
+		src/parsing/p_token_validator.c
 OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)

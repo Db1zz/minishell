@@ -1,4 +1,5 @@
 1. Implement quote rule - DONE
 2. Expand '$' variables - DONE
-3. Implement syntax check - TODO
-4. 
+3. Implement signals - DONE
+4. Implement syntax check - TODO
+5. Implement cmd table

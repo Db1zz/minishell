@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   p_token_validator.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 16:23:01 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 16:15:45 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/15 16:20:56 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/15 17:57:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	signal_handler(int signal)
+bool	validate_redirections(t_list	*tokens)
 {
-	if (signal == SIGINT)
+	while (tokens)
 	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
+		if (((t_token *)tokens->content)->value == TOKEN_IN)
+		tokens = tokens->next;
 	}
 }
 
-void	setup_signals(void)
+bool	validate_tokens(t_list	*tokens)
 {
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	if (!tokens || !(t_token *)tokens->content)
+		return (false);
+	while (*tokens)
+	{
+		
+	}
 }

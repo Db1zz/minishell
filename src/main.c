@@ -6,17 +6,14 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 15:16:12 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:51:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-#include <signal.h>
-
-static void	minishell_loop(char	**envp)
+void	minishell_loop(char	**envp)
 {
-	char	buffer[100];
 	char	*input;
 	t_list	*env_list;
 
@@ -28,8 +25,9 @@ static void	minishell_loop(char	**envp)
 			parse_input(input, env_list);
 		if (input == NULL)
 		{
-			rl_replace_line("", 0);
-			rl_redisplay();
+			ft_printf("exit\n");
+			// Free
+			break ;
 		}
 	}
 }
