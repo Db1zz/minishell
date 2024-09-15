@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 14:07:56 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:39:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	expand_variable(char const *s, t_list *env, t_list **words)
 	int		i;
 	char	*key;
 	char	*val;
+	char	*env_val;
 
 	if (!s || s[0] != '$')
 		return (0);
@@ -97,11 +98,10 @@ int	expand_variable(char const *s, t_list *env, t_list **words)
 	if (i == 1)
 		return (ft_lstadd_back(words, ft_lstnew(ft_substr("$", 0, 1))), 1);
 	key = ft_substr(s, 1, i - 1);
-	env = get_env(env, key);
-	if (env)
+	env_val = get_env(env, key);
+	if (env_val)
 	{
-		val = ft_substr((char *)env->content, i,
-				ft_strlen((char *)env->content + i));
+		val = ft_substr(env_val, i, ft_strlen(env_val + i));
 		if (val)
 			ft_lstadd_back(words, ft_lstnew(val));
 	}

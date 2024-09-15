@@ -6,23 +6,28 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 14:15:49 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:49:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_list	*get_env(t_list *env_list, char *key)
+char	*get_env(t_list *env_list, char *key)
 {
 	size_t	key_len;
+	size_t	env_key_len;
+	char	*equal_sign;
 
 	if (!key || !key[0] || !env_list)
-		return (NULL);	
+		return (NULL);
 	key_len = ft_strlen(key);
 	while (env_list)
 	{
-		if (ft_strncmp((char *)env_list->content, key, key_len) == 0)
-			return (env_list);
+		equal_sign = ft_strchr((char *)env_list->content, '=');
+		env_key_len = equal_sign - (char *)env_list->content;
+		if (env_key_len == key_len &&
+				ft_strncmp((char *)env_list->content, key, key_len) == 0)
+			return ((char *)env_list->content);
 		env_list = env_list->next;
 	}
 	return (NULL);

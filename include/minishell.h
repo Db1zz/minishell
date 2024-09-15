@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 14:08:40 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:15:53 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <string.h>
+# include <errno.h>
 # include "limits.h"
 # include "../libft/libft.h"
+
+extern int GLOBAL_SIGNAL;
 
 #define SHELL_NAME "Minishell"
 
@@ -70,9 +75,6 @@ t_token *combine_words(t_list *words);
 int		expand_variable(char const *s, t_list *env, t_list **words);
 int		str_to_token_type(const char *s);
 void	print_tokens(t_list *lst);
-/*
-	p_utils.c
-*/
 
 /*
 	p_booleans.c
@@ -81,6 +83,14 @@ bool	is_space(char c);
 bool	is_quote(char c);
 int		is_operator(const char *s);
 bool	is_metachar(const char *s);
+bool	is_word(const char *s);
+
+/*
+	signal.c
+*/
+void	signal_sigint_handler(int signal);
+void	signal_sigquit_handler(int signal);
+void	setup_signals(void);
 
 /*
 	utils.c
@@ -91,7 +101,7 @@ void	free_2dmatrix(char **matrix);
 /*
 	env.c
 */
-t_list	*get_env(t_list *env_list, char *key);
+char	*get_env(t_list *env_list, char *key);
 t_list	*create_env_list(char **envp);
 
 #endif // MINISHELL_H

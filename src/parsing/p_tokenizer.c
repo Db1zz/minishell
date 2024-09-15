@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 14:09:09 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/15 00:11:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	parse_word(char const *s, t_list *env, t_list **tokens)
 		while (is_quote(s[i]))
 			i += parse_quote(s + i, env, &words);
 		j = i;
-		while (s[i] && !is_metachar(s + i) && !is_quote(s[i]))
+		while (is_word(s + i))
 			i++;
 		if (i > j)
 			ft_lstadd_back(&words, ft_lstnew(ft_substr(s + j, 0, i - j)));

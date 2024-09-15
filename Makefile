@@ -2,15 +2,32 @@
 NAME = minishell
 CC = cc
 ARCH := $(shell uname -m)
-ifneq ($(ARCH),x86_64)
-	CFLAGS = -arch $(ARCH) -Wall -Wextra -lreadline
+OS := $(shell uname -s)
+ifneq ($(ARCH), x86_64)
+	CFLAGS = -arch $(ARCH) -Wall -Wextra
 else
-	CFLAGS = -Wall -Wextra -lreadline
+	CFLAGS = -Wall -Wextra
 endif
-DEBUG_FLAGS = -g 
+DEBUG_FLAGS = -g
+
+# For MacOS lreadline from brew is mandatory.
+ifeq ($(OS), Linux)
+	READLINE_LIB = -lreadline
+else
+	READLINE_DIR = $(shell brew --prefix readline)
+	READLINE_LIB =	-I$(READLINE_DIR)/include/			\
+					-L$(READLINE_DIR)/lib/				\
+					-lreadline							\
+
+endif
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+LIBS = $(LIBFT) $(READLINE_LIB)
 
 SRCS =	src/main.c						\
 		src/utils.c						\
+		src/signal/signal.c				\
 		src/env/env.c					\
 		src/parsing/p_parse.c			\
 		src/parsing/p_tokenizer.c		\
@@ -19,8 +36,6 @@ SRCS =	src/main.c						\
 		
 
 OBJS = $(SRCS:.c=.o)
-LIBFT_DIR = ./libft
-LIBFT = $(LIBFT_DIR)/libft.a
 
 all: libft_check $(LIBFT) $(NAME)
 
@@ -37,7 +52,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
