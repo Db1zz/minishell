@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_token_validator.c                                :+:      :+:    :+:   */
+/*   p_cmd_table.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 16:20:56 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 17:57:47 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/16 14:03:20 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/16 17:37:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	validate_redirections(t_list	*tokens)
+void	alloc_cmd_table(t_shell *d)
 {
-	while (tokens)
-	{
-		if (((t_token *)tokens->content)->value == TOKEN_IN)
-		tokens = tokens->next;
-	}
-}
+	t_cmd	**cmd_table;
+	size_t	cmd_table_size;
+	t_token	*head;
 
-bool	validate_tokens(t_list	*tokens)
-{
-	if (!tokens || !(t_token *)tokens->content)
-		return (false);
-	while (*tokens)
+	cmd_table_size = 0;
+	head = d->tokens;
+	while (head)
 	{
 		
 	}
+	/*
+		Count amount of commands
+		Allocate table;
+		Set pointer for d->cmds to cmd_table;
+	*/
 }

@@ -32,7 +32,8 @@ SRCS =	src/main.c						\
 		src/parsing/p_tokenizer.c		\
 		src/parsing/p_tokenizer_utils.c	\
 		src/parsing/p_booleans.c		\
-		src/parsing/p_token_validator.c
+		src/parsing/p_cmd_table.c		\
+		src/parsing/p_utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)

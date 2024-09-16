@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 17:58:54 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:21:30 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #define SHELL_NAME "Minishell"
 
 # ifndef ARG_MAX
-#  define ARG_MAX	131072
+#  define ARG_MAX	1024
 # endif
 
 // Tokens
@@ -41,39 +41,45 @@
 # define TOKEN_VARIABLE		7	// $
 # define TOKEN_SINGLEQUOTE	8	// '
 # define TOKEN_WORD			9	// str
-# define TOKEN_FLAG			10	// -FLAG
-
 typedef struct s_token
 {
 	char	token;
 	char	*value;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	*path;
-	t_token	*arg[ARG_MAX];
+	char			**args;
+	struct s_token	*redirections;
+	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_shell
+{
+	struct s_token	*tokens;
+	struct s_cmd	**cmds;
+}	t_shell;
 
 /*
 	p_parse.c
 */
-t_cmd	**parse_input(char *input, t_list *env);
+t_shell	*parse_input(char *input, t_list *env);
 
 /*
 	p_tokenizer.c
 */
-t_list	*tokenize(char *s, t_list *env);
+t_token	*tokenize(char *s, t_list *env);
 
 /*
 	p_tokenizer_utils.c
 */
-t_list	*alloc_token(char const *s, size_t len);
-t_token *combine_words(t_list *words);
+void	add_token(t_token **list, t_token *token);
+t_token	*alloc_token_from_string(char *s);
+t_token	*combine_tokenize_words(t_list *words);
 int		expand_variable(char const *s, t_list *env, t_list **words);
 int		str_to_token_type(const char *s);
-void	print_tokens(t_list *lst);
+void	print_tokens(t_token *tokens); // Temporary function that used only for debugging.
 
 /*
 	p_booleans.c
@@ -85,9 +91,13 @@ bool	is_metachar(const char *s);
 bool	is_word(const char *s);
 
 /*
-	p_token_validator.c
+	p_utils.c
 */
-bool	check_syntax(char const *input);
+void	clean_memory(t_shell *shell);
+
+/*
+	p_cmd_table.c
+*/
 
 /*
 	signal.c

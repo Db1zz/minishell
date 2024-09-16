@@ -6,63 +6,59 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 16:39:17 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:16:30 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/**
- * alloc_token - Allocates a new token and adds it to a list.
- * 
- * @param s: The string from which the token will be created.
- * @param len: The length of the token in the string.
- * 
- * This function creates a new token from the input string `s`, up to the length `len`.
- * It allocates memory for the token, determines the token type using `str_to_token_type()`,
- * and stores the corresponding substring in `t->value`. The token is then added to a new list node.
- * 
- * @return result: A pointer to the newly allocated list node containing the token, or NULL if input is invalid.
- */
-t_list	*alloc_token(char const *s, size_t len)
+t_token	*alloc_token_from_string(char *s)
 {
-	t_token	*t;
-	t_list	*result;
+	t_token	*result;
 
-	if (!s || !s[0])
+	if (!s)
 		return (NULL);
-	t = ft_calloc(1, sizeof(t_token));
-	result = ft_lstnew(t);
-	t->token = str_to_token_type(s);
-	t->value = ft_substr(s, 0, len);
+	result = ft_calloc(1, sizeof(t_token));
+	result->token = str_to_token_type(s);
+	result->value = s;
+	result->next = NULL;
 	return (result);
 }
 
-/**
- * combine_words - Combines a list of word tokens into a single token.
- * 
- * @param words: A linked list of words to combine.
- * 
- * This function iterates over a list of words, concatenating them into a single string.
- * It then allocates a new `t_token` structure, storing the concatenated string in `token->value`
- * and setting the token type to `TOKEN_WORD`.
- * 
- * @return token: A pointer to the newly allocated token containing the combined words, or NULL if input is invalid.
- */
-t_token	*combine_words(t_list *words)
+void	add_token(t_token **list, t_token *token)
+{
+	t_token	*head;
+
+	if (!token)
+		return ;
+	if (!list || !*list)
+		*list = token;
+	else
+	{
+		head = *list;
+		while (head->next)
+			head = head->next;
+		head->next = token;
+	}
+}
+
+t_token	*combine_tokenize_words(t_list *words)
 {
 	char	*word;
+	char	*temp;
 	t_token	*token;
 
 	if (!words)
 		return (NULL);
-	word = "";
+	word = ft_calloc(1, 1);
 	while (words)
 	{
+		temp = word;
 		word = ft_strjoin(word, (char *)words->content);
 		words = words->next;
+		if (temp)
+			free(temp);
 	}
-	alloc_token(word, sizeof(word));
 	token = ft_calloc(1, sizeof(t_token));
 	token->value = word;
 	token->token = TOKEN_WORD;
@@ -92,8 +88,10 @@ int	expand_variable(char const *s, t_list *env, t_list **words)
 
 	if (!s || s[0] != '$')
 		return (0);
+	if (s[1] && ft_isdigit(s[1]))
+		return (2);
 	i = 1;
-	while (s[i] && !is_metachar(s + i) && !is_quote(s[i]) && s[i] != '$')
+	while (ft_isalpha(s[i]) || ft_isdigit(s[i]) || s[i] == '_')
 		i++;
 	if (i == 1)
 		return (ft_lstadd_back(words, ft_lstnew(ft_substr("$", 0, 1))), 1);
@@ -136,7 +134,7 @@ int	str_to_token_type(const char *s)
 		return (TOKEN_INDELIMITER);
 	else if (s[0] == '>' && s[1] == '>')
 		return (TOKEN_OUTAPPEND);
-	else if (s[0] != ' ' && s[0] != '\t')
+	else if (s[0] != ' ' && s[0] != '	')
 		return (TOKEN_WORD);
 	else
 		return (TOKEN_UNKNOWN);
@@ -151,11 +149,11 @@ int	str_to_token_type(const char *s)
  * each `t_token` structure. The function uses `ft_printf` to output the token values.
  * 
  */
-void	print_tokens(t_list *lst)
+void	print_tokens(t_token *tokens)
 {
-	while (lst)
+	while (tokens)
 	{
-		ft_printf("%s\n", ((t_token *)lst->content)->value);
-		lst = lst->next;
+		ft_printf("%s\n", tokens->value);
+		tokens = tokens->next;
 	}
 }

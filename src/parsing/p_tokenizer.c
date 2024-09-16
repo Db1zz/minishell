@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 16:20:39 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/16 14:49:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	parse_quote(char const *s, t_list *env, t_list **words)
 	while (s[i] && s[i] != quote)
 	{
 		j = i;
-		while (s[i] && s[i] != quote && !(quote == '"' && s[i] == '$'))
+		while (s[i] && s[i] != quote && !(quote == '"' && s[i] == '$')) 
 			i++;
 		if (i > j)
 			ft_lstadd_back(words, ft_lstnew(ft_substr(s + j, 0, i - j)));
@@ -61,7 +61,7 @@ static int	parse_quote(char const *s, t_list *env, t_list **words)
  * 
  * @return i: The number of characters processed in the word.
  */
-static int	parse_word(char const *s, t_list *env, t_list **tokens)
+static int	parse_word(char const *s, t_list *env, t_token **tokens)
 {
 	t_list	*words;
 	int		i;
@@ -84,7 +84,7 @@ static int	parse_word(char const *s, t_list *env, t_list **tokens)
 			ft_lstadd_back(&words, ft_lstnew(ft_substr(s + j, 0, i - j)));
 	}
 	if (words)
-		ft_lstadd_back(tokens, ft_lstnew(combine_words(words)));
+		add_token(tokens, combine_tokenize_words(words));
 	return (i);
 }
 
@@ -99,14 +99,16 @@ static int	parse_word(char const *s, t_list *env, t_list **tokens)
  * 
  * @return operator_len: The length of the operator parsed, or 0 if no operator is found.
  */
-static int	parse_operator(char const *s, t_list **tokens)
+static int	parse_operator(char const *s, t_token **tokens)
 {
-	int	operator_len;
+	int		operator_len;
+	char	*operator_str;
 
 	operator_len = is_operator(s);
 	if (!operator_len)
 		return (0);
-	ft_lstadd_back(tokens, alloc_token(s, operator_len));
+	operator_str = ft_substr(s, 0, operator_len);
+	add_token(tokens, alloc_token_from_string(operator_str));
 	return (operator_len);
 }
 
@@ -122,9 +124,9 @@ static int	parse_operator(char const *s, t_list **tokens)
  * 
  * @return result: A list of tokens parsed from the string.
  */
-static t_list	*parse_tokens(char const *s, t_list *env)
+static t_token	*parse_tokens(char const *s, t_list *env)
 {
-	t_list		*result;
+	t_token		*result;
 	int			i;
 
 	result = NULL;
@@ -153,9 +155,9 @@ static t_list	*parse_tokens(char const *s, t_list *env)
  * 
  * @return result: A list of tokens representing the parsed input, or NULL if the input is invalid.
  */
-t_list	*tokenize(char *s, t_list *env)
+t_token	*tokenize(char *s, t_list *env)
 {
-	t_list	*result;
+	t_token	*result;
 
 	if (!s)
 		return (NULL);
