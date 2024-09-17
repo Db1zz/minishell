@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:25:55 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/16 14:49:32 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:48:48 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,10 @@ static int	parse_word(char const *s, t_list *env, t_token **tokens)
 		if (i > j)
 			ft_lstadd_back(&words, ft_lstnew(ft_substr(s + j, 0, i - j)));
 	}
-	if (words)
+	if (words && (!(*tokens) || (*tokens)->token == TOKEN_WORD))
 		add_token(tokens, combine_tokenize_words(words));
+	else if (words && *tokens)
+		(*tokens)->value = combine_words(words);
 	return (i);
 }
 
@@ -101,6 +103,7 @@ static int	parse_word(char const *s, t_list *env, t_token **tokens)
  */
 static int	parse_operator(char const *s, t_token **tokens)
 {
+	t_token	*token;
 	int		operator_len;
 	char	*operator_str;
 
@@ -108,7 +111,10 @@ static int	parse_operator(char const *s, t_token **tokens)
 	if (!operator_len)
 		return (0);
 	operator_str = ft_substr(s, 0, operator_len);
-	add_token(tokens, alloc_token_from_string(operator_str));
+	token = ft_calloc(1, sizeof(t_token));
+	token->token = str_to_token_type(operator_str);
+	free(operator_str);
+	add_token(tokens, token);
 	return (operator_len);
 }
 

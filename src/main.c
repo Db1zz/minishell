@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/16 15:25:06 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:36:42 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	minishell_loop(char	**envp)
 {
 	char	*input;
 	t_list	*env_list;
-	t_shell	*data;
+	t_cmd	*cmd_tables;
 
 	env_list = create_env_list(envp);
 	while (true)
@@ -25,7 +25,7 @@ void	minishell_loop(char	**envp)
 		if (input && input[0])
 		{
 			add_history(input);
-			data = parse_input(input, env_list);
+			cmd_tables = parse_input(input, env_list);
 		}
 		if (input == NULL)
 		{
@@ -33,7 +33,7 @@ void	minishell_loop(char	**envp)
 			break ;
 		}
 		// execute cmd_table
-		clean_memory(data);
+		destroy_cmd_tables(cmd_tables);
 	}
 	rl_clear_history();
 }

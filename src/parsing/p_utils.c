@@ -6,39 +6,39 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:33:43 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/16 14:48:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:31:21 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	destroy_tokens(t_token *token)
+void	destroy_cmd_tables(t_cmd *cmd_tables)
 {
-	t_token	*temp;
+	int		i;
+	t_cmd	*temp;
+	t_token	*curr_token;
 
-	while (token)
+	while (cmd_tables)
 	{
-		if (token->value)
-			free (token->value);
-		temp = token;
-		token = token->next;
-		free(temp);
+		i = 0;
+		while (cmd_tables->args && cmd_tables->args[i])
+		{
+			if (cmd_tables->args[i])
+				free(cmd_tables->args[i]);
+			i++;
+		}
+		if (cmd_tables->args)
+			free(cmd_tables);
+		curr_token = cmd_tables->redirections;
+		while (curr_token)
+		{
+			if (curr_token->value)
+				free(curr_token->value);
+			curr_token = curr_token->next;
+		}
+		temp = cmd_tables;
+		cmd_tables = cmd_tables->next;
+		if (temp)
+			free(temp);
 	}
-}
-
-static void	destroy_cmd_tables(t_cmd **cmd_tables)
-{
-	int	i;
-
-	i = 0;
-	while (cmd_tables[i])
-		free (cmd_tables[i++]);
-}
-
-void	clean_memory(t_shell *shell)
-{
-	if (!shell)
-		return ;
-	destroy_tokens(shell->tokens);
-	destroy_cmd_tables(shell->cmds);
 }

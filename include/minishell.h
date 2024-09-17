@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/16 17:21:30 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:48:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,11 @@
 # define TOKEN_PIPE			3	// |
 # define TOKEN_INDELIMITER 	4	// <<
 # define TOKEN_OUTAPPEND	5	// >>
-# define TOKEN_DOUBLEQUOTE	6 	// ""
-# define TOKEN_VARIABLE		7	// $
-# define TOKEN_SINGLEQUOTE	8	// '
 # define TOKEN_WORD			9	// str
 typedef struct s_token
 {
-	char	token;
-	char	*value;
+	char			token;
+	char			*value;
 	struct s_token	*next;
 }	t_token;
 
@@ -58,13 +55,13 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	struct s_token	*tokens;
-	struct s_cmd	**cmds;
+	struct s_cmd	*cmds;
 }	t_shell;
 
 /*
 	p_parse.c
 */
-t_shell	*parse_input(char *input, t_list *env);
+t_cmd	*parse_input(char *input, t_list *env);
 
 /*
 	p_tokenizer.c
@@ -75,7 +72,7 @@ t_token	*tokenize(char *s, t_list *env);
 	p_tokenizer_utils.c
 */
 void	add_token(t_token **list, t_token *token);
-t_token	*alloc_token_from_string(char *s);
+char	*combine_words(t_list *words);
 t_token	*combine_tokenize_words(t_list *words);
 int		expand_variable(char const *s, t_list *env, t_list **words);
 int		str_to_token_type(const char *s);
@@ -93,11 +90,12 @@ bool	is_word(const char *s);
 /*
 	p_utils.c
 */
-void	clean_memory(t_shell *shell);
+void	destroy_cmd_tables(t_cmd *cmd_tables);
 
 /*
 	p_cmd_table.c
 */
+t_cmd	*build_cmd_table(t_token *tokens);
 
 /*
 	signal.c

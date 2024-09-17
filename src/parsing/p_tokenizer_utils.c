@@ -6,24 +6,11 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/16 17:16:30 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:47:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_token	*alloc_token_from_string(char *s)
-{
-	t_token	*result;
-
-	if (!s)
-		return (NULL);
-	result = ft_calloc(1, sizeof(t_token));
-	result->token = str_to_token_type(s);
-	result->value = s;
-	result->next = NULL;
-	return (result);
-}
 
 void	add_token(t_token **list, t_token *token)
 {
@@ -42,12 +29,10 @@ void	add_token(t_token **list, t_token *token)
 	}
 }
 
-t_token	*combine_tokenize_words(t_list *words)
+char	*combine_words(t_list *words)
 {
 	char	*word;
 	char	*temp;
-	t_token	*token;
-
 	if (!words)
 		return (NULL);
 	word = ft_calloc(1, 1);
@@ -59,8 +44,17 @@ t_token	*combine_tokenize_words(t_list *words)
 		if (temp)
 			free(temp);
 	}
+	return (word);
+}
+
+t_token	*combine_tokenize_words(t_list *words)
+{
+	t_token	*token;
+
+	if (!words)
+		return (NULL);
 	token = ft_calloc(1, sizeof(t_token));
-	token->value = word;
+	token->value = combine_words(words);
 	token->token = TOKEN_WORD;
 	return (token);
 }
@@ -128,8 +122,6 @@ int	str_to_token_type(const char *s)
 		return (TOKEN_OUT);
 	else if (s[0] == '|')
 		return (TOKEN_PIPE);
-	else if (s[0] == '$')
-		return (TOKEN_VARIABLE);
 	else if (s[0] == '<' && s[1] == '<')
 		return (TOKEN_INDELIMITER);
 	else if (s[0] == '>' && s[1] == '>')
