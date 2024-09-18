@@ -1,16 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   p_tokenizer_utils.c                                :+:      :+:    :+:   */
+/*   p_parse_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/17 16:47:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:37:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_token	*alloc_token(int type, char *value)
+{
+	t_token	*token;
+
+	token = ft_calloc(1, sizeof(t_token));
+	if (!token)
+		return (ft_printf("Calloc error\n"), NULL); // TODO: put real error handler here
+	token->type = type;
+	token->value = value;
+	return (token);
+}
 
 void	add_token(t_token **list, t_token *token)
 {
@@ -29,75 +41,16 @@ void	add_token(t_token **list, t_token *token)
 	}
 }
 
-char	*combine_words(t_list *words)
+int	skip_spaces(char const *s)
 {
-	char	*word;
-	char	*temp;
-	if (!words)
-		return (NULL);
-	word = ft_calloc(1, 1);
-	while (words)
-	{
-		temp = word;
-		word = ft_strjoin(word, (char *)words->content);
-		words = words->next;
-		if (temp)
-			free(temp);
-	}
-	return (word);
-}
+	int	i;
 
-t_token	*combine_tokenize_words(t_list *words)
-{
-	t_token	*token;
-
-	if (!words)
-		return (NULL);
-	token = ft_calloc(1, sizeof(t_token));
-	token->value = combine_words(words);
-	token->token = TOKEN_WORD;
-	return (token);
-}
-
-/**
- * expand_variable - Expands a variable from the string using the environment variables.
- * 
- * @param s: The string containing the variable, starting with a '$' character.
- * @param envp: An array of environment variables for variable expansion.
- * @param words: A list to which the expanded variable's value will be added.
- * 
- * This function parses a variable name from the string `s` after the `$` symbol and
- * searches for its value in the `envp` array. If a match is found, the value is appended
- * to the `words` list. The function handles both variable expansion and partial parsing
- * of the input string.
- * 
- * @return i: The number of characters processed in the input string.
- */
-int	expand_variable(char const *s, t_list *env, t_list **words)
-{
-	int		i;
-	char	*key;
-	char	*val;
-	char	*env_val;
-
-	if (!s || s[0] != '$')
-		return (0);
-	if (s[1] && ft_isdigit(s[1]))
-		return (2);
-	i = 1;
-	while (ft_isalpha(s[i]) || ft_isdigit(s[i]) || s[i] == '_')
+	i = 0;
+	if (!s)
+		return (0); 
+	while (is_space(s[i]))
 		i++;
-	if (i == 1)
-		return (ft_lstadd_back(words, ft_lstnew(ft_substr("$", 0, 1))), 1);
-	key = ft_substr(s, 1, i - 1);
-	env_val = get_env(env, key);
-	if (env_val)
-	{
-		val = ft_substr(env_val, i, ft_strlen(env_val + i));
-		if (val)
-			ft_lstadd_back(words, ft_lstnew(val));
-	}
-	return (free(key), i);
+	return (i);
 }
 
 /**

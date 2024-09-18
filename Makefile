@@ -28,12 +28,13 @@ SRCS =	src/main.c						\
 		src/utils.c						\
 		src/signal/signal.c				\
 		src/env/env.c					\
-		src/parsing/p_parse.c			\
-		src/parsing/p_tokenizer.c		\
-		src/parsing/p_tokenizer_utils.c	\
-		src/parsing/p_booleans.c		\
 		src/parsing/p_cmd_table.c		\
-		src/parsing/p_utils.c
+		src/parsing/p_cmd_table_utils.c	\
+		src/parsing/p_parse.c			\
+		src/parsing/p_parse_booleans.c	\
+		src/parsing/p_parse_utils.c		\
+		src/parsing/p_var_expander.c	\
+		src/parsing/p_word.c
 OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)

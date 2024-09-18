@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/17 16:48:13 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:35:16 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #  define ARG_MAX	1024
 # endif
 
+
 // Tokens
 # define TOKEN_UNKNOWN		0
 # define TOKEN_IN			1	// <
@@ -38,9 +39,10 @@
 # define TOKEN_INDELIMITER 	4	// <<
 # define TOKEN_OUTAPPEND	5	// >>
 # define TOKEN_WORD			9	// str
+
 typedef struct s_token
 {
-	char			token;
+	int				type;
 	char			*value;
 	struct s_token	*next;
 }	t_token;
@@ -64,22 +66,16 @@ typedef struct s_shell
 t_cmd	*parse_input(char *input, t_list *env);
 
 /*
-	p_tokenizer.c
+	p_parse_utils.c
 */
-t_token	*tokenize(char *s, t_list *env);
-
-/*
-	p_tokenizer_utils.c
-*/
+t_token	*alloc_token(int type, char *value);
 void	add_token(t_token **list, t_token *token);
-char	*combine_words(t_list *words);
-t_token	*combine_tokenize_words(t_list *words);
-int		expand_variable(char const *s, t_list *env, t_list **words);
 int		str_to_token_type(const char *s);
-void	print_tokens(t_token *tokens); // Temporary function that used only for debugging.
+void	print_tokens(t_token *tokens);
+int		skip_spaces(char const *s);
 
 /*
-	p_booleans.c
+	p_parse_booleans.c
 */
 bool	is_space(char c);
 bool	is_quote(char c);
@@ -88,14 +84,25 @@ bool	is_metachar(const char *s);
 bool	is_word(const char *s);
 
 /*
-	p_utils.c
+	p_var_expander.c
 */
-void	destroy_cmd_tables(t_cmd *cmd_tables);
+int	expand_variable(char const *s, t_list *env, t_list **words);
+
+/*
+	p_redirections.c
+*/
+bool	is_redirection(int token);
 
 /*
 	p_cmd_table.c
 */
+void	destroy_cmd_tables(t_cmd *cmd_tables);
 t_cmd	*build_cmd_table(t_token *tokens);
+
+/*
+	p_word.c
+*/
+char	*combine_words(t_list *words);
 
 /*
 	signal.c
