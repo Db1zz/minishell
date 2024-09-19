@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/18 17:35:16 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:58:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@
 # define TOKEN_UNKNOWN		0
 # define TOKEN_IN			1	// <
 # define TOKEN_OUT			2	// >
-# define TOKEN_PIPE			3	// |
-# define TOKEN_INDELIMITER 	4	// <<
-# define TOKEN_OUTAPPEND	5	// >>
-# define TOKEN_WORD			9	// str
+# define TOKEN_INDELIMITER 	3	// <<
+# define TOKEN_OUTAPPEND	4	// >>
+# define TOKEN_WORD			5	// str
+# define TOKEN_PIPE			6	// |
+// Bonus tokens
+# define TOKEN_AND			7	// &&
+# define TOKEN_OR			8	// ||
 
 typedef struct s_token
 {
@@ -91,12 +94,13 @@ int	expand_variable(char const *s, t_list *env, t_list **words);
 /*
 	p_redirections.c
 */
-bool	is_redirection(int token);
+bool	is_redirection(t_token *token);
+bool	is_cmd_spearator(t_token *token);
+t_token	*dup_token(t_token *token);
 
 /*
 	p_cmd_table.c
 */
-void	destroy_cmd_tables(t_cmd *cmd_tables);
 t_cmd	*build_cmd_table(t_token *tokens);
 
 /*

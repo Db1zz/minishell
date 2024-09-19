@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:40:56 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/18 17:37:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:57:41 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static int	parse_quote(char const *s, t_list *env, t_list **words)
 			ft_lstadd_back(words, ft_lstnew(ft_substr(s + j, 0, i - j)));
 		if (quote == '"' && s[i] == '$')
 			i += expand_variable(s + i, env, words);
+	}
+	if (!s[i])
+	{
+		ft_printf("Syntax error, unclosed quote!\n"); // TODO
+		exit(-1); // TODO: just free memory and return to the shell loop
 	}
 	return (i + 1);
 }
@@ -95,6 +100,7 @@ static t_token	*tokenize(char const *s, t_list *env)
 	if (!s)
 		return (NULL);
 	result = NULL;
+	word = NULL;
 	i = 0;
 	while (s[i])
 	{

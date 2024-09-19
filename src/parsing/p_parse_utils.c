@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/18 17:37:47 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:35:22 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	add_token(t_token **list, t_token *token)
 			head = head->next;
 		head->next = token;
 	}
-}
+} 
 
 int	skip_spaces(char const *s)
 {
@@ -69,16 +69,16 @@ int	str_to_token_type(const char *s)
 {
 	if (!s || !s[0])
 		return (TOKEN_UNKNOWN);
-	if (s[0] == '<')
+	else if (s[0] == '<' && s[1] == '<')
+		return (TOKEN_INDELIMITER);
+	else if (s[0] == '>' && s[1] == '>')
+		return (TOKEN_OUTAPPEND);
+	else if (s[0] == '<')
 		return (TOKEN_IN);
 	else if (s[0] == '>')
 		return (TOKEN_OUT);
 	else if (s[0] == '|')
 		return (TOKEN_PIPE);
-	else if (s[0] == '<' && s[1] == '<')
-		return (TOKEN_INDELIMITER);
-	else if (s[0] == '>' && s[1] == '>')
-		return (TOKEN_OUTAPPEND);
 	else if (s[0] != ' ' && s[0] != '	')
 		return (TOKEN_WORD);
 	else
@@ -98,7 +98,8 @@ void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		ft_printf("%s\n", tokens->value);
+		if (tokens->value)
+			ft_printf("%s\n", tokens->value);
 		tokens = tokens->next;
 	}
 }

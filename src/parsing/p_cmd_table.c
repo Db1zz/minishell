@@ -6,21 +6,24 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:03:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/18 17:38:50 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:00:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// TODO: rewrite this shit
-
-static bool	is_cmd_spearator(char *s)
+static t_token *get_redirections(t_token *tokens)
 {
-	if (!s || !s[0])
-		return (false);
-	return ((s[1] && s[0] == '|' && s[1] == '|') ||
-			(s[1] && s[0] == '&' && s[1] == '&') ||
-			(s[0] == '|'));
+	t_token	*redirections;
+
+	redirections = NULL;
+	while (tokens && !is_cmd_spearator(tokens))
+	{
+		if (is_redirection(tokens))
+			add_token(&redirections, dup_token(tokens));
+		tokens = tokens->next;
+	}
+	return (redirections);
 }
 
 static size_t	count_args(t_token *tokens)
@@ -28,104 +31,71 @@ static size_t	count_args(t_token *tokens)
 	size_t	result;
 
 	result = 0;
-	while (tokens && !is_cmd_spearator(tokens->value))
+	while (tokens && !is_cmd_spearator(tokens))
 	{
-		if (!is_redirection(tokens->type))
+		if (!is_redirection(tokens))
 			result++;
 		tokens = tokens->next;
 	}
 	return (result);
 }
 
-static void	put_redirection(t_cmd *cmd, t_token *new)
+static char	**get_args(t_token *tokens)
 {
-	t_token	*last_redirection;
+	char	**args;
+	size_t	args_size;
+	size_t	i;
 
-	last_redirection = cmd->redirections;
-	while (last_redirection && last_redirection->next)
-		last_redirection = last_redirection->next;
-	if (!last_redirection)
-		last_redirection = new;
-	else
-		last_redirection->next = new;
-}
-
-static void	put_arg(t_cmd *cmd, t_token *word)
-{
-	char	*arg;
-	int		i;
-
-	arg = word->value;
-	free(word);
 	i = 0;
-	while (cmd->args[i])
-		i++;
-	cmd->args[i] = arg;
-	free(word);
-}
-
-void	destroy_cmd_tables(t_cmd *cmd_tables)
-{
-	int		i;
-	t_cmd	*temp;
-	t_token	*curr_token;
-
-	while (cmd_tables)
+	args_size = count_args(tokens);
+	if (args_size == 0)
+		return (NULL);	// TODO: Display error and stop execution.
+	args = ft_calloc(args_size, sizeof(char *));
+	while (i < args_size)
 	{
-		i = 0;
-		while (cmd_tables->args && cmd_tables->args[i])
-		{
-			if (cmd_tables->args[i])
-				free(cmd_tables->args[i]);
-			i++;
-		}
-		if (cmd_tables->args)
-			free(cmd_tables);
-		curr_token = cmd_tables->redirections;
-		while (curr_token)
-		{
-			if (curr_token->value)
-				free(curr_token->value);
-			curr_token = curr_token->next;
-		}
-		temp = cmd_tables;
-		cmd_tables = cmd_tables->next;
-		if (temp)
-			free(temp);
+		if (tokens->value)
+			args[i] = ft_strdup(tokens->value);
+		else
+			args[i] = ft_strdup("get_args error");
+		i++;
+		tokens = tokens->next;
 	}
+	return (args);
 }
 
-// TODO: rewrite this ugly buggy bullshit ;)
+static	t_token	*get_next_cmd_tokens(t_token *tokens)
+{
+	if (!tokens)
+		return (NULL); // TODO
+	while (tokens && !is_cmd_spearator(tokens))
+		tokens = tokens->next;
+	if (is_cmd_spearator(tokens))
+		tokens = tokens->next;
+	return (tokens);
+}
+
 t_cmd	*build_cmd_table(t_token *tokens)
 {
-	t_token	*head;
-	t_token	*tail;
-	t_cmd	*curr_cmd;
 	t_cmd	*cmd_table;
+	t_cmd	*last_cmd;
+	t_cmd	*cmd;
+	t_token	*curr_tokens;
 
 	if (!tokens)
 		return (NULL);
-	head = tokens;
-	cmd_table = ft_calloc(1, sizeof(t_cmd));
-	curr_cmd = cmd_table;
-	while (tail)
-	{	
-		if (!is_cmd_spearator(tail->value))
-		curr_cmd->args = ft_calloc(count_args(tokens), sizeof(char *));
-		while (!is_cmd_spearator(tail->value) && tail)
-		{
-			tail = head;
-			if (head)
-				head = head->next;
-			tail->next = NULL;
-			if (tail->type == TOKEN_WORD)
-				put_arg(curr_cmd, tail);
-			else
-				put_redirection(curr_cmd, tail);
-		}
-		head = head->next;
-		curr_cmd->next = ft_calloc(1, sizeof(t_cmd));
-		curr_cmd = curr_cmd->next;
+	curr_tokens = tokens;
+	cmd_table = NULL;
+	while (curr_tokens)
+	{
+		cmd = ft_calloc(1, sizeof(t_cmd));
+		cmd->args = get_args(curr_tokens);
+		cmd->redirections = get_redirections(curr_tokens);
+		if (!cmd_table)
+			cmd_table = cmd;
+		else
+			last_cmd->next = cmd;
+		last_cmd = cmd;
+		curr_tokens = get_next_cmd_tokens(curr_tokens);
 	}
 	return (cmd_table);
 }
