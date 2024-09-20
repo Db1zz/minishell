@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 15:12:32 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:00:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
  * 
  * @return i: The number of characters processed in the input string.
  */
-
 int	expand_variable(char const *s, t_list *env, t_list **words)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:40:56 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:36:59 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:01:41 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ t_cmd	*parse_input(char *input, t_list *env)
 		cmd_table = build_cmd_table(tokens);
 		print_cmd_table(cmd_table);
 	}
-	free (input);
+	free_tokens(tokens);
+	free(input);
 	return (cmd_table); // TODO
 }

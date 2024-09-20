@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:39:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:00:44 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_shell
 }	t_shell;
 
 t_cmd	*parse_input(char *input, t_list *env);
+void	free_cmd_table(t_cmd *cmd_table);
+void	free_tokens(t_token *tokens);
 void	clean_memory(t_cmd *cmd_table, t_token *tokens);
 
 /*

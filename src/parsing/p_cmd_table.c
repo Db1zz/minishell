@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:03:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:40:22 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:11:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ t_cmd	*build_cmd_table(t_token *tokens)
 }
 
 // =========================== DEBUG ONLY =========================== //
-
 /**
  * print_cmd_table - Debug function to print the command table.
  * 

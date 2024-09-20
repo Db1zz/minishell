@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 17:34:51 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:39:08 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:13:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * 
  * @return void
  */
-static void	free_tokens(t_token *tokens)
+void	free_tokens(t_token *tokens)
 {
 	t_token *next;
 
@@ -47,7 +47,7 @@ static void	free_tokens(t_token *tokens)
  * 
  * @return void
  */
-static void	free_cmd_table(t_cmd *cmd_table)
+void	free_cmd_table(t_cmd *cmd_table)
 {
 	t_cmd	*next;
 
@@ -55,12 +55,11 @@ static void	free_cmd_table(t_cmd *cmd_table)
 	{
 		free_tokens(cmd_table->redirections);
 		free_2dmatrix(cmd_table->args);
-		next = cmd_table;
+		next = cmd_table->next;
 		free(cmd_table);
 		cmd_table = next;
 	}
 }
-
 
 /**
  * clean_memory - Frees memory allocated for the command table and tokens.

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:31:32 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:00:52 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	print_cmd_table(t_cmd *cmd_table);
 /*
 	p_mem_cleaner.c
 */
+void	free_cmd_table(t_cmd *cmd_table);
+void	free_tokens(t_token *tokens);
 void	clean_memory(t_cmd *cmd_table, t_token *tokens);
 
 #endif // PARSING_H
