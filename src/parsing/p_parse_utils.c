@@ -6,41 +6,53 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/19 14:35:22 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:37:48 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "p_parsing.h"
 
-t_token	*alloc_token(int type, char *value)
+/**
+ * combine_words - Combines a list of words into a single string.
+ * 
+ * @param words: The list of words to combine.
+ * 
+ * This function iterates through a list of words, concatenates 
+ * them, and returns the resulting string. It uses ft_strjoin to 
+ * concatenate and handles memory allocation errors.
+ * 
+ * @return char*: The combined string, or NULL if the list is empty.
+ */
+char	*combine_words(t_list *words)
 {
-	t_token	*token;
-
-	token = ft_calloc(1, sizeof(t_token));
-	if (!token)
-		return (ft_printf("Calloc error\n"), NULL); // TODO: put real error handler here
-	token->type = type;
-	token->value = value;
-	return (token);
+	char	*word;
+	char	*temp;
+	if (!words)
+		return (NULL);
+	word = ft_calloc(1, 1);
+	if (!word)
+		ft_printf("Calloc failed\n");
+	while (words)
+	{
+		temp = word;
+		word = ft_strjoin(word, (char *)words->content);
+		words = words->next;
+		if (temp)
+			free(temp);
+	}
+	return (word);
 }
 
-void	add_token(t_token **list, t_token *token)
-{
-	t_token	*head;
-
-	if (!token)
-		return ;
-	if (!list || !*list)
-		*list = token;
-	else
-	{
-		head = *list;
-		while (head->next)
-			head = head->next;
-		head->next = token;
-	}
-} 
-
+/**
+ * skip_spaces - Skips over spaces in the input string.
+ * 
+ * @param s: The input string.
+ * 
+ * This function skips over whitespace characters and returns the 
+ * number of spaces skipped.
+ * 
+ * @return int: The number of spaces skipped.
+ */
 int	skip_spaces(char const *s)
 {
 	int	i;
@@ -53,53 +65,33 @@ int	skip_spaces(char const *s)
 	return (i);
 }
 
-/**
- * str_to_token_type - Determines the type of token based on the input string.
- * 
- * @param s: The string from which the token type will be inferred.
- * 
- * This function examines the input string to determine what kind of token it represents,
- * such as an input redirection (`<`), output redirection (`>`), pipe (`|`), or variable (`$`).
- * It can also recognize compound operators like `<<` or `>>`. If no match is found, it
- * defaults to returning `TOKEN_UNKNOWN`.
- * 
- * @return int: The token type (e.g., `TOKEN_IN`, `TOKEN_OUT`, `TOKEN_PIPE`), or `TOKEN_UNKNOWN` if unrecognized.
- */
-int	str_to_token_type(const char *s)
-{
-	if (!s || !s[0])
-		return (TOKEN_UNKNOWN);
-	else if (s[0] == '<' && s[1] == '<')
-		return (TOKEN_INDELIMITER);
-	else if (s[0] == '>' && s[1] == '>')
-		return (TOKEN_OUTAPPEND);
-	else if (s[0] == '<')
-		return (TOKEN_IN);
-	else if (s[0] == '>')
-		return (TOKEN_OUT);
-	else if (s[0] == '|')
-		return (TOKEN_PIPE);
-	else if (s[0] != ' ' && s[0] != '	')
-		return (TOKEN_WORD);
-	else
-		return (TOKEN_UNKNOWN);
-}
 
 /**
- * print_tokens - Prints the value of each token in a linked list.
+ * str_to_token_type - Converts a string to its corresponding token type.
  * 
- * @param lst: A linked list of tokens to print.
+ * @param s: The string representing an operator or word.
  * 
- * This function iterates through a list of tokens, printing the `value` field of
- * each `t_token` structure. The function uses `ft_printf` to output the token values.
+ * This function maps specific characters or operators to token types 
+ * such as T_HEREDOC, T_APPEND, T_IN, T_OUT, T_PIPE, or T_WORD.
  * 
+ * @return t_token_type: The corresponding token type.
  */
-void	print_tokens(t_token *tokens)
+t_token_type	str_to_token_type(const char *s)
 {
-	while (tokens)
-	{
-		if (tokens->value)
-			ft_printf("%s\n", tokens->value);
-		tokens = tokens->next;
-	}
+	if (!s || !s[0])
+		return (T_UNKNOWN);
+	else if (s[0] == '<' && s[1] == '<')
+		return (T_HEREDOC);
+	else if (s[0] == '>' && s[1] == '>')
+		return (T_APPEND);
+	else if (s[0] == '<')
+		return (T_IN);
+	else if (s[0] == '>')
+		return (T_OUT);
+	else if (s[0] == '|')
+		return (T_PIPE);
+	else if (s[0] != ' ' && s[0] != '	')
+		return (T_WORD);
+	else
+		return (T_UNKNOWN);
 }

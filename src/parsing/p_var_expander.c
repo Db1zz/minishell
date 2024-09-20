@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_expander.c                                     :+:      :+:    :+:   */
+/*   p_var_expander.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/18 13:29:27 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:12:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h" 
+#include "p_parsing.h"
 
 /**
  * expand_variable - Expands a variable from the string using the environment variables.

@@ -6,12 +6,22 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:03:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/19 17:00:17 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:40:22 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "p_parsing.h"
 
+/**
+ * get_redirections - Extracts redirection tokens from the token list.
+ * 
+ * @param tokens: The list of tokens to scan for redirections.
+ * 
+ * This function goes through the token list and duplicates any 
+ * redirection tokens, adding them to a separate redirection list.
+ * 
+ * @return t_token*: The list of redirection tokens.
+ */
 static t_token *get_redirections(t_token *tokens)
 {
 	t_token	*redirections;
@@ -26,6 +36,16 @@ static t_token *get_redirections(t_token *tokens)
 	return (redirections);
 }
 
+/**
+ * count_args - Counts the number of argument tokens.
+ * 
+ * @param tokens: The list of tokens to scan for arguments.
+ * 
+ * This function counts the number of non-redirection tokens, 
+ * which are treated as arguments.
+ * 
+ * @return size_t: The number of argument tokens.
+ */
 static size_t	count_args(t_token *tokens)
 {
 	size_t	result;
@@ -40,6 +60,16 @@ static size_t	count_args(t_token *tokens)
 	return (result);
 }
 
+/**
+ * get_args - Retrieves the argument tokens and creates an array of strings.
+ * 
+ * @param tokens: The list of tokens to scan for arguments.
+ * 
+ * This function allocates memory for an array of argument strings and 
+ * populates it by copying the argument tokens.
+ * 
+ * @return char**: An array of argument strings, or NULL if no arguments.
+ */
 static char	**get_args(t_token *tokens)
 {
 	char	**args;
@@ -49,21 +79,28 @@ static char	**get_args(t_token *tokens)
 	i = 0;
 	args_size = count_args(tokens);
 	if (args_size == 0)
-		return (NULL);	// TODO: Display error and stop execution.
-	args = ft_calloc(args_size, sizeof(char *));
-	while (i < args_size)
+		return (NULL); // TODO: Display error and stop execution.
+	args = ft_calloc(args_size + 1, sizeof(char *));
+	while (i != args_size)
 	{
-		if (tokens->value)
-			args[i] = ft_strdup(tokens->value);
-		else
-			args[i] = ft_strdup("get_args error");
-		i++;
+		if (!is_redirection(tokens) && tokens->value)
+			args[i++] = ft_strdup(tokens->value);
 		tokens = tokens->next;
 	}
 	return (args);
 }
 
-static	t_token	*get_next_cmd_tokens(t_token *tokens)
+/**
+ * get_next_cmd_tokens - Finds the next command separator in the token list.
+ * 
+ * @param tokens: The list of tokens to scan.
+ * 
+ * This function advances the token pointer to the next command separator, 
+ * returning the tokens after the separator.
+ * 
+ * @return t_token*: The remaining tokens after the separator.
+ */
+static t_token	*get_next_cmd_tokens(t_token *tokens)
 {
 	if (!tokens)
 		return (NULL); // TODO
@@ -74,6 +111,16 @@ static	t_token	*get_next_cmd_tokens(t_token *tokens)
 	return (tokens);
 }
 
+/**
+ * build_cmd_table - Builds a command table from a token list.
+ * 
+ * @param tokens: The list of tokens to parse into a command table.
+ * 
+ * This function processes a list of tokens, extracting arguments 
+ * and redirections, and organizes them into a command table structure.
+ * 
+ * @return t_cmd*: A linked list representing the command table.
+ */
 t_cmd	*build_cmd_table(t_token *tokens)
 {
 	t_cmd	*cmd_table;
@@ -98,4 +145,39 @@ t_cmd	*build_cmd_table(t_token *tokens)
 		curr_tokens = get_next_cmd_tokens(curr_tokens);
 	}
 	return (cmd_table);
+}
+
+// =========================== DEBUG ONLY =========================== //
+
+/**
+ * print_cmd_table - Debug function to print the command table.
+ * 
+ * @param cmd_table: The command table to print.
+ * 
+ * This function prints the arguments and redirections for each 
+ * command in the command table.
+ * 
+ * @return void
+ */
+void	print_cmd_table(t_cmd *cmd_table)
+{
+	int		i;
+	t_token	*redirections;
+
+	while (cmd_table)
+	{
+		i = 0;
+		redirections = cmd_table->redirections;
+		ft_printf("Args: ");
+		while (cmd_table->args && cmd_table->args[i])
+			ft_printf("[%s]", cmd_table->args[i++]);
+		ft_printf("\nRedirections: ");
+		while (redirections)
+		{
+			ft_printf("[%s]", redirections->value);
+			redirections = redirections->next;
+		}
+		ft_printf("\n");
+		cmd_table = cmd_table->next;
+	}
 }
