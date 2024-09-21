@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:45:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/08/31 13:15:29 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:21:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ typedef struct t_node_list
 }	t_node_list;
 
 t_node_list	*ft_get_new_node(char *data);
-char		*get_next_line(int fd);
 
 #endif // GET_NEXT_LINE_H

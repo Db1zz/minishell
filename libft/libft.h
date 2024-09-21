@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:30:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/08/31 07:18:01 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:21:27 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stddef.h> // Is used to get size_t
 # include "./ft_printf/include/ft_printf.h"
-# include "./get_next_line/get_next_line.h"
 
 /* 
 	Libft mandatory functions
@@ -73,5 +72,10 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+/*
+	get_next_line
+*/
+char		*get_next_line(int fd);
 
 #endif // _LIBFT_H_
