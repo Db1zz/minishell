@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 19:00:52 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:24:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				skip_spaces(char const *s);
 bool	is_space(char c);
 bool	is_quote(char c);
 int		is_operator(const char *s);
-bool	is_metachar(const char *s);
+bool	is_metachar(const char *s, char quote);
 bool	is_word(const char *s);
 
 /*

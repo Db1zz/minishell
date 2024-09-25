@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:19:19 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:38:35 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:22:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int	is_operator(const char *s)
  * 
  * @return bool: True if the string starts with a metacharacter.
  */
-bool	is_metachar(const char *s)
+bool	is_metachar(const char *s, char quote)
 {
-	if (!s || s[0] == '\0')
+	if (!s || s[0] == '\0' || quote)
 		return (false);
 	return (is_space(s[0]) || is_operator(s));
 }

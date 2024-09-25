@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 19:00:44 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:36:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <errno.h>
 # include <signal.h>
+# include <stdlib.h>
 # include "limits.h"
 # include "../libft/libft.h"
 

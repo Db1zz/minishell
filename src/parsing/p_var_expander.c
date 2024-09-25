@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 19:00:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:19:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,5 @@ int	expand_variable(char const *s, t_list *env, t_list **words)
 	}
 	return (free(key), i);
 }
+
+
