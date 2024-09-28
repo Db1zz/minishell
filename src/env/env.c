@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/14 16:49:17 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:29:11 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ t_list	*create_env_list(char **envp)
 		return (NULL);
 	env_list = NULL;
 	while (*envp)
-		ft_lstadd_back(&env_list, ft_lstnew(*envp++));
+		ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(*envp++)));
 	return (env_list);
 }

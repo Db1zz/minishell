@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:36:59 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:49:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ static t_token *get_redirection(t_token **tokens, t_error *error)
 		else
 			err_msg_val = "newline";
 		ft_dprintf(STDERR_FILENO, MSG_SYNTAX_ERROR, err_msg_val);
+		free(redirection);
 		return (NULL);
 	}
 	(*tokens) = (*tokens)->next;
-	redirection->value = (*tokens)->value;
+	redirection->value = ft_strdup((*tokens)->value);
 	return (redirection);
 }
 

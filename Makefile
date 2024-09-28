@@ -8,7 +8,7 @@ ifneq ($(ARCH), x86_64)
 else
 	CFLAGS = -Wall -Wextra
 endif
-DEBUG_FLAGS = -g -fsanitize=address
+DEBUG_FLAGS = -g
 
 # For MacOS lreadline from brew is mandatory.
 ifeq ($(OS), Linux)

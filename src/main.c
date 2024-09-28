@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:40:09 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:29:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	minishell_loop(char	**envp)
 			free_cmd_list(cmd_list);
 	}
 	rl_clear_history();
+	ft_lstclear(&env_list, free);
 }
 
 int	main(int argc, char **argv, char **envp)
