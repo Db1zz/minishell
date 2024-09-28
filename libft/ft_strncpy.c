@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 15:44:15 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/15 16:42:39 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/25 17:20:12 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/25 17:22:58 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "libft.h"
 
-void	display_error(const char **msg, int errnum)
+char	*ft_strncpy(char *dest, char const* src, size_t n)
 {
-	char	*error;
-
-	error = strerror(errnum);
-	if (msg)
-	{
-		while (*msg)
-			ft_putstr_fd(*msg, STDERR_FILENO);
-	}
-	if (error)
-		ft_printf("%s\n", error);
-}
-
-// void	fatal_error(const char **msg, int errnum)
-// {
+	size_t	i;
 	
-// }
+	if (!dest || !src)
+		return (dest);
+	i = 0;
+	while (i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return (dest);
+}

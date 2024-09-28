@@ -6,43 +6,21 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 18:19:19 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/24 21:22:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:46:39 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 
-/**
- * is_space - Checks if a character is a space or tab.
- * 
- * @param c: The character to check.
- * 
- * This function checks if the character is a space (' ') or 
- * a tab ('\t').
- * 
- * @return bool: True if the character is a space, false otherwise.
- */
 bool	is_space(char c)
 {
-	return (c == ' ' || c == '	');
+	return (c == ' ' || c == '\t');
 }
 
-
-/**
- * is_quote - Checks if a character is a quote.
- * 
- * @param c: The character to check.
- * 
- * This function checks if the character is a single quote ('\'') 
- * or a double quote ('"').
- * 
- * @return bool: True if the character is a quote, false otherwise.
- */
 bool	is_quote(char c)
 {
-	return (c == '"' || c == '\'');
+	return (c == '\"' || c == '\'');
 }
-
 
 /**
  * is_operator - Checks if the string starts with an operator.
@@ -50,8 +28,7 @@ bool	is_quote(char c)
  * @param s: The input string.
  * 
  * This function checks if the string begins with one of the 
- * operators ('<', '>', '|'). It returns the length of the 
- * operator (1 or 2 characters).
+ * operators ('<<', '>>', <', '>', '|').
  * 
  * @return int: The length of the operator or 0 if none found.
  */
@@ -59,12 +36,9 @@ int	is_operator(const char *s)
 {
 	if (!s || !s[0])
 		return (0);
-	if ((s[0] == '<' && (s + 1) && s[1] == '<')
-			|| (s[0] == '>' && (s + 1) && s[1] == '>'))
+	if ((s[0] == '<'  && s[1] == '<') || (s[0] == '>' && s[1] == '>'))
 			return (2);
-	else if ((s[0] == '>')
-			|| (s[0] == '<')
-			|| (s[0] == '|'))
+	else if ((s[0] == '<') || (s[0] == '>') || (s[0] == '|'))
 		return (1);
 	else
 		return (0);
@@ -80,9 +54,9 @@ int	is_operator(const char *s)
  * 
  * @return bool: True if the string starts with a metacharacter.
  */
-bool	is_metachar(const char *s, char quote)
+bool	is_metachar(const char *s)
 {
-	if (!s || s[0] == '\0' || quote)
+	if (!s || s[0] == '\0')
 		return (false);
 	return (is_space(s[0]) || is_operator(s));
 }

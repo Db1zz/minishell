@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:54:30 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/02 21:42:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:00:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <unistd.h>
 
 /*
 	Preprocessor definitions
@@ -50,7 +51,7 @@ typedef struct t_format
 	char	*special_str;
 }	t_format;
 
-typedef int	(*t_disp_func)(t_format *);
+typedef int	(*t_disp_func)(t_format *, int);
 
 /*
 	Functions
@@ -72,16 +73,16 @@ void		ft_get_special_str(t_format *f);
 void		ft_get_output_str(va_list *data, t_format *f);
 void		ft_get_flags(const char *str, t_format *f);
 t_format	*ft_get_format_data(const char *str, va_list *data);
-int			ft_display_padding(t_format *f);
-int			ft_display_modifier(t_format *f);
-int			ft_display_precision(t_format *f);
-int			ft_display_str(t_format *f);
-int			ft_display_format(t_format *f);
+int			ft_display_padding(t_format *f, int fd);
+int			ft_display_modifier(t_format *f, int fd);
+int			ft_display_precision(t_format *f, int fd);
+int			ft_display_str(t_format *f, int fd);
+int			ft_display_format(t_format *f, int fd);
 void		ft_calc_width_precision(t_format *f);
 void		ft_validate_flags(t_format *f);
 size_t		ft_get_number_size(int64_t number);
 t_disp_func	*ft_get_pattern(t_format *f);
-int			ft_printstr(char *str);
+int			ft_printstr(char *str, int fd);
 int			ft_get_hex_size(uint64_t hex);
 
 #endif // FT_INTERNAL_H

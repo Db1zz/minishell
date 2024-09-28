@@ -24,16 +24,17 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 LIBS = $(LIBFT) $(READLINE_LIB)
 
-SRCS =	src/main.c						\
-		src/utils.c						\
-		src/signal/signal.c				\
-		src/env/env.c					\
-		src/parsing/p_cmd_table.c		\
-		src/parsing/p_parse_helpers.c	\
-		src/parsing/p_parse_utils.c		\
-		src/parsing/p_parse.c			\
-		src/parsing/p_token.c			\
-		src/parsing/p_var_expander.c	\
+SRCS =	src/main.c							\
+		src/utils.c							\
+		src/signal/signal.c					\
+		src/env/env.c						\
+		src/parsing/p_cmd_list.c			\
+		src/parsing/p_cmd_list_helpers.c	\
+		src/parsing/p_parse_helpers.c		\
+		src/parsing/p_parse_utils.c			\
+		src/parsing/p_parse.c				\
+		src/parsing/p_token.c				\
+		src/parsing/p_expansion.c			\
 		src/parsing/p_mem_cleaner.c
 OBJS = $(SRCS:.c=.o)
 

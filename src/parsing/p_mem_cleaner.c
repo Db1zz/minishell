@@ -6,11 +6,25 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 17:34:51 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 19:13:02 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:14:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
+
+void	free_cmd_list(t_cmd *cmd_list)
+{
+	t_cmd	*next;
+
+	while (cmd_list)
+	{
+		free_tokens(cmd_list->redirections);
+		free_2dmatrix(cmd_list->args);
+		next = cmd_list->next;
+		free(cmd_list);
+		cmd_list = next;
+	}
+}
 
 /**
  * free_tokens - Frees the memory allocated for a list of tokens.
@@ -34,46 +48,4 @@ void	free_tokens(t_token *tokens)
 		free(tokens);
 		tokens = next;
 	}
-}
-
-/**
- * free_cmd_table - Frees the memory allocated for the command table.
- * 
- * @param cmd_table: The command table to be freed.
- * 
- * This function iterates through the command table, freeing each 
- * command's redirections and arguments, and then frees the command 
- * structure itself.
- * 
- * @return void
- */
-void	free_cmd_table(t_cmd *cmd_table)
-{
-	t_cmd	*next;
-
-	while (cmd_table)
-	{
-		free_tokens(cmd_table->redirections);
-		free_2dmatrix(cmd_table->args);
-		next = cmd_table->next;
-		free(cmd_table);
-		cmd_table = next;
-	}
-}
-
-/**
- * clean_memory - Frees memory allocated for the command table and tokens.
- * 
- * @param cmd_table: The command table to be freed.
- * @param tokens: The list of tokens to be freed.
- * 
- * This function frees both the command table and the token list to 
- * ensure proper memory management.
- * 
- * @return void
- */
-void	clean_memory(t_cmd *cmd_table, t_token *tokens)
-{
-	free_cmd_table(cmd_table);
-	free_tokens(tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:15:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/20 18:37:12 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:14:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,69 +64,36 @@ void	add_token(t_token **list, t_token *token)
 	}
 }
 
-/**
- * dup_token - Duplicates a token and returns a new token with 
- * the same type and value.
- * 
- * @param token: The token to duplicate.
- * 
- * This function allocates memory for a new token, copies its 
- * type and value from the original token, and returns a pointer 
- * to the new token.
- * 
- * @return t_token*: Pointer to the duplicated token.
- */
-t_token	*dup_token(t_token *token)
+static t_token	*tokenize(char buffer[])
 {
 	t_token	*new_token;
+	char	*token_value;
 
-	new_token = ft_calloc(1, sizeof(t_token));
-	new_token->next = NULL;
-	if (token->value)
-		new_token->value = ft_strdup(token->value);
-	else
-		new_token->value = NULL;
-	new_token->type = token->type;
+	token_value = ft_strdup(&buffer[0]);
+	new_token = alloc_token(str_to_token_type(&buffer[0]), token_value);
 	return (new_token);
 }
 
-/**
- * is_redirection - Checks if the given token is a redirection token.
- * 
- * @param token: The token to check.
- * 
- * The function returns true if the token type indicates 
- * a redirection (e.g., T_IN, T_OUT, T_HEREDOC, T_APPEND).
- * 
- * @return bool: true if redirection, false otherwise.
- */
-bool	is_redirection(t_token *token)
+t_token	*tokenizer(char *input, t_list *env, t_error *error)
 {
-	if (!token)
-		return (false);
-	return ((token->type == T_IN)
-			|| (token->type == T_OUT)
-			|| (token->type == T_HEREDOC)
-			|| (token->type == T_APPEND));
-}
+	t_token	*tokens;
+	char	buffer[ARG_BUFF_SIZE];
+	int		buff_index;
 
-/**
- * is_cmd_separator - Checks if the token is a command separator.
- * 
- * @param token: The token to check.
- * 
- * The function returns true if the token type represents a 
- * command separator like T_PIPE, T_AND, or T_OR.
- * 
- * @return bool: true if separator, false otherwise.
- */
-bool	is_cmd_spearator(t_token *token)
-{
-	if (!token)
-		return (false);
-	return (token->type == T_PIPE
-			|| token->type == T_AND
-			|| token->type == T_OR);	
+	tokens = NULL;
+	while (*input && *error == NO_ERROR)
+	{
+		buff_index = 0;
+		if (is_space(*input))
+			input += skip_spaces(input);
+		else if (is_operator(input))
+			input += parse_operator(input, buffer, &buff_index);
+		else
+			input += parse_word(input, buffer, &buff_index, env, error);
+		if (buff_index > 0 && *error == NO_ERROR)
+			add_token(&tokens, tokenize(buffer));
+	}
+	return (tokens);
 }
 
 // =========================== DEBUG ONLY =========================== //

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/22 01:36:13 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:33:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@
 # include <stdlib.h>
 # include "limits.h"
 # include "../libft/libft.h"
+# include "error.h"
 
 // Macro
 # define SHELL_NAME "Minishell"
+# define ARG_BUFF_SIZE 1024
 
 // Typedefs
 typedef enum s_token_type
@@ -41,6 +43,7 @@ typedef enum s_token_type
 	T_AND,
 	T_OR
 }	t_token_type;
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -61,10 +64,11 @@ typedef struct s_shell
 	struct s_cmd	*cmds;
 }	t_shell;
 
+/*
+	parsing functions
+*/
 t_cmd	*parse_input(char *input, t_list *env);
-void	free_cmd_table(t_cmd *cmd_table);
-void	free_tokens(t_token *tokens);
-void	clean_memory(t_cmd *cmd_table, t_token *tokens);
+void	free_cmd_list(t_cmd *cmd_list);
 
 /*
 	signal.c
@@ -85,6 +89,6 @@ t_list	*create_env_list(char **envp);
 /*
 	error.c
 */
-void	display_error(const char **msg, int errnum);
+void	display_error(char *data, t_error error);
 
 #endif // MINISHELL_H
