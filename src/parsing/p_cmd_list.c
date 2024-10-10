@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:49:38 by gonische         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:47:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	print_cmd_list(t_cmd *cmd_table)
 			redirections = redirections->next;
 		}
 		ft_printf("\n");
+		ft_printf("--------------------------\n");
 		cmd_table = cmd_table->next;
 	}
 }

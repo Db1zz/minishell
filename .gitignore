@@ -9,3 +9,5 @@
 *.a
 minishell
 minishell.dSYM
+out
+in
