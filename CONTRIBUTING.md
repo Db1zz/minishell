@@ -19,15 +19,15 @@ This page describes how to write code that corresponds to the norms of this proj
     /**
      * @brief Adds two integers and returns the result.
      * 
+     * @param a The first integer to be added.
+     * @param b The second integer to be added.
      * This function takes two integers, adds them together, and returns the result.
      * It is designed to be used in simple arithmetic operations.
      * 
-     * @param a The first integer to be added.
-     * @param b The second integer to be added.
-     * 
      * @return The sum of the two integers.
      */
-    int add(int a, int b) {
+    int add(int a, int b)
+    {
         return a + b;
     }
     ```

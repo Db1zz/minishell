@@ -1,12 +1,42 @@
 # Project settings
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-SRCS =	main.c	\
+ARCH := $(shell uname -m)
+OS := $(shell uname -s)
+ifneq ($(ARCH), x86_64)
+	CFLAGS = -arch $(ARCH) -Wall -Wextra
+else
+	CFLAGS = -Wall -Wextra
+endif
+DEBUG_FLAGS = -g
 
-OBJS = $(SRCS:.c=.o)
+# For MacOS lreadline from brew is mandatory.
+ifeq ($(OS), Linux)
+	READLINE_LIB = -lreadline
+else
+	READLINE_DIR = $(shell brew --prefix readline)
+	READLINE_LIB =	-I$(READLINE_DIR)/include/			\
+					-L$(READLINE_DIR)/lib/				\
+					-lreadline
+endif
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
+LIBS = $(LIBFT) $(READLINE_LIB)
+
+SRCS =	src/main.c							\
+		src/utils.c							\
+		src/signal/signal.c					\
+		src/env/env.c						\
+		src/parsing/p_cmd_list.c			\
+		src/parsing/p_cmd_list_helpers.c	\
+		src/parsing/p_parse_helpers.c		\
+		src/parsing/p_parse_utils.c			\
+		src/parsing/p_parse.c				\
+		src/parsing/p_token.c				\
+		src/parsing/p_expansion.c			\
+		src/parsing/p_mem_cleaner.c
+OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)
 
@@ -23,7 +53,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

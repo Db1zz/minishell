@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:19:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/03 19:14:10 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:52:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ size_t	ft_get_number_size(int64_t number)
 	return (result);
 }
 
-int	ft_printstr(char *str)
+int	ft_printstr(char *str, int fd)
 {
 	int	i;
 	int	c;
@@ -84,7 +84,7 @@ int	ft_printstr(char *str)
 	c = 0;
 	while (str[i])
 	{
-		ft_putchar_fd(str[i++], 1);
+		ft_putchar_fd(str[i++], fd);
 		c++;
 	}
 	return (c);

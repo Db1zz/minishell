@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:08:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/07/23 19:46:04 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:00:30 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 /*
 	Project functions
 */
-int	ft_format_parser(const char *str, va_list *data, int *printed_c)
+int	ft_format_parser(const char *str, va_list *data, int *printed_c, int fd)
 {
 	int			result;
 	t_format	*format;
@@ -30,7 +30,7 @@ int	ft_format_parser(const char *str, va_list *data, int *printed_c)
 	format = ft_get_format_data(str, data);
 	if (format)
 	{
-		*printed_c += ft_display_format(format);
+		*printed_c += ft_display_format(format, fd);
 		result = format->size;
 		if (format->specifier != 's')
 			free(format->output_str);
@@ -43,27 +43,57 @@ int	ft_format_parser(const char *str, va_list *data, int *printed_c)
 
 int	ft_printf(const char *str, ...)
 {
+	const int	fd = STDOUT_FILENO;
 	va_list		data;
 	size_t		i;
 	int			printed_c;
 
 	i = 0;
 	printed_c = 0;
+	if (!str)
+		return (0);
 	va_start(data, str);
 	while (str[i])
 	{
 		if (str[i] != '%')
 		{
-			ft_putchar_fd(str[i], 1);
+			ft_putchar_fd(str[i], fd);
 			printed_c++;
 		}
 		else if (str[i] == '%' && str[i + 1])
-			i += ft_format_parser(&str[i], &data, &printed_c);
+			i += ft_format_parser(&str[i], &data, &printed_c, fd);
 		i++;
 	}
 	va_end(data);
 	return (printed_c);
 }
+
+int	ft_dprintf(int fd, const char *str, ...)
+{
+	va_list		data;
+	size_t		i;
+	int			printed_c;
+
+	i = 0;
+	printed_c = 0;
+	if (!str)
+		return (0);
+	va_start(data, str);
+	while (str[i])
+	{
+		if (str[i] != '%')
+		{
+			ft_putchar_fd(str[i], fd);
+			printed_c++;
+		}
+		else if (str[i] == '%' && str[i + 1])
+			i += ft_format_parser(&str[i], &data, &printed_c, fd);
+		i++;
+	}
+	va_end(data);
+	return (printed_c);
+}
+
 
 // int main(void)
 // {

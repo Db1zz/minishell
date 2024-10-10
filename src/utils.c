@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 13:49:52 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:13:43 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/08 20:31:54 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/29 00:04:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "../include/minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	print_2dmatrix(char const **matrix)
 {
-	if (lst && lst->content)
-		del(lst->content);
-	if (lst)
-		free(lst);
+	int	i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+		ft_printf("%s\n", matrix[i++]);
+}
+
+void	free_2dmatrix(char **matrix)
+{
+	int	i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }

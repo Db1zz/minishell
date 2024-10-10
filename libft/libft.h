@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:30:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/08/31 07:18:01 by gonische         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:15:05 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stddef.h> // Is used to get size_t
 # include "./ft_printf/include/ft_printf.h"
-# include "./get_next_line/get_next_line.h"
 
 /* 
 	Libft mandatory functions
@@ -30,6 +29,7 @@ void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
+char	*ft_strncpy(char *dest, char const* src, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 int		ft_toupper(int c);
@@ -73,5 +73,10 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+/*
+	get_next_line
+*/
+char		*get_next_line(int fd);
 
 #endif // _LIBFT_H_

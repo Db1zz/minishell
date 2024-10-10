@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 13:49:52 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:13:43 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/14 16:23:01 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/20 17:12:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "../../include/minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+static void	signal_handler(int signal)
 {
-	if (lst && lst->content)
-		del(lst->content);
-	if (lst)
-		free(lst);
+	if (signal == SIGINT)
+	{
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 }

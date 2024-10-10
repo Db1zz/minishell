@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 13:49:52 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:13:43 by gonische         ###   ########.fr       */
+/*   Created: 2024/09/25 17:20:12 by gonische          #+#    #+#             */
+/*   Updated: 2024/09/25 17:22:58 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+char	*ft_strncpy(char *dest, char const* src, size_t n)
 {
-	if (lst && lst->content)
-		del(lst->content);
-	if (lst)
-		free(lst);
+	size_t	i;
+	
+	if (!dest || !src)
+		return (dest);
+	i = 0;
+	while (i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	return (dest);
 }
