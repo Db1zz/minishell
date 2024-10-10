@@ -3,13 +3,24 @@ NAME = minishell
 CC = cc
 ARCH := $(shell uname -m)
 OS := $(shell uname -s)
+
 ifneq ($(ARCH), x86_64)
 	CFLAGS = -arch $(ARCH) -Wall -Wextra
 else
 	CFLAGS = -Wall -Wextra
 endif
-DEBUG_FLAGS = -g
 
+# For MacOS lreadline from brew is mandatory.
+ifeq ($(OS), Linux)
+	READLINE_LIB = -lreadline
+else
+	READLINE_DIR = $(shell brew --prefix readline)
+	READLINE_LIB =	-I$(READLINE_DIR)/include/			\
+					-L$(READLINE_DIR)/lib/				\
+					-lreadline
+endif
+
+DEBUG_FLAGS = -g
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
