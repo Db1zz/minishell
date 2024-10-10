@@ -10,15 +10,6 @@ else
 endif
 DEBUG_FLAGS = -g
 
-# For MacOS lreadline from brew is mandatory.
-ifeq ($(OS), Linux)
-	READLINE_LIB = -lreadline
-else
-	READLINE_DIR = $(shell brew --prefix readline)
-	READLINE_LIB =	-I$(READLINE_DIR)/include/			\
-					-L$(READLINE_DIR)/lib/				\
-					-lreadline
-endif
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
