@@ -1,0 +1,16 @@
+## execution ##
+
+	Built-ins
+	cd
+	unset
+	echo
+	export
+	exit -> destructor!
+	pwd
+	env
+
+
+	Pipes ( pgm_1 | pgm_2 | pgm_3)
+	Sequencing ( pgm_1 ; pgm_2 ; pgm_3)
+	Running programs in Background (pgm &)
+	Redirections ( pgm_1 >> file_1 )
