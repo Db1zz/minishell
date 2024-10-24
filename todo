@@ -1,16 +1,145 @@
 ## execution ##
 
 	Built-ins
-	cd
-	unset
-	echo
-	export
-	exit -> destructor!
-	pwd
-	env
+	cd		-> only with a relative or absolute path
+	echo	-> with option -n
+	env		-> with no options or arguments
+	exit	-> with no options
+	export	-> with no options
+	pwd		-> with no options
+	unset	-> with no options
 
 
 	Pipes ( pgm_1 | pgm_2 | pgm_3)
+
 	Sequencing ( pgm_1 ; pgm_2 ; pgm_3)
+
+
 	Running programs in Background (pgm &)
+
 	Redirections ( pgm_1 >> file_1 )
+
+
+## alowed external functions ##
+
+1. Readline Library Functions (Input handling)
+
+Functions of the GNU Readline library,which provides line-editing and history capabilities.
+
+
+	readline			-> Reads a line of input from the user.
+
+	rl_clear_history	-> Clears the history list.
+
+	rl_on_new_line		-> Handles the case when a new line of input is started.
+
+	rl_replace_line		-> Replaces the text of the current line with a new line.
+
+	rl_redisplay		-> Redisplays the current input line after changes.
+
+	add_history			-> Adds the current line to the history.
+
+
+2. Memory Management
+
+Functions that deal with dynamic memory allocation.
+
+	malloc		-> Allocates memory dynamically.
+
+	free		-> Frees dynamically allocated memory.
+
+
+3. File I/O (Input/Output)
+
+Functions that handle reading and writing to files or streams.
+
+	open	-> Opens a file.
+	read	-> Reads data from a file descriptor.
+	write	->Writes data to a file descriptor.
+	close	-> Closes a file descriptor.
+	access	-> Checks if the calling process can access a file.
+	unlink	-> Removes a file.
+	dup		-> Duplicates a file descriptor.
+	dup2	-> Duplicates a file descriptor to a specific file descriptor.
+
+4. Process Management
+
+Functions that deal with creating, managing, and waiting for processes.
+
+	fork	-> Creates a new process (child).
+	execve	-> Replaces the current process image with a new one (executes a program).
+	wait	-> Waits for a child process to change state.
+	waitpid	-> Waits for a specific child process to change state.
+	wait3	-> Waits for any child process to change state, with resource usage statistics.
+	wait4	-> Same as wait3, but waits for a specific child process.
+	exit	-> Terminates the calling process.
+
+
+5. Signal Handling
+
+Functions related to handling and sending signals.
+
+	signal			-> Installs a signal handler.
+	sigaction		-> Used to change the action taken by a process on receipt of a signal.
+	sigemptyset		-> Initializes a signal set to be empty.
+	sigaddset		-> Adds a signal to a signal set.
+	kill			-> Sends a signal to a process.
+
+6. Error Handling
+
+Functions that provide error messages or report errors.
+
+	strerror	-> Returns a string describing the error code.
+	perror		-> Prints a description for the last error that occurred.
+
+
+7. Directory Operations
+
+Functions that handle opening, reading, and closing directories.
+
+	opendir		-> Opens a directory stream.
+	readdir		-> Reads a directory entry from a directory stream.
+	closedir	-> Closes a directory stream.
+
+8. File/Directory Status (File System)
+
+Functions for retrieving information about files or directories.
+
+	stat: Gets file status (attributes) of a file.
+	lstat: Like stat, but does not follow symbolic links.
+	fstat: Gets file status based on an open file descriptor.
+
+9. Terminal/TTY Handling
+
+Functions for handling terminal (TTY) settings and interaction.
+
+	isatty: Determines if a file descriptor refers to a terminal.
+	ttyname: Returns the name of the terminal connected to a file descriptor.
+	ttyslot: Returns the slot number of the terminal.
+	ioctl: Device-specific input/output operations, often used with terminals.
+	tcgetattr: Gets terminal attributes.
+	tcsetattr: Sets terminal attributes.
+
+10. Environment Variables
+
+Functions for interacting with environment variables.
+
+	getenv: Retrieves the value of an environment variable.
+
+11. Curses/Termcap Functions (Terminal Capabilities)
+
+Functions related to terminal control, often used in terminal user interfaces.
+
+	tgetent: Loads the terminal description from the termcap database.
+	tgetflag: Gets the boolean flag for a terminal capability.
+	tgetnum: Gets the numeric value for a terminal capability.
+	tgetstr: Gets the string value for a terminal capability.
+	tgoto: Produces a cursor movement string.
+	tputs: Outputs a terminal capability string.
+
+12. Current Working Directory
+
+Functions for managing and retrieving the current working directory.
+
+	getcwd: Gets the current working directory.
+	chdir: Changes the current working directory.
