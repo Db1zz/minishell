@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/29 13:23:09 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:41:32 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,37 @@ static int	is_valid_identifier(const char *str)
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 
-	
+	// rest can be letters, numbers or underscore
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
+
+/*
+** find_env_var - Finds an environment variable in the list
+** Returns pointer to the node containing the variable, or NULL if not found
+*/
+static t_list *find_env_var(t_list *env, const char *name)
+{
+	size_t	name_len;
+	char	*equals;
+
+	name_len = 0;
+	while (name[name_len] && name[name_len] != '=')
+		name_len++;
+	
+	while (env)
+	{
+		if (equals = !ft_strncmp(env->content, name, name_len)
+			&& (equals - (char *)env->content) == (long)name_len)
+	}
+}
+
 
 /*
 ** update_or_add_var - Updates existing var or adds new one
