@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:34 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/28 19:39:49 by zrz              ###   ########.fr       */
+/*   Updated: 2024/10/29 12:14:08 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@
 ** pwd foo bar -> prints: /current/path (ignores extra args)
 */
 
-int	builtin_pwd(char **args, t_list *env)
+int	builtin_pwd(void)
 {
 	char	*pwd;
-
-	(void)args;	// PWD ignores any arguments
-	(void)env;	// PWD doesn't use the environment
 
 	// Getting the current working directory - getcwd
 	pwd = getcwd(NULL, 0);

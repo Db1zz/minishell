@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/28 19:39:29 by zrz              ###   ########.fr       */
+/*   Updated: 2024/10/29 12:08:37 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,10 @@
 ** echo -n             -> prints: nothing
 */
 
-int	builtin_echo(char **args, t_list *env)
+int	builtin_echo(char **args)
 {
 	int		i;
 	bool	newline;
-
-	(void)env; //bcs echo doesnt use env but i kept it for consistency
 
 	newline = true;
 	i = 1;

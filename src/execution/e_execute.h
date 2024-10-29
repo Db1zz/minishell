@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/10/28 01:54:25 by zrz              ###   ########.fr       */
+/*   Updated: 2024/10/29 12:14:21 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	execute_cmd(t_cmd *cmd, t_list *env);
 	the prototypes follow the same structure for simplicity,
 	when not needed, env set to void
 */
-int	builtin_echo(char **args, t_list *env);
+int	builtin_pwd(void);
+int	builtin_echo(char **args);
 int	builtin_cd(char **args, t_list *env);
-int	builtin_pwd(char **args, t_list *env);
 int	builtin_env(char **args, t_list *env);
 int	builtin_export(char **args, t_list *env);
 int	builtin_unset(char **args, t_list *env);
