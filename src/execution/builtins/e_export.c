@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/29 20:41:32 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:58:53 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,13 @@ static t_list *find_env_var(t_list *env, const char *name)
 	
 	while (env)
 	{
+		equals = ft_strchr(env->content, '=');
 		if (equals = !ft_strncmp(env->content, name, name_len)
 			&& (equals - (char *)env->content) == (long)name_len)
+			return (env);
+		env = env->next;
 	}
+	return (NULL);
 }
 
 
@@ -67,7 +71,32 @@ static t_list *find_env_var(t_list *env, const char *name)
 ** update_or_add_var - Updates existing var or adds new one
 ** Returns 0 on success, 1 on error
 */
-static int update_or_add_var(t_list **env, char *var);
+static int update_or_add_var(t_list **env, char *var)
+{
+	t_list	*existing;
+	char	*new_content;
+
+	// make var copy
+	new_content = ft_strdup(var);
+	if (!new_content)
+		return (EXIT_FAILURE);
+
+	// Try to find existing var
+	existing = find_env_var(*env, var);
+	if (existing)
+	{
+		// update existing var
+		free(existing->content);
+		existing->content = new_content;
+	}
+	else
+	{
+		// add new var to the list
+		ft_lstadd_back(env, ft_lstnew(new_content));
+	}
+
+	return (EXIT_SUCCESS);
+}
 
 /*
 ** builtin_export - Implements the export command
@@ -77,7 +106,7 @@ static int update_or_add_var(t_list **env, char *var);
 ** With args: adds/updates environment variables
 */
 
-int builtin_export(char **args, t_list *env)
+int builtin_export(char **args, t_list *env) // TODO: splitting func
 {
 	int	i;
 	int	status;
