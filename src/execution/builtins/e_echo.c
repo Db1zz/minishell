@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/29 12:08:37 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:08:30 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@
 ** echo -n             -> prints: nothing
 */
 
-int	builtin_echo(char **args)
+int	builtin_echo(char **args, t_list *env)
 {
 	int		i;
 	bool	newline;
+
+	(void)env;
 
 	newline = true;
 	i = 1;
 
 	// check for -n flag
-	if (args[i] && !ft_strcmp(args[i], "-n"))
+	if (args[i] && !strcmp(args[i], "-n"))
 	{
 		newline = false;
 		i++;

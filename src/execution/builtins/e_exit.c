@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/30 12:43:05 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:40:53 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,34 @@ static int is_num(const char *str)
 ** Returns -1 if number is invalid
 */
 
+static int get_exit_code(const char *str)
+{
+	long    num;
+	int     sign;
+	int     i;
 
+	num = 0;
+	sign = 1;
+	i = 0;
+
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+
+	while (str[i])
+	{
+		num = (num * 10) + (str[i] - '0');
+		if (num > INT_MAX)
+			return (-1);
+		i++;
+	}
+	num *= sign;
+	return ((num % 256 + 256) % 256);
+}
 
 
 /*
@@ -49,4 +76,29 @@ static int is_num(const char *str)
 ** n is optional exit code (0-255)
 ** Without n, uses last command's exit status
 */
+int builtin_exit(char **args, t_list *env)
+{
+	int exit_code;
+	
+	(void)env;
+	ft_printf("exit\n");
 
+	if (!args[1])
+		exit(0);
+
+	if (!is_num(args[1]))
+	{
+		ft_dprintf(STDERR_FILENO, "exit: %s: numeric argument required\n", 
+			args[1]);
+		exit(2);
+	}
+
+	if (args[2])
+	{
+		ft_dprintf(STDERR_FILENO, "exit: too many arguments\n");
+		return (1);
+	}
+
+	exit_code = get_exit_code(args[1]);
+	exit(exit_code);
+}

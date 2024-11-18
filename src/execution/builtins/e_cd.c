@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/28 19:34:59 by zrz              ###   ########.fr       */
+/*   Updated: 2024/11/18 16:54:11 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@
 
 static char *get_target_path(char **args, t_list *env)
 {
-	char	*path;
-	char	*home;
+	char    *path;
+	char    *home;
 
-	// If no path, then use home
 	if (!args[1])
 	{
 		home = get_env(env, "HOME");
 		if (!home)
 			return (NULL);
-		path = ft_strdup(ft_strchr(home, '=') + 1); // gets the actual HOME path skipping 'HOME'
+		path = ft_strdup(ft_strchr(home, '=') + 1);
 	}
 	else
 		path = ft_strdup(args[1]);
@@ -42,9 +41,32 @@ static char *get_target_path(char **args, t_list *env)
 	return (path);
 }
 
-static int path_error(char **args) // path error handling
+// static int path_error(char **args) // path error handling
+// {
+// 	const char	*error_path;
+
+// 	error_path = "HOME";
+// 	if (args[1])
+// 		error_path = args[1];
+// 	ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, error_path, "no such variable");
+// 	return (EXIT_FAILURE);
+// }
+
+// static int	chdir_error(const char *path) // changing dir error handling
+// {
+// 	if (errno == EACCES)
+// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
+// 	else if (errno == ENOENT)
+// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
+//             "No such file or directory");
+// 	else
+// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
+// 	return (EXIT_FAILURE);
+// }
+
+static int handle_path_error(char **args)
 {
-	const char	*error_path;
+	const char  *error_path;
 
 	error_path = "HOME";
 	if (args[1])
@@ -53,28 +75,21 @@ static int path_error(char **args) // path error handling
 	return (EXIT_FAILURE);
 }
 
-static int	chdir_error(const char *path) // changing dir error handling
-{
-	if (errno == EACCES)
-		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
-	else if (errno == ENOENT)
-		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
-            "No such file or directory");
-	else
-		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
-	return (EXIT_FAILURE);
-}
-
 static int change_dir(const char *path)
 {
-	int	ret;
-
-	ret = chdir(path);
-	if (ret < 0)
-		return (chdir_error(path));
+	if (chdir(path) < 0)
+	{
+		if (errno == EACCES)
+			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
+		else if (errno == ENOENT)
+			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
+				"No such file or directory");
+		else
+			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
-
 
 /*
 ** builtin_cd - Implements the cd command
@@ -91,10 +106,10 @@ static int change_dir(const char *path)
 ** - Prints appropriate error messages to stderr
 */
 
-int	builtin_cd(char **args, t_list *env)
+int builtin_cd(char **args, t_list *env)
 {
-	char		*path;
-	int			*ret; // Stores chdir's return value
+	char    *path;
+	int     ret;
 
 	if (args[1] && args[2])
 	{
@@ -104,8 +119,8 @@ int	builtin_cd(char **args, t_list *env)
 
 	path = get_target_path(args, env);
 	if (!path)
-		return (path_error(args));
-	
+		return (handle_path_error(args));
+
 	ret = change_dir(path);
 	free(path);
 	return (ret);

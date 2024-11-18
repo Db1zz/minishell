@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:14 by zrz               #+#    #+#             */
-/*   Updated: 2024/10/30 11:14:45 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:06:57 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,16 @@
 ** Returns:
 ** - Pointer to array of t_builtin structures
 */
-static const t_builtin	*get_builtin(void)
+static void fill_builtin_array(t_builtin *builtins)
 {
-	static const t_builtin	builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_cd},
-	{"pwd", builtin_pwd},
-	{"env", builtin_env},
-	{"export", builtin_export},
-	{"unset", builtin_unset},
-	{"exit", builtin_exit},
-	{NULL, NULL}
-	};
-
-	return (builtins);
+    builtins[0] = (t_builtin){"echo", builtin_echo};
+    builtins[1] = (t_builtin){"cd", builtin_cd};
+    builtins[2] = (t_builtin){"pwd", builtin_pwd};
+    builtins[3] = (t_builtin){"env", builtin_env};
+    builtins[4] = (t_builtin){"export", builtin_export};
+    builtins[5] = (t_builtin){"unset", builtin_unset};
+    builtins[6] = (t_builtin){"exit", builtin_exit};
+    builtins[7] = (t_builtin){NULL, NULL};
 }
 
 /*
@@ -42,23 +38,23 @@ static const t_builtin	*get_builtin(void)
 ** - true if command is a builtin
 ** - false if command is not a builtin
 */
-bool	is_builtin(char *cmd)
+bool is_builtin(char *cmd)
 {
-	const t_builtin	*builtins;
-	int				i;
+    t_builtin builtins[8];
+    int       i;
 
-	if (!cmd)
-		return (false);
-
-	builtins = get_builtin();
-	i = 0;
-	while (builtins[i].name)
-	{
-		if (!ft_strcmp(cmd, builtins[i].name))
-			return (true);
-		i++;
-	}
-	return (false);
+    if (!cmd)
+        return (false);
+    
+    fill_builtin_array(builtins);
+    i = 0;
+    while (builtins[i].name)
+    {
+        if (!ft_strcmp(cmd, builtins[i].name))
+            return (true);
+        i++;
+    }
+    return (false);
 }
 
 /*
@@ -72,19 +68,39 @@ bool	is_builtin(char *cmd)
 */
 int execute_builtin(t_cmd *cmd, t_list *env)
 {
-	const t_builtin	*builtins;
-	int				i;
+    t_builtin builtins[8];
+    int       i;
 
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (EXIT_FAILURE);
+    if (!cmd || !cmd->args || !cmd->args[0])
+        return (EXIT_FAILURE);
 
-	builtins = get_builtin();
-	i = 0;
-	while (builtins[i].name)
-	{
-		if (!ft_strcmp(cmd->args[0], builtins[i].name))
-			return (builtins[i].func(cmd->args, env));
-		i++;
-	}
-	return (EXIT_FAILURE);
+    fill_builtin_array(builtins);
+    i = 0;
+    while (builtins[i].name)
+    {
+        if (!ft_strcmp(cmd->args[0], builtins[i].name))
+            return (builtins[i].func(cmd->args, env));
+        i++;
+    }
+    return (EXIT_FAILURE);
 }
+
+
+// int execute_builtin(t_cmd *cmd, t_list *env)
+// {
+// 	const t_builtin	*builtins;
+// 	int				i;
+
+// 	if (!cmd || !cmd->args || !cmd->args[0])
+// 		return (EXIT_FAILURE);
+
+// 	builtins = get_builtin();
+// 	i = 0;
+// 	while (builtins[i].name)
+// 	{
+// 		if (!strcmp(cmd->args[0], builtins[i].name))
+// 			return (builtins[i].func(cmd->args, env));
+// 		i++;
+// 	}
+// 	return (EXIT_FAILURE);
+// }

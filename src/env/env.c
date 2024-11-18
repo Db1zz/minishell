@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:29:11 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:01:13 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int get_env_size(t_list *env)
+{
+	int     size;
+	t_list  *current;
+
+	size = 0;
+	current = env;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
 
 char	*get_env(t_list *env_list, char *key)
 {
@@ -43,4 +58,32 @@ t_list	*create_env_list(char **envp)
 	while (*envp)
 		ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(*envp++)));
 	return (env_list);
+}
+
+char **env_list_to_array(t_list *env)
+{
+	char    **arr;
+	t_list  *current;
+	int     i;
+
+	arr = malloc(sizeof(char *) * (get_env_size(env) + 1));
+	if (!arr)
+		return (NULL);
+
+	i = 0;
+	current = env;
+	while (current)
+	{
+		arr[i] = ft_strdup(current->content);
+		if (!arr[i])
+		{
+			free_2dmatrix(arr);
+			return (NULL);
+		}
+		i++;
+		current = current->next;
+	}
+	arr[i] = NULL;
+
+	return (arr);
 }

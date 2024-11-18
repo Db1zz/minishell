@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/30 12:28:21 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:31:24 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,23 @@ static int	remove_env_var(t_list **env, const char *name)
 	while (current)
 	{
 		    while (current)
-    {
-        equals = ft_strchr(current->content, '=');
-        if (equals && !ft_strncmp(current->content, name, name_len) 
-            && ((char *)current->content)[name_len] == '=')
-        {
-            if (prev)
-                prev->next = current->next;
-            else
-                *env = current->next;
-            free(current->content);
-            free(current);
-            return (EXIT_SUCCESS);
-        }
-        prev = current;
-        current = current->next;
-    }
+		{
+			equals = ft_strchr(current->content, '=');
+			if (equals && !ft_strncmp(current->content, name, name_len) 
+				&& ((char *)current->content)[name_len] == '=')
+			{
+				if (prev)
+					prev->next = current->next;
+				else
+					*env = current->next;
+				free(current->content);
+				free(current);
+				return (EXIT_SUCCESS);
+			}
+			prev = current;
+			current = current->next;
+		}
+	}
     return (EXIT_SUCCESS);
 }
 

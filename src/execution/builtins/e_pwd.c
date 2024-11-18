@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:34 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/29 12:14:08 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:09:12 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@
 ** pwd foo bar -> prints: /current/path (ignores extra args)
 */
 
-int	builtin_pwd(void)
+int	builtin_pwd(char **args, t_list *env)
 {
 	char	*pwd;
 
+	(void)args;
+	(void)env;
 	// Getting the current working directory - getcwd
 	pwd = getcwd(NULL, 0);
 	if (!pwd)

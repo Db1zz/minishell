@@ -37,7 +37,18 @@ SRCS =	src/main.c							\
 		src/parsing/p_parse.c				\
 		src/parsing/p_token.c				\
 		src/parsing/p_expansion.c			\
-		src/parsing/p_mem_cleaner.c
+		src/parsing/p_mem_cleaner.c			\
+		src/execution/e_builtin_utils.c		\
+		src/execution/e_builtin.c			\
+		src/execution/e_execute.c			\
+		src/execution/e_external.c			\
+		src/execution/e_path.c				\
+		src/execution/builtins/e_cd.c		\
+		src/execution/builtins/e_echo.c		\
+		src/execution/builtins/e_exit.c		\
+		src/execution/builtins/e_export.c	\
+		src/execution/builtins/e_pwd.c		\
+		src/execution/builtins/e_unset.c
 OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)

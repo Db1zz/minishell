@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/17 18:06:18 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:08:00 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,23 @@ typedef struct	s_builtin
 int		execute_cmd(t_cmd *cmd, t_list *env);
 
 // Path handling function (used by external execution)
-char	*find_command_path(char *cmd, t_list *env);
+char	*find_cmd_path(char *cmd, t_list *env);
 
 // Builtin command functions
 /* 
 	the prototypes follow the same structure for simplicity,
 	when not needed, env set to void
 */
-int		builtin_pwd(void);
-int		builtin_echo(char **args);
-int		builtin_cd(char **args, t_list *env);
-int		builtin_env(char **args, t_list *env);
-int		builtin_export(char **args, t_list *env);
-int		builtin_unset(char **args, t_list *env);
-int		builtin_exit(char **args, t_list *env);
+int builtin_echo(char **args, t_list *env);
+int builtin_cd(char **args, t_list *env);
+int builtin_pwd(char **args, t_list *env);
+int builtin_env(char **args, t_list *env);
+int builtin_export(char **args, t_list *env);
+int builtin_unset(char **args, t_list *env);
+int builtin_exit(char **args, t_list *env);
 
 // Builtin utilities
-int		is_builtin(char *cmd);
+//int		is_builtin(char *cmd);
 int		execute_builtin(t_cmd *cmd, t_list *env);
 
 #endif // EXECUTE_H
