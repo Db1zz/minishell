@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/18 16:31:24 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:02:10 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	remove_env_var(t_list **env, const char *name)
 ** Returns 0 on success, 1 if any argument is invalid
 */
 
-int	builtin_unset(char **args, t_list **env)
+int	builtin_unset(char **args, t_list *env)
 {
 	int	i;
 	int	status;

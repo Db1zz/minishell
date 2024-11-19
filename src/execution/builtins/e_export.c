@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/29 20:58:53 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:10:51 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_list *find_env_var(t_list *env, const char *name)
 	while (env)
 	{
 		equals = ft_strchr(env->content, '=');
-		if (equals = !ft_strncmp(env->content, name, name_len)
+		if (equals && !ft_strncmp(env->content, name, name_len)
 			&& (equals - (char *)env->content) == (long)name_len)
 			return (env);
 		env = env->next;
