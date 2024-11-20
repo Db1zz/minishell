@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/19 20:02:10 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:50:20 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	is_valid_identifier(const char *str)
 ** Returns EXIT_SUCCESS even if variable wasn't found (bash behavior)
 */
 
-static int	remove_env_var(t_list **env, const char *name)
+static int	remove_env_var(t_list *env, const char *name)
 {
 	t_list	*current;
 	t_list	*prev;
@@ -58,20 +58,17 @@ static int	remove_env_var(t_list **env, const char *name)
 
 	name_len = ft_strlen(name);
 	prev = NULL;
-	current = *env;
-
+	current = env;
 	while (current)
 	{
 		    while (current)
 		{
 			equals = ft_strchr(current->content, '=');
-			if (equals && !ft_strncmp(current->content, name, name_len) 
+			if (equals && !ft_strncmp(current->content, name, name_len)
 				&& ((char *)current->content)[name_len] == '=')
 			{
 				if (prev)
 					prev->next = current->next;
-				else
-					*env = current->next;
 				free(current->content);
 				free(current);
 				return (EXIT_SUCCESS);
@@ -113,6 +110,5 @@ int	builtin_unset(char **args, t_list *env)
 			remove_env_var(env, args[i]);
 		i++;
 	}
-
 	return(status);
 }

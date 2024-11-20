@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/18 16:22:33 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:57:57 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void test_builtins(t_list *env)
     
     ft_printf("\n=== Testing echo ===\n");
     execute_builtin(&echo_cmd1, env);  // Should print: hello world\n
-    execute_builtin(&echo_cmd2, env);  // Should print: hello (no newline)
+    execute_builtin(&echo_cmd2, env);  // Should print: hello (no newline) - NEEDS FIX
     ft_printf("\n");  // Add newline for clarity
 
     // Test pwd

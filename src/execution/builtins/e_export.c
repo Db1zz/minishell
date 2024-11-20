@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/19 20:10:51 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:30:01 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_list *find_env_var(t_list *env, const char *name)
 	name_len = 0;
 	while (name[name_len] && name[name_len] != '=')
 		name_len++;
-	
+
 	while (env)
 	{
 		equals = ft_strchr(env->content, '=');
