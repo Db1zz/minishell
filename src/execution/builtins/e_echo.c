@@ -6,11 +6,31 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/18 17:08:30 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:45:41 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../e_execute.h"
+
+/*
+** check_flag - check if arg is -n
+** if multiple -n, alol are skipped
+** Example: echo -n -n -n hello -> prints "hello" (no newline)
+*/
+static int	check_flag(char **args, int *newline)
+{
+	int	i;
+
+	i = 1;
+	*newline = 0;
+
+	while (args[i] && !strcmp(args[i], "-n"))
+	{
+		*newline = 1;
+		i++;
+	}
+	return (i);
+}
 
 /*
 ** builtin_echo - Implements the echo command
@@ -36,19 +56,12 @@
 int	builtin_echo(char **args, t_list *env)
 {
 	int		i;
-	bool	newline;
+	int	newline;
 
 	(void)env;
 
-	newline = true;
-	i = 1;
 
-	// check for -n flag
-	if (args[i] && !strcmp(args[i], "-n"))
-	{
-		newline = false;
-		i++;
-	}
+	i = check_flag(args, &newline); // check for -n flag
 
 	while (args[i])
 	{
@@ -57,8 +70,7 @@ int	builtin_echo(char **args, t_list *env)
 			printf(" ");
 		i++;
 	}
-
-	if (newline)
+	if (!newline)
 		printf("\n");
 
 	return (EXIT_SUCCESS);
