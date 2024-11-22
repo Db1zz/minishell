@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/18 17:08:00 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/22 21:58:31 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../include/minishell.h"
 # include <sys/types.h> // pid_t
 # include <sys/wait.h>	//waitpid, WEXITSTATUS
+# include <fcntl.h>
 
 // error messages matching those of bash
 # define MSG_CD_USAGE "cd: too many arguments\n"
@@ -70,5 +71,8 @@ int builtin_exit(char **args, t_list *env);
 // Builtin utilities
 //int		is_builtin(char *cmd);
 int		execute_builtin(t_cmd *cmd, t_list *env);
+
+// redirections
+int	setup_redirections(t_token *redirections);
 
 #endif // EXECUTE_H

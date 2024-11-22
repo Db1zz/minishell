@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:40 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/21 19:33:47 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:00:29 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,22 @@
 
 static int input_redirection(char *file)
 {
-	
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
+			file, strerror(errno));
+		return (EXIT_FAILURE);
+	}
+	if (dup2(fd, STDIN_FILENO) < 0)
+	{
+		close(fd);
+		return (EXIT_FAILURE);
+	}
+	close(fd);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -25,7 +40,29 @@ static int input_redirection(char *file)
 */
 static int	output_redirection(char *file, int append)
 {
-	
+	int fd;
+	int flags;
+
+	flags = O_WRONLY | O_CREAT;
+	if (append)
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+		
+	fd = open(file, flags, 0644);
+	if (fd < 0)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
+			file, strerror(errno));
+		return (EXIT_FAILURE);
+	}
+	if (dup2(fd, STDOUT_FILENO) < 0)
+	{
+		close(fd);
+		return (EXIT_FAILURE);
+	}
+	close(fd);
+	return (EXIT_SUCCESS);
 }
 
 int	setup_redirections(t_token *redirections)
@@ -36,7 +73,17 @@ int	setup_redirections(t_token *redirections)
 	curr = redirections;
 	while (curr)
 	{
-		
+		if (curr->type == T_IN)
+			status = input_redirection(curr->value);
+		else if (curr->type == T_OUT)
+			status = output_redirection(curr->value, 0);
+		else if (curr->type == T_APPEND)
+			status = output_redirection(curr->value, 1);
+			
+		if (status != EXIT_SUCCESS)
+			return (status);
+			
+		curr = curr->next;
 	}
 	return (EXIT_SUCCESS);
 }
