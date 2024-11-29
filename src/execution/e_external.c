@@ -6,17 +6,19 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:28:41 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/18 16:07:06 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:44:35 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
+#include "minishell.h"
 
 static void	execute_child(char *cmd_path, t_cmd *cmd, t_list *env)
 {
 	char **envp;
 
 	envp = env_list_to_array(env);
+	printf("%s\n", cmd_path);
 	execve(cmd_path, cmd->args, envp);
 	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
 		cmd->args[0], strerror(errno));

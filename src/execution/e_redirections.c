@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:40 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/22 22:00:29 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 13:20:13 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	output_redirection(char *file, int append)
 	else
 		flags |= O_TRUNC;
 		
-	fd = open(file, flags, 0644);
+	fd = open(file, flags);
 	if (fd < 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 

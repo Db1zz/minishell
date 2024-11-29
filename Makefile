@@ -3,6 +3,7 @@ NAME = minishell
 CC = cc
 ARCH := $(shell uname -m)
 OS := $(shell uname -s)
+INCLUDE = -I src/execution -I include -I libft
 
 ifneq ($(ARCH), x86_64)
 	CFLAGS = -arch $(ARCH) -Wall -Wextra
@@ -28,28 +29,31 @@ LIBS = $(LIBFT) $(READLINE_LIB)
 
 SRCS =	src/main.c							\
 		src/utils.c							\
-		src/signal/signal.c					\
 		src/env/env.c						\
-		src/parsing/p_cmd_list.c			\
-		src/parsing/p_cmd_list_helpers.c	\
-		src/parsing/p_parse_helpers.c		\
-		src/parsing/p_parse_utils.c			\
+		src/signal/signal.c					\
 		src/parsing/p_parse.c				\
 		src/parsing/p_token.c				\
+		src/parsing/p_cmd_list.c			\
 		src/parsing/p_expansion.c			\
 		src/parsing/p_mem_cleaner.c			\
-		src/execution/e_builtin_utils.c		\
+		src/parsing/p_parse_utils.c			\
+		src/parsing/p_parse_helpers.c		\
+		src/parsing/p_cmd_list_helpers.c	\
+		src/execution/e_path.c				\
+		src/execution/e_pipes.c				\
 		src/execution/e_builtin.c			\
 		src/execution/e_execute.c			\
 		src/execution/e_external.c			\
-		src/execution/e_path.c				\
+		src/execution/e_exec_pipes.c		\
+		src/execution/e_redirections.c		\
+		src/execution/e_builtin_utils.c		\
 		src/execution/builtins/e_cd.c		\
 		src/execution/builtins/e_echo.c		\
 		src/execution/builtins/e_exit.c		\
-		src/execution/builtins/e_export.c	\
 		src/execution/builtins/e_pwd.c		\
 		src/execution/builtins/e_env.c		\
-		src/execution/builtins/e_unset.c
+		src/execution/builtins/e_unset.c	\
+		src/execution/builtins/e_export.c
 OBJS = $(SRCS:.c=.o)
 
 all: libft_check $(LIBFT) $(NAME)
@@ -67,7 +71,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(SRCS)
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRCS) $(LIBS) $(INCLUDE) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

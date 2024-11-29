@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/18 16:40:53 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:45:16 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../e_execute.h"
+#include "e_execute.h"
+#include <limits.h>
 
 /*
 ** is_numeric - Checks if string is a valid number

@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/18 16:54:11 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:46:07 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../e_execute.h"
+#include "e_execute.h"
+#include "minishell.h"
 
 /*
 ** get_target_path - Get the target directory for cd

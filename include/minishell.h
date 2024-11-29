@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/18 16:21:08 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:41:36 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,46 +23,14 @@
 # include <signal.h>
 # include <stdlib.h>
 # include "limits.h"
-# include "../libft/libft.h"
+# include "libft.h"
 # include "error.h"
+# include "typedefs.h"
+# include "e_execute.h"
 
 // Macro
 # define SHELL_NAME "Minishell"
 # define ARG_BUFF_SIZE 1024
-
-// Typedefs
-typedef enum s_token_type
-{
-	T_UNKNOWN,
-	T_IN,
-	T_OUT,
-	T_HEREDOC,
-	T_APPEND,
-	T_WORD,
-	T_PIPE,
-	T_AND,
-	T_OR
-}	t_token_type;
-
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}	t_token;
-
-typedef struct s_cmd
-{
-	char			**args;
-	struct s_token	*redirections;
-	struct s_cmd	*next;
-}	t_cmd;
-
-typedef struct s_shell
-{
-	struct s_token	*tokens;
-	struct s_cmd	*cmds;
-}	t_shell;
 
 /*
 	parsing functions

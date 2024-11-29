@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/20 19:57:57 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:33:37 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,7 @@ void    minishell_loop(char **envp)
             add_history(input);
             cmd_list = parse_input(input, env_list);
             if (cmd_list && cmd_list->args && cmd_list->args[0])
-            {
-                if (is_builtin(cmd_list->args[0]))
-                    status = execute_builtin(cmd_list, env_list);
-                else
-                    status = execute_external(cmd_list, env_list);
-            }
+                execute_cmd(cmd_list, env_list);
             free(input);
         }
         if (input == NULL)
@@ -143,7 +138,7 @@ int main(int argc, char **argv, char **envp)
     (void)argv;
 
     // Run tests first
-    run_tests(envp);
+    // run_tests(envp);
 
     // Then run your normal shell
     setup_signals();

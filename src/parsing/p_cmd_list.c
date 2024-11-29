@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_cmd_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/10/02 13:47:35 by gonische         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:18:04 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	print_cmd_list(t_cmd *cmd_table)
 		ft_printf("\nRedirections: ");
 		while (redirections)
 		{
-			ft_printf("[%s]", redirections->value);
+			ft_printf("[%s %d]", redirections->value, redirections->type);
 			redirections = redirections->next;
 		}
 		ft_printf("\n");

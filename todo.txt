@@ -143,3 +143,9 @@ Functions for managing and retrieving the current working directory.
 
 	getcwd: Gets the current working directory.
 	chdir: Changes the current working directory.
+
+
+todo:
+
+	- fix redirections
+	- 

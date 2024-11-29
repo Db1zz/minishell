@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:25 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/18 16:07:15 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/28 15:44:10 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
+#include "minishell.h"
 
 static char *check_direct_path(char *cmd)
 {

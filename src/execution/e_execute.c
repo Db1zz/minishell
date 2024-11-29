@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/22 22:00:03 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:29:15 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
+#include "minishell.h"
 
 static void	save_fds(int og_fds[2])
 {
