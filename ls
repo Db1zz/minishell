@@ -1,0 +1,15 @@
+CONTRIBUTING.md
+include
+libft
+LICENSE
+ls
+Makefile
+minishell
+out1.txt
+out2.txt
+out.txt
+README.md
+src
+test1.txt
+text
+todo.txt

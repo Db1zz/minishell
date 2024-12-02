@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/01 11:18:28 by zrz              ###   ########.fr       */
+/*   Updated: 2024/12/02 14:51:51 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	save_fds(int og_fds[2])
 
 static void	restore_fds(int og_fds[2])
 {
-	og_fds[0] = dup(STDIN_FILENO);
-	og_fds[1] = dup(STDOUT_FILENO);
+	dup2(og_fds[0], STDIN_FILENO);
+	dup2(og_fds[1], STDOUT_FILENO);
 	close(og_fds[0]);
 	close(og_fds[1]);
 }
@@ -50,7 +50,7 @@ int execute_cmd(t_cmd *cmd, t_list *env)
 			return (status);
 		}
 	}
-	if (cmd->pipe)
+	if (cmd->next)
 	{
     	printf("Executing pipeline\n");
     	return execute_pipeline(cmd, env);

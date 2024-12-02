@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:40 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/28 13:20:13 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:43:24 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int input_redirection(char *file)
 {
 	int	fd;
 
-	fd = open(file, O_RDONLY);
+	fd = open(file, O_RDONLY, FILE_PERMISSIONS);
 	if (fd < 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
@@ -38,18 +38,17 @@ static int input_redirection(char *file)
 ** The general format for redirecting output is: [n]>[|]word
 **
 */
-static int	output_redirection(char *file, int append)
+static int	output_redirection(char *file, bool to_append)
 {
 	int fd;
 	int flags;
 
 	flags = O_WRONLY | O_CREAT;
-	if (append)
+	if (to_append)
 		flags |= O_APPEND;
 	else
 		flags |= O_TRUNC;
-		
-	fd = open(file, flags);
+	fd = open(file, flags, FILE_PERMISSIONS);
 	if (fd < 0)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
@@ -76,13 +75,11 @@ int	setup_redirections(t_token *redirections)
 		if (curr->type == T_IN)
 			status = input_redirection(curr->value);
 		else if (curr->type == T_OUT)
-			status = output_redirection(curr->value, 0);
+			status = output_redirection(curr->value, false);
 		else if (curr->type == T_APPEND)
-			status = output_redirection(curr->value, 1);
-			
+			status = output_redirection(curr->value, true);
 		if (status != EXIT_SUCCESS)
 			return (status);
-			
 		curr = curr->next;
 	}
 	return (EXIT_SUCCESS);

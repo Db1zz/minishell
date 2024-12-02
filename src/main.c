@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/02 10:59:56 by zrz              ###   ########.fr       */
+/*   Updated: 2024/12/02 15:09:30 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    minishell_loop(char **envp)
         if (input == NULL)
         {
             ft_printf("exit\n");
-            break;
+            break ;
         }
         if (cmd_list)
             free_cmd_list(cmd_list);
@@ -52,121 +52,121 @@ void    minishell_loop(char **envp)
 // 	return (0);
 // }
 
-void test_builtins(t_list *env)
-{
-    // Test echo
-    char *echo_args1[] = {"echo", "hello", "world", NULL};
-    char *echo_args2[] = {"echo", "-n", "hello", NULL};
-    t_cmd echo_cmd1 = {.args = echo_args1, .redirections = NULL, .next = NULL};
-    t_cmd echo_cmd2 = {.args = echo_args2, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing echo ===\n");
-    execute_builtin(&echo_cmd1, env);  // Should print: hello world\n
-    execute_builtin(&echo_cmd2, env);  // Should print: hello (no newline) - NEEDS FIX
-    ft_printf("\n");  // Add newline for clarity
-
-    // Test pwd
-    char *pwd_args[] = {"pwd", NULL};
-    t_cmd pwd_cmd = {.args = pwd_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing pwd ===\n");
-    execute_builtin(&pwd_cmd, env);
-
-    // Test cd
-    char *cd_args[] = {"cd", "..", NULL};
-    t_cmd cd_cmd = {.args = cd_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing cd ===\n");
-    ft_printf("Before cd:\n");
-    execute_builtin(&pwd_cmd, env);
-    execute_builtin(&cd_cmd, env);
-    ft_printf("After cd:\n");
-    execute_builtin(&pwd_cmd, env);
-
-    // Test env
-    char *env_args[] = {"env", NULL};
-    t_cmd env_cmd = {.args = env_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing env ===\n");
-    execute_builtin(&env_cmd, env);
-}
-
-void test_external_commands(t_list *env)
-{
-    // Test existing command
-    char *ls_args[] = {"ls", "-l", NULL};
-    t_cmd ls_cmd = {.args = ls_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing ls -l ===\n");
-    execute_external(&ls_cmd, env);
-
-    // Test non-existent command
-    char *fake_args[] = {"nonexistent", NULL};
-    t_cmd fake_cmd = {.args = fake_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing non-existent command ===\n");
-    execute_external(&fake_cmd, env);
-
-    // Test command with full path
-    char *path_args[] = {"/bin/echo", "hello", NULL};
-    t_cmd path_cmd = {.args = path_args, .redirections = NULL, .next = NULL};
-    
-    ft_printf("\n=== Testing command with full path ===\n");
-    execute_external(&path_cmd, env);
-}
-
-// In your main or a separate test function:
-void run_tests(char **envp)
-{
-    t_list *env;
-    
-    env = create_env_list(envp);
-    if (!env)
-        return;
-
-    ft_printf("\n=== Starting Tests ===\n");
-    
-    test_builtins(env);
-    test_external_commands(env);
-    
-    ft_printf("\n=== Tests Complete ===\n");
-    
-    ft_lstclear(&env, free);
-}
-// int main(int argc, char **argv, char **envp)
+// void test_builtins(t_list *env)
 // {
-//     (void)argc;
-//     (void)argv;
+//     // Test echo
+//     char *echo_args1[] = {"echo", "hello", "world", NULL};
+//     char *echo_args2[] = {"echo", "-n", "hello", NULL};
+//     t_cmd echo_cmd1 = {.args = echo_args1, .redirections = NULL, .next = NULL};
+//     t_cmd echo_cmd2 = {.args = echo_args2, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing echo ===\n");
+//     execute_builtin(&echo_cmd1, env);  // Should print: hello world\n
+//     execute_builtin(&echo_cmd2, env);  // Should print: hello (no newline) - NEEDS FIX
+//     ft_printf("\n");  // Add newline for clarity
 
-//     // Run tests first
-//     // run_tests(envp);
+//     // Test pwd
+//     char *pwd_args[] = {"pwd", NULL};
+//     t_cmd pwd_cmd = {.args = pwd_args, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing pwd ===\n");
+//     execute_builtin(&pwd_cmd, env);
 
-//     // Then run your normal shell
-//     setup_signals();
-//     minishell_loop(envp);
-//     return (0);
+//     // Test cd
+//     char *cd_args[] = {"cd", "..", NULL};
+//     t_cmd cd_cmd = {.args = cd_args, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing cd ===\n");
+//     ft_printf("Before cd:\n");
+//     execute_builtin(&pwd_cmd, env);
+//     execute_builtin(&cd_cmd, env);
+//     ft_printf("After cd:\n");
+//     execute_builtin(&pwd_cmd, env);
+
+//     // Test env
+//     char *env_args[] = {"env", NULL};
+//     t_cmd env_cmd = {.args = env_args, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing env ===\n");
+//     execute_builtin(&env_cmd, env);
 // }
 
+// void test_external_commands(t_list *env)
+// {
+//     // Test existing command
+//     char *ls_args[] = {"ls", "-l", NULL};
+//     t_cmd ls_cmd = {.args = ls_args, .redirections = NULL, .next = NULL};
+    
+//     // ft_printf("\n=== Testing ls -l ===\n");
+//     // execute_external(&ls_cmd, env);
+
+//     // Test non-existent command
+//     char *fake_args[] = {"nonexistent", NULL};
+//     t_cmd fake_cmd = {.args = fake_args, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing non-existent command ===\n");
+//     execute_external(&fake_cmd, env);
+
+//     // Test command with full path
+//     char *path_args[] = {"/bin/echo", "hello", NULL};
+//     t_cmd path_cmd = {.args = path_args, .redirections = NULL, .next = NULL};
+    
+//     ft_printf("\n=== Testing command with full path ===\n");
+//     execute_external(&path_cmd, env);
+// }
+
+// // In your main or a separate test function:
+// void run_tests(char **envp)
+// {
+//     t_list *env;
+    
+//     env = create_env_list(envp);
+//     if (!env)
+//         return;
+
+//     ft_printf("\n=== Starting Tests ===\n");
+    
+//     test_builtins(env);
+//     test_external_commands(env);
+    
+//     ft_printf("\n=== Tests Complete ===\n");
+    
+//     ft_lstclear(&env, free);
+// }
 int main(int argc, char **argv, char **envp)
 {
-    t_list  *env;
-    t_cmd   *cmd_list;
-
     (void)argc;
     (void)argv;
 
-    env = create_env_list(envp);
+    // Run tests first
+    // run_tests(envp);
 
-    // Test input parsing
-    char *test_input = "echo hello | wc -l";
-    ft_printf("Parsing test input: %s\n", test_input);
-    cmd_list = parse_input(test_input, env);
-    
-    if (cmd_list)
-        print_cmd_list(cmd_list); // Debug function from p_cmd_list.c
-
-    free_cmd_list(cmd_list); // Clean up memory
-    ft_lstclear(&env, free);
-
+    // Then run your normal shell
+    setup_signals();
+    minishell_loop(envp);
     return (0);
 }
+
+// int main(int argc, char **argv, char **envp)
+// {
+//     t_list  *env;
+//     t_cmd   *cmd_list;
+
+//     (void)argc;
+//     (void)argv;
+
+//     env = create_env_list(envp);
+
+//     // Test input parsing
+//     // char *test_input = "echo hello | wc -l";
+//     // ft_printf("Parsing test input: %s\n", test_input);
+//     // cmd_list = parse_input(test_input, env);
+    
+//     // if (cmd_list)
+//     //     print_cmd_list(cmd_list); // Debug function from p_cmd_list.c
+
+//     free_cmd_list(cmd_list); // Clean up memory
+//     ft_lstclear(&env, free);
+
+//     return (0);
+// }

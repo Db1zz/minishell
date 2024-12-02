@@ -6,21 +6,29 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/28 13:14:04 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:34:50 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
 
-static void	setup_pipe_fds(int index, int pipes[2][2], t_cmd *cmd)
+static void	setup_pipe_fds(int index, int pipes[][2], t_cmd *cmd)
 {
+	/*
+		ls | ls | ls | ls
+		0
+		index == 0
+
+		we need to open child and get the input from it connected to a second child
+		instead of working on main processes
+	*/
 	if (index > 0)
 		dup2(pipes[index - 1][0], STDIN_FILENO);
 	if (cmd->next)
 		dup2(pipes[index][1], STDOUT_FILENO);
 }
 
-static void	close_child_pipes(int index, int pipes[2][2])
+static void	close_child_pipes(int index, int pipes[][2])
 {
 	while (index > 0)
 	{
@@ -30,7 +38,7 @@ static void	close_child_pipes(int index, int pipes[2][2])
 	}
 }
 
-static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[2][2])
+static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[][2])
 {
 	setup_pipe_fds(index, pipes, cmd);
 	close_child_pipes(index, pipes);
@@ -44,7 +52,7 @@ static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[2][2])
 	exit(EXIT_FAILURE);
 }
 
-int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[2][2], int cmd_count)
+int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
 {
 	pid_t   pid;
     int     status;

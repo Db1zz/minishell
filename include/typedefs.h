@@ -25,7 +25,6 @@ typedef struct s_cmd
 {
 	char			**args;
 	struct s_token	*redirections;
-	struct s_token	*pipe;
 	struct s_cmd	*next;
 }	t_cmd;
 

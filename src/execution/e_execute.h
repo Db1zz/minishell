@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/01 11:18:53 by zrz              ###   ########.fr       */
+/*   Updated: 2024/12/02 14:30:54 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define EXIT_MISUSE 2       // Builtin misuse
 # define EXIT_NOT_FOUND 127  // Command not found
 
+// Permisions
+# define FILE_PERMISSIONS 0644
 
 // Function type for builtin commands
 typedef int (*t_builtin_func)(char **args, t_list *env);
@@ -83,6 +85,11 @@ bool is_builtin(char *cmd);
 int		execute_builtin(t_cmd *cmd, t_list *env);
 
 // redirections
+typedef struct	s_redir_data
+{
+	int	fds[2];
+}	t_redir_data;
+
 int	setup_redirections(t_token *redirections);
 
 // pipes

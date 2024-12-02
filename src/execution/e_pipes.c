@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_pipes.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:36 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/01 10:59:29 by zrz              ###   ########.fr       */
+/*   Updated: 2024/12/02 15:19:59 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int count_cmds(t_cmd *cmd_list)
 	}
 	return (count);
 }
-void	close_pipes(int cmd_count, int pipes[2][2])
+void	close_pipes(int cmd_count, int pipes[][2])
 {
 	int	i;
 
@@ -37,7 +37,7 @@ void	close_pipes(int cmd_count, int pipes[2][2])
 	}
 }
 
-static int	create_pipes(int cmd_count, int pipes[2][2])
+static int	create_pipes(int cmd_count, int pipes[][2])
 {
 	int	i;
 
@@ -54,9 +54,8 @@ static int	create_pipes(int cmd_count, int pipes[2][2])
 int execute_pipeline(t_cmd *cmd_list, t_list *env)
 {
 	int		cmd_count;
-	int		pipes[2][2];
+	int		pipes[1024][2];
 	int		status;
-	//int		i;
 
 	cmd_count = count_cmds(cmd_list);
 	if (cmd_count == 1)
@@ -64,7 +63,7 @@ int execute_pipeline(t_cmd *cmd_list, t_list *env)
 	if (create_pipes(cmd_count, pipes) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	
-	//i = 0;
+
 	status = exec_pipe_cmds(cmd_list, env, pipes, cmd_count);
 	close_pipes(cmd_count, pipes);
 	return (status);
