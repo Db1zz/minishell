@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/28 15:41:36 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:59:35 by zrz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,8 @@ void	display_error(char *data, t_error error);
 bool	is_builtin(char *cmd);
 int		execute_builtin(t_cmd *cmd, t_list *env);
 int		execute_external(t_cmd *cmd, t_list *env);
+
+
+
 
 #endif // MINISHELL_H

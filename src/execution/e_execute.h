@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/11/28 15:47:18 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/01 11:18:53 by zrz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		execute_builtin(t_cmd *cmd, t_list *env);
 int	setup_redirections(t_token *redirections);
 
 // pipes
-int		exec_pipeline(t_cmd *cmd_list, t_list *env);
+int		execute_pipeline(t_cmd *cmd_list, t_list *env);
 int		exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[2][2], int cmd_count);
 void	close_pipes(int cmd_count, int pipes[2][2]);
 

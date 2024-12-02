@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 ARCH := $(shell uname -m)
 OS := $(shell uname -s)
-INCLUDE = -I src/execution -I include -I libft
+INCLUDE = -I src/execution -I include -I src/parsing -I libft 
 
 ifneq ($(ARCH), x86_64)
 	CFLAGS = -arch $(ARCH) -Wall -Wextra

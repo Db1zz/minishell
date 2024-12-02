@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/28 15:33:37 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:59:56 by zrz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
+#include "p_parsing.h"
 
 void    minishell_loop(char **envp)
 {
     char    *input;
     t_list  *env_list;
     t_cmd   *cmd_list;
-    int     status;
+    //int     status;
 
     env_list = create_env_list(envp);
     cmd_list = NULL;
@@ -132,16 +133,40 @@ void run_tests(char **envp)
     
     ft_lstclear(&env, free);
 }
+// int main(int argc, char **argv, char **envp)
+// {
+//     (void)argc;
+//     (void)argv;
+
+//     // Run tests first
+//     // run_tests(envp);
+
+//     // Then run your normal shell
+//     setup_signals();
+//     minishell_loop(envp);
+//     return (0);
+// }
+
 int main(int argc, char **argv, char **envp)
 {
+    t_list  *env;
+    t_cmd   *cmd_list;
+
     (void)argc;
     (void)argv;
 
-    // Run tests first
-    // run_tests(envp);
+    env = create_env_list(envp);
 
-    // Then run your normal shell
-    setup_signals();
-    minishell_loop(envp);
+    // Test input parsing
+    char *test_input = "echo hello | wc -l";
+    ft_printf("Parsing test input: %s\n", test_input);
+    cmd_list = parse_input(test_input, env);
+    
+    if (cmd_list)
+        print_cmd_list(cmd_list); // Debug function from p_cmd_list.c
+
+    free_cmd_list(cmd_list); // Clean up memory
+    ft_lstclear(&env, free);
+
     return (0);
 }
