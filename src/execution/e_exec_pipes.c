@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/02 15:34:50 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:31:19 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,38 @@ static void	setup_pipe_fds(int index, int pipes[][2], t_cmd *cmd)
 		dup2(pipes[index][1], STDOUT_FILENO);
 }
 
-static void	close_child_pipes(int index, int pipes[][2])
+static void	close_child_pipes(int index, int pipes[][2], int cmd_count)
 {
-	while (index > 0)
-	{
-		close(pipes[index -1][0]);
-		close(pipes[index][1]);
-		index--;
-	}
+    int i;
+
+    i = 0;
+    while (i < cmd_count - 1)
+    {
+        if (i != index - 1)
+            close(pipes[i][0]);
+        if (i != index)
+            close(pipes[i][1]);
+        i++;
+    }
 }
 
 static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[][2])
 {
+	int cmd_count;
+
+	cmd_count = 0;
+	t_cmd *tmp;
+
+	tmp = cmd;
+	
+	while (tmp)
+	{
+		cmd_count++;
+		tmp = tmp->next;
+	}
+
 	setup_pipe_fds(index, pipes, cmd);
-	close_child_pipes(index, pipes);
+	close_child_pipes(index, pipes, cmd_count);
 
 	if (is_builtin(cmd->args[0]))
 	{
@@ -69,11 +87,14 @@ int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
         }
         if (pid == 0)
             exec_piped_cmd(cmd_list, env, i, pipes);
+		if (pid > 0)
+			close(pipes[i - 1][0]); // close read end of previous pipe
+		if (i < cmd_count -1)
+			close(pipes[i][1]); //close write end of current pipe
         cmd_list = cmd_list->next;
         i++;
     }
-    i = 0;
-    while (i++ < cmd_count)
+    while (i-- > 0)
         wait(&status);
     return (WEXITSTATUS(status));
 }

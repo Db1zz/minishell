@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/02 15:09:30 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:39:36 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    minishell_loop(char **envp)
         }
         if (input == NULL)
         {
-            ft_printf("exit\n");
+            //ft_printf("exit\n");
             break ;
         }
         if (cmd_list)
