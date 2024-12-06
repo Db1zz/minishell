@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/02 14:51:51 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:56:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,11 @@ int execute_cmd(t_cmd *cmd, t_list *env)
 		}
 	}
 	if (cmd->next)
-	{
-    	printf("Executing pipeline\n");
-    	return execute_pipeline(cmd, env);
-	}
-
-	if (is_builtin(cmd->args[0]))
+    	status = execute_pipeline(cmd, env);
+	else if (is_builtin(cmd->args[0]))
 		status = execute_builtin(cmd,env);
 	else
 		status = execute_external(cmd, env);
-
 	restore_fds(og_fds);
 	return (status);
 }

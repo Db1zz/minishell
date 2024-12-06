@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/18 16:01:13 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:59:12 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ char **env_list_to_array(t_list *env)
 		current = current->next;
 	}
 	arr[i] = NULL;
-
 	return (arr);
 }

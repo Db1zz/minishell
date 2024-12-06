@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_exec_pipes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/04 14:42:14 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:53:34 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	close_child_pipes(int index, int pipes[][2], int cmd_count)
 static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[][2])
 {
 	int cmd_count;
+	int	child_status;
 
 	cmd_count = 0;
 	t_cmd *tmp;
@@ -60,14 +61,13 @@ static void exec_piped_cmd(t_cmd *cmd, t_list *env, int index, int pipes[][2])
 
 	setup_pipe_fds(index, pipes, cmd);
 	close_child_pipes(index, pipes, cmd_count);
-
 	if (is_builtin(cmd->args[0]))
 	{
 		execute_builtin(cmd, env);
 		exit(EXIT_SUCCESS);
 	}
-	execute_external(cmd, env);
-	exit(EXIT_FAILURE);
+	child_status = execute_external(cmd, env);
+	exit(child_status);
 }
 
 int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
@@ -90,11 +90,11 @@ int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
 		if (pid > 0)
 			close(pipes[i - 1][0]); // close read end of previous pipe
 		if (i < cmd_count -1)
-			close(pipes[i][1]); //close write end of current pipe
+			close(pipes[i][1]); // close write end of current pipe
         cmd_list = cmd_list->next;
         i++;
     }
     while (i-- > 0)
-        wait(&status);
+		waitpid(-1, &status, 0);
     return (WEXITSTATUS(status));
 }

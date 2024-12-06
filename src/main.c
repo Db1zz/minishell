@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/03 19:39:36 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:56:24 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ void    minishell_loop(char **envp)
             free(input);
         }
         if (input == NULL)
-        {
-            //ft_printf("exit\n");
             break ;
-        }
         if (cmd_list)
             free_cmd_list(cmd_list);
     }
