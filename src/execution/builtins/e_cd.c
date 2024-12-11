@@ -6,12 +6,13 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/28 15:46:07 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/11 22:10:00 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
 #include "minishell.h"
+#include <linux/limits.h>
 
 /*
 ** get_target_path - Get the target directory for cd
@@ -92,6 +93,21 @@ static int change_dir(const char *path)
 	return (EXIT_SUCCESS);
 }
 
+static void	update_env_var(t_list *env, const char *key, const char *value)
+{
+	t_list *var;
+	char *new_val;
+
+	var = find_env_var(env, key);
+	if (var)
+	{
+		free(var->content); // erase old value
+		new_val = ft_strjoin(key, "=");
+		new_val = ft_strjoin;
+	}
+
+}
+
 /*
 ** builtin_cd - Implements the cd command
 **
@@ -109,6 +125,7 @@ static int change_dir(const char *path)
 
 int builtin_cd(char **args, t_list *env)
 {
+	char	cwd[PATH_MAX];
 	char    *path;
 	int     ret;
 
@@ -118,9 +135,13 @@ int builtin_cd(char **args, t_list *env)
 		return (EXIT_FAILURE);
 	}
 
+	// Get target path
 	path = get_target_path(args, env);
 	if (!path)
 		return (handle_path_error(args));
+	
+	// Update OLDPWD
+	if (getcwd(cwd));
 
 	ret = change_dir(path);
 	free(path);

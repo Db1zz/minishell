@@ -46,6 +46,7 @@ SRCS =	src/main.c							\
 		src/execution/e_external.c			\
 		src/execution/e_exec_pipes.c		\
 		src/execution/e_redirections.c		\
+		src/execution/e_heredoc.c			\
 		src/execution/e_builtin_utils.c		\
 		src/execution/builtins/e_cd.c		\
 		src/execution/builtins/e_echo.c		\

@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/20 19:30:01 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:51:47 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,3 +140,5 @@ int builtin_export(char **args, t_list *env) // TODO: splitting func
 	}
 	return (status);
 }
+
+// var= should be considered a valid input and added to env

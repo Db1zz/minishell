@@ -6,14 +6,14 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/02 14:30:54 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:06:27 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef E_EXECUTE_H
 # define E_EXECUTE_H
 
-# include "typedefs.h"
+# include "../../include/typedefs.h"
 # include "libft.h"
 # include <sys/types.h> // pid_t
 # include <sys/wait.h>	//waitpid, WEXITSTATUS
@@ -91,6 +91,7 @@ typedef struct	s_redir_data
 }	t_redir_data;
 
 int	setup_redirections(t_token *redirections);
+int	heredoc_redirection(const char *delimiter);
 
 // pipes
 int		execute_pipeline(t_cmd *cmd_list, t_list *env);

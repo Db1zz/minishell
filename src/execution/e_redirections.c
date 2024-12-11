@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:40 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/02 14:43:24 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:50:50 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	output_redirection(char *file, bool to_append)
 	return (EXIT_SUCCESS);
 }
 
+
 int	setup_redirections(t_token *redirections)
 {
 	t_token *curr;
@@ -78,6 +79,8 @@ int	setup_redirections(t_token *redirections)
 			status = output_redirection(curr->value, false);
 		else if (curr->type == T_APPEND)
 			status = output_redirection(curr->value, true);
+		else if (curr->type == T_HEREDOC)
+			status = heredoc_redirection(curr->value);
 		if (status != EXIT_SUCCESS)
 			return (status);
 		curr = curr->next;
