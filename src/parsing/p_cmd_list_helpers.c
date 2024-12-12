@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:54:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/27 23:46:14 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:05:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ bool	is_redirection(t_token *token)
 	if (!token)
 		return (false);
 	return ((token->type == T_IN)
-			|| (token->type == T_OUT)
-			|| (token->type == T_HEREDOC)
-			|| (token->type == T_APPEND));
+		|| (token->type == T_OUT)
+		|| (token->type == T_HEREDOC)
+		|| (token->type == T_APPEND));
 }
 
 /**
@@ -47,6 +47,6 @@ bool	is_cmd_spearator(t_token *token)
 	if (!token)
 		return (false);
 	return (token->type == T_PIPE
-			|| token->type == T_AND
-			|| token->type == T_OR);
+		|| token->type == T_AND
+		|| token->type == T_OR);
 }

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 15:54:40 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:13:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,54 +24,58 @@ typedef struct s_buffer
 /*
 	p_parse.c
 */
-int		parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
-int		parse_quote(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
-int		parse_word(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
-int		parse_operator(char *str, t_buffer *buffer);
-t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes);
+int				parse_expansion(char *str, t_buffer *buffer,
+					t_list *env, t_error *e_codes);
+int				parse_quote(char *str, t_buffer *buffer,
+					t_list *env, t_error *e_codes);
+int				parse_word(char *str, t_buffer *buffer,
+					t_list *env, t_error *e_codes);
+int				parse_operator(char *str, t_buffer *buffer);
+t_cmd			*parse_input(char *input, t_list *env, t_error *e_codes);
+
+/*
+	p_parse_helpers.c
+*/
+bool			is_space(char c);
+bool			is_quote(char c);
+int				is_operator(const char *s);
+bool			is_metachar(const char *s);
+bool			is_word(const char *s);
+
+/*
+	p_expansion.c
+*/
+int				expand_variable(char *s, t_buffer *buffer, t_list *env);
+int				expand_error_code(t_buffer *buffer, t_error *e_codes);
+
+/*
+	p_token.c
+*/
+t_token			*alloc_token(t_token_type type, char *value);
+void			add_token(t_token **list, t_token *token);
+t_token			*tokenizer(char *input, t_list *env, t_error *error);
+bool			is_redirection(t_token *token);
+bool			is_cmd_spearator(t_token *token);
+
+/*
+	p_cmd_list.c
+*/
+t_cmd			*build_cmd_list(t_token *tokens, t_error *error);
+
+/*
+	p_mem_cleaner.c
+*/
+void			free_cmd_list(t_cmd *cmd_list);
+void			free_tokens(t_token *tokens);
+
+// =========================== DEBUG ONLY =========================== //
+void			print_tokens(t_token *tokens);
+void			print_cmd_list(t_cmd *cmd_table);
 
 /*
 	p_parse_utils.c
 */
 t_token_type	str_to_token_type(const char *s);
 int				skip_spaces(char const *s);
-
-/*
-	p_parse_helpers.c
-*/
-bool	is_space(char c);
-bool	is_quote(char c);
-int		is_operator(const char *s);
-bool	is_metachar(const char *s);
-bool	is_word(const char *s);
-
-/*
-	p_expansion.c
-*/
-int		expand_variable(char *s, t_buffer *buffer, t_list *env);
-
-/*
-	p_token.c
-*/
-t_token	*alloc_token(t_token_type type, char *value);
-void	add_token(t_token **list, t_token *token);
-t_token	*tokenizer(char *input, t_list *env, t_error *error);
-bool	is_redirection(t_token *token);
-bool	is_cmd_spearator(t_token *token);
-// =========================== DEBUG ONLY =========================== //
-void	print_tokens(t_token *tokens);
-
-/*
-	p_cmd_list.c
-*/
-t_cmd	*build_cmd_list(t_token *tokens, t_error *error);
-// =========================== DEBUG ONLY =========================== //
-void	print_cmd_list(t_cmd *cmd_table);
-
-/*
-	p_mem_cleaner.c
-*/
-void	free_cmd_list(t_cmd *cmd_list);
-void	free_tokens(t_token *tokens);
 
 #endif // P_PARSING_H

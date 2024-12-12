@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:34 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/02 15:07:12 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:14:16 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,13 @@ int	builtin_pwd(char **args, t_list *env)
 
 	(void)args;
 	(void)env;
-	// Getting the current working directory - getcwd
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
 		ft_dprintf(STDERR_FILENO, MSG_PWD_ERROR, strerror(errno));
 		return (EXIT_FAILURE);
 	}
-
-	// print path and clean shit up
 	printf("%s\n", pwd);
 	free(pwd);
-
 	return (EXIT_SUCCESS);
 }

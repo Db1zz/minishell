@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/20 19:50:20 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:13:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@
 
 static int	is_valid_identifier(const char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
 		return (0);
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
-
 	i = 1;
 	while (str[i])
 	{
@@ -37,10 +36,8 @@ static int	is_valid_identifier(const char *str)
 			return (0);
 		i++;
 	}
-
 	return (1);
 }
-
 
 /*
 ** A function to do the actual removing / 'unseting'
@@ -61,7 +58,7 @@ static int	remove_env_var(t_list *env, const char *name)
 	current = env;
 	while (current)
 	{
-		    while (current)
+		while (current)
 		{
 			equals = ft_strchr(current->content, '=');
 			if (equals && !ft_strncmp(current->content, name, name_len)
@@ -69,17 +66,14 @@ static int	remove_env_var(t_list *env, const char *name)
 			{
 				if (prev)
 					prev->next = current->next;
-				free(current->content);
-				free(current);
-				return (EXIT_SUCCESS);
+				return (free(current->content), free(current), EXIT_SUCCESS);
 			}
 			prev = current;
 			current = current->next;
 		}
 	}
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
-
 
 /*
 ** A mini 'main' function to manage it all:
@@ -94,9 +88,8 @@ int	builtin_unset(char **args, t_list *env)
 	int	i;
 	int	status;
 
-	if (!args[1]) // if there is nothing to remove / its already gone, it succeeds
+	if (!args[1])
 		return (EXIT_SUCCESS);
-
 	status = EXIT_SUCCESS;
 	i = 1;
 	while (args[i])
@@ -110,5 +103,5 @@ int	builtin_unset(char **args, t_list *env)
 			remove_env_var(env, args[i]);
 		i++;
 	}
-	return(status);
+	return (status);
 }
