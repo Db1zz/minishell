@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/28 15:45:16 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:08:20 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,24 @@ static int get_exit_code(const char *str)
 int builtin_exit(char **args, t_list *env)
 {
 	int exit_code;
-	
+
 	(void)env;
 	ft_printf("exit\n");
 
 	if (!args[1])
-		exit(0);
+		exit(EXIT_SUCCESS);
 
 	if (!is_num(args[1]))
 	{
 		ft_dprintf(STDERR_FILENO, "exit: %s: numeric argument required\n", 
 			args[1]);
-		exit(2);
+		exit(EXIT_MISUSE);
 	}
 
 	if (args[2])
 	{
 		ft_dprintf(STDERR_FILENO, "exit: too many arguments\n");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 
 	exit_code = get_exit_code(args[1]);

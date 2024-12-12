@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/11 20:06:27 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:50:18 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,15 @@
 # define MSG_UNSET_ERROR "unset: '%s': not a valid identifier\n"
 
 // Exit Status Codes (matching bash behavior)
-# define EXIT_SUCCESS 0      // Successful execution
-# define EXIT_FAILURE 1      // General errors
-# define EXIT_MISUSE 2       // Builtin misuse
-# define EXIT_NOT_FOUND 127  // Command not found
+# define EXIT_SUCCESS 0       	// Successful execution
+# define EXIT_FAILURE 1       	// General errors
+# define EXIT_MISUSE 2        	// Builtin misuse
+# define EXIT_ENV_ERROR 125		// env-specific errors (GNU coreutils behavior)
+# define EXIT_CMD_NOT_EXEC 126 	// Missing execute permissions
+# define EXIT_NOT_FOUND	127 // Command or dir not found
+# define EXIT_RANGE 128 		// Valid range of exit argument is from 0 to 255
+# define EXIT_TERMINATED 130  	// Control C was pressed to end script / exec
+# define EXIT_UNDEFINED 255		// Status not defined
 
 // Permisions
 # define FILE_PERMISSIONS 0644

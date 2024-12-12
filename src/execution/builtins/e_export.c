@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/12 14:22:41 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:28:58 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,24 @@ static int update_or_add_var(t_list **env, char *var)
 {
 	t_list	*existing;
 	char	*new_content;
+	char	*equal_ptr;
 
-	// make var copy
-	new_content = ft_strdup(var);
-	if (!new_content)
-		return (EXIT_FAILURE);
-
+	equal_ptr = ft_strchr(var, '=');
+	//if there is no =, create one for consistency
+	if (!equal_ptr)
+	{
+		char *tmp = ft_strjoin(var, "=");
+		if (!tmp)
+			return(EXIT_FAILURE);
+		new_content = tmp;
+	}
+	else
+	{
+		// If var already includes '=', just duplicate it
+        new_content = ft_strdup(var);
+        if (!new_content)
+            return (EXIT_FAILURE);
+	}
 	// Try to find existing var
 	existing = find_env_var(*env, var);
 	if (existing)
@@ -89,11 +101,8 @@ static int update_or_add_var(t_list **env, char *var)
 		free(existing->content);
 		existing->content = new_content;
 	}
-	else
-	{
-		// add new var to the list
+	else // add new var to the list
 		ft_lstadd_back(env, ft_lstnew(new_content));
-	}
 
 	return (EXIT_SUCCESS);
 }

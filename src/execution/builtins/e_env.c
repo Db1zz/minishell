@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_env.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrz <zrz@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:21:03 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/10/28 20:33:24 by zrz              ###   ########.fr       */
+/*   Updated: 2024/12/12 17:50:12 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	builtin_env(char **args, t_list *env)
 	if (args[1])
 	{
 		ft_dprintf(STDERR_FILENO, MSG_ENV_ERROR, "too many arguments");
-		return (EXIT_FAILURE);
+		return (EXIT_NOT_FOUND);
 	}
 
-	// Go trhoguh env list
+	// Go through env list
 	current = env;
 	while (current)
 	{
