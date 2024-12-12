@@ -6,11 +6,12 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 22:47:29 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/11 23:07:09 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:09:33 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
 /*
  * ft_strjoin_free - Concatenates two strings and optionally frees the inputs.
@@ -27,7 +28,7 @@
  * - NULL if memory allocation fails.
  */
 
-char *ft_strjoin_free(char *s1, char *s2, int free_flag)
+char *ft_strjoin_free(char *s1, const char *s2, int free_flag)
 {
 	char	*result;
 	size_t	len1; 

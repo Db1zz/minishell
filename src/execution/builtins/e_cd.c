@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/11 22:10:00 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:10:17 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,26 @@ static int change_dir(const char *path)
 	return (EXIT_SUCCESS);
 }
 
+
 static void	update_env_var(t_list *env, const char *key, const char *value)
 {
 	t_list *var;
 	char *new_val;
 
-	var = find_env_var(env, key);
-	if (var)
+	var = get_env_node(env, key);
+	if (var) // update existing env var
 	{
 		free(var->content); // erase old value
-		new_val = ft_strjoin(key, "=");
-		new_val = ft_strjoin;
+		new_val = ft_strjoin(key, "="); // combine key =
+		new_val = ft_strjoin_free(new_val, value, 1); // add the value and free first string
+		var->content = new_val; // updates the var
 	}
-
+	else //add a new env var
+	{
+		new_val = ft_strjoin(key, "=");
+		new_val = ft_strjoin_free(new_val, value, 1);
+		ft_lstadd_back(&env, ft_lstnew(new_val)); // add new variable to list
+	}
 }
 
 /*
@@ -140,11 +147,15 @@ int builtin_cd(char **args, t_list *env)
 	if (!path)
 		return (handle_path_error(args));
 	
-	// Update OLDPWD
-	if (getcwd(cwd));
-
+	// Update OLDPWD bfr changing dirs
+	if (getcwd(cwd, sizeof(cwd)))
+		update_env_var(env, "OLDPWD", cwd);
 	ret = change_dir(path);
 	free(path);
+
+	// Update PWD on success
+	if (ret == EXIT_SUCCESS && getcwd(cwd, sizeof(cwd)))
+		update_env_var(env, "PWD", cwd);
 	return (ret);
 }
 

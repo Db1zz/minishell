@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/06 15:51:47 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:22:41 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	is_valid_identifier(const char *str)
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
 
-	// rest can be letters, numbers or underscore
+	// rest can be letters, numbers or underscore until '== is found
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{

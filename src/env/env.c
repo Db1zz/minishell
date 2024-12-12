@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/06 14:59:12 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:50:40 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,25 @@ char	*get_env(t_list *env_list, char *key)
 		env_list = env_list->next;
 	}
 	return (NULL);
+}
+
+t_list *get_env_node(t_list *env, const char *key)
+{
+	t_list	*current;
+	char *content;
+	size_t	key_len;
+
+	current = env;
+	key_len = ft_strlen(key);
+
+	while (current)
+	{
+		content = (char *)current->content; // cast content to char to go through it
+		if (ft_strncmp(current->content, key, key_len) == 0 && content[key_len] == '=')
+			return (current); //return the node to the environment variable
+		current = current->next; //if not yet found, continue
+	}
+	return (NULL); // not found
 }
 
 t_list	*create_env_list(char **envp)
