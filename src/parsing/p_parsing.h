@@ -6,25 +6,29 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:11:27 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:54:40 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef P_PARSING_H
+# define P_PARSING_H
 
 # include "../../include/minishell.h"
+
+typedef struct s_buffer
+{
+	char	array[ARG_BUFF_SIZE];
+	int		index;
+}	t_buffer;
 
 /*
 	p_parse.c
 */
-int	parse_expansion(char *str, char buffer[], int *buffer_index, t_list *env);
-int	parse_quote(char *str, char buffer[], int *buff_index, t_list *env, 
-		t_error *error);
-int	parse_word(char *str, char buffer[], int *buff_index, t_list *env,
-		t_error *error);
-int	parse_operator(char *str, char buffer[], int *buff_index);
-t_cmd	*parse_input(char *input, t_list *env);
+int		parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
+int		parse_quote(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
+int		parse_word(char *str, t_buffer *buffer, t_list *env, t_error *e_codes);
+int		parse_operator(char *str, t_buffer *buffer);
+t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes);
 
 /*
 	p_parse_utils.c
@@ -44,7 +48,7 @@ bool	is_word(const char *s);
 /*
 	p_expansion.c
 */
-int		expand_variable(char *s, char buffer[], int *buffer_index, t_list *env);
+int		expand_variable(char *s, t_buffer *buffer, t_list *env);
 
 /*
 	p_token.c
@@ -69,6 +73,5 @@ void	print_cmd_list(t_cmd *cmd_table);
 */
 void	free_cmd_list(t_cmd *cmd_list);
 void	free_tokens(t_token *tokens);
-void	clean_memory(t_cmd *cmd_table, t_token *tokens);
 
-#endif // PARSING_H
+#endif // P_PARSING_H

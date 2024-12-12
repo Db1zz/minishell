@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:04:52 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:40:10 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 /*
 	TODO: $(), $, $?, $VAR_NAME123, $1, ${13} $((2+2*2)) ;)
 */
-int	expand_variable(char *s, char buffer[], int *buffer_index, t_list *env)
+int	expand_variable(char *s, t_buffer *buffer, t_list *env)
 {
 	int		i;
 	char	*key;
@@ -31,11 +31,16 @@ int	expand_variable(char *s, char buffer[], int *buffer_index, t_list *env)
 		val = ft_substr(env_val, i + 1, ft_strlen(env_val + i));
 		if (val && *val)
 		{
-			ft_strncpy(&buffer[*buffer_index], val, ft_strlen(val));
-			*buffer_index += ft_strlen(val);
+			ft_strncpy(&buffer->array[buffer->index], val, ft_strlen(val));
+			buffer->index += ft_strlen(val);
 		}
 		free(val);
 	}
 	free(key);
 	return (i);
+}
+
+int	expand_error_code()
+{
+	
 }

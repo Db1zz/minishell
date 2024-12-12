@@ -11,7 +11,8 @@ typedef enum s_token_type
 	T_WORD,
 	T_PIPE,
 	T_AND,
-	T_OR
+	T_OR,
+	T_ERROR_CODE
 }	t_token_type;
 
 typedef struct s_token

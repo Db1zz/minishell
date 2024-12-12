@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 13:39:32 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:59:00 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 /*
 	parsing functions
 */
-t_cmd	*parse_input(char *input, t_list *env);
+t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes);
 void	free_cmd_list(t_cmd *cmd_list);
 
 /*

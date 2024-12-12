@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_cmd_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/11/27 14:18:04 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:59:51 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_token *get_redirection(t_token **tokens, t_error *error)
 	redirection->type = (*tokens)->type;
 	if (!(*tokens)->next || (*tokens)->next->type != T_WORD)
 	{
-		*error = ERROR_SYNTAX_ERROR;
+		error->parsing = ERROR_SYNTAX_ERROR;
 		if ((*tokens)->next)
 			err_msg_val = (*tokens)->next->value;
 		else
@@ -58,7 +58,7 @@ static t_cmd	*extract_cmd(t_token **tokens, t_error *error)
 	arg_index = 0;
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	cmd->args = ft_calloc(args_size + 1, sizeof(char *));
-	while ((*tokens) && !is_cmd_spearator(*tokens) && !*error)
+	while ((*tokens) && !is_cmd_spearator(*tokens) && !error->parsing)
 	{
 		if (is_redirection(*tokens))
 			add_token(&cmd->redirections, get_redirection(tokens, error));
@@ -80,7 +80,7 @@ t_cmd	*build_cmd_list(t_token *tokens, t_error *error)
 	if (!tokens)
 		return (NULL);
 	cmd_list = NULL;
-	while (tokens && !*error)
+	while (tokens && !error->parsing)
 	{
 		cmd = extract_cmd(&tokens, error);
 		if (!cmd_list)
