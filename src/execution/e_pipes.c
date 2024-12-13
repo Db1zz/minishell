@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:36 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/12 17:39:17 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:33:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ static int	create_pipes(int cmd_count, int pipes[][2])
 	return (EXIT_SUCCESS);
 }
 
-int	execute_pipeline(t_cmd *cmd_list, t_list *env)
+int	execute_pipeline(t_shell *shell)
 {
 	int	cmd_count;
 	int	pipes[1024][2];
 	int	status;
 
-	cmd_count = count_cmds(cmd_list);
+	cmd_count = count_cmds(shell->cmds);
 	if (cmd_count == 1)
-		return (execute_cmd(cmd_list, env));
+		return (execute_cmd(shell));
 	if (create_pipes(cmd_count, pipes) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	status = exec_pipe_cmds(cmd_list, env, pipes, cmd_count);
+	status = exec_pipeline_routine(shell, pipes, cmd_count);
 	close_pipes(cmd_count, pipes);
 	return (status);
 }

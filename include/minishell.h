@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 17:13:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:39:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	setup_signals(void);
 */
 void	print_2dmatrix(char const **matrix);
 void	free_2dmatrix(char **matrix);
+t_shell	*init_shell(char **envp);
+void	destroy_shell(t_shell *shell);
 
 /*
 	env.c
@@ -61,7 +63,7 @@ char	**env_list_to_array(t_list *env);
 	execution
 */
 bool	is_builtin(char *cmd);
-int		execute_builtin(t_cmd *cmd, t_list *env);
-int		execute_external(t_cmd *cmd, t_list *env);
+int		execute_builtin(t_cmd *cmd, t_shell *env);
+int		execute_external(t_cmd *cmd, t_shell *env);
 
 #endif // MINISHELL_H

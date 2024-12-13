@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/11/21 17:45:41 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:38:18 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static int	check_flag(char **args, int *newline)
 ** echo -n             -> prints: nothing
 */
 
-int	builtin_echo(char **args, t_list *env)
+int	builtin_echo(char **args, t_shell *shell)
 {
 	int		i;
 	int	newline;
 
-	(void)env;
+	(void)shell;
 
 
 	i = check_flag(args, &newline); // check for -n flag

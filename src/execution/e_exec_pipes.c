@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/12 18:20:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:33:53 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,15 @@ static int	setup_pipes_and_redirections(int index, int pipes[][2],
 	return (status);
 }
 
-int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
+int	exec_pipeline_routine(t_shell *shell, int pipes[][2], int cmd_count)
 {
 	pid_t	pid;
 	int		status;
 	int		i;
+	t_cmd	*cmd_list;
 
 	i = 0;
+	cmd_list = shell->cmds;
 	while (i < cmd_count)
 	{
 		pid = fork();
@@ -80,8 +82,8 @@ int	exec_pipe_cmds(t_cmd *cmd_list, t_list *env, int pipes[][2], int cmd_count)
 			status = setup_pipes_and_redirections(i, pipes,
 					cmd_count, cmd_list);
 			if (is_builtin(cmd_list->args[0]))
-				execute_builtin(cmd_list, env);
-			exit(execute_external(cmd_list, env));
+				execute_builtin(cmd_list, shell);
+			exit(execute_external(cmd_list, shell));
 		}
 		cmd_list = cmd_list->next;
 		i++;

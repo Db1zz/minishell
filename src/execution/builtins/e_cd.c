@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/12 14:10:17 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:38:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void	update_env_var(t_list *env, const char *key, const char *value)
 ** - Prints appropriate error messages to stderr
 */
 
-int builtin_cd(char **args, t_list *env)
+int builtin_cd(char **args, t_shell *shell)
 {
 	char	cwd[PATH_MAX];
 	char    *path;
@@ -143,19 +143,19 @@ int builtin_cd(char **args, t_list *env)
 	}
 
 	// Get target path
-	path = get_target_path(args, env);
+	path = get_target_path(args, shell->env);
 	if (!path)
 		return (handle_path_error(args));
 	
 	// Update OLDPWD bfr changing dirs
 	if (getcwd(cwd, sizeof(cwd)))
-		update_env_var(env, "OLDPWD", cwd);
+		update_env_var(shell->env, "OLDPWD", cwd);
 	ret = change_dir(path);
 	free(path);
 
 	// Update PWD on success
 	if (ret == EXIT_SUCCESS && getcwd(cwd, sizeof(cwd)))
-		update_env_var(env, "PWD", cwd);
+		update_env_var(shell->env, "PWD", cwd);
 	return (ret);
 }
 

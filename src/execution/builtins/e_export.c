@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:13 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 15:59:19 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:37:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	update_or_add_var(t_list **env, char *var)
 **
 ** With args: adds/updates environment variables
 */
-int	builtin_export(char **args, t_list *env)
+int	builtin_export(char **args, t_shell *shell)
 {
 	int		i;
 	int		status;
@@ -115,7 +115,7 @@ int	builtin_export(char **args, t_list *env)
 
 	if (!args[1])
 	{
-		current = env;
+		current = shell->env;
 		while (current)
 		{
 			printf("declare -x %s\n", (char *)current->content);
@@ -132,7 +132,7 @@ int	builtin_export(char **args, t_list *env)
 			ft_dprintf(STDERR_FILENO, MSG_EXPORT_ERROR, args[i]);
 			status = EXIT_FAILURE;
 		}
-		else if (update_or_add_var(&env, args[i]) != EXIT_SUCCESS)
+		else if (update_or_add_var(&shell->env, args[i]) != EXIT_SUCCESS)
 			status = EXIT_FAILURE;
 		i++;
 	}

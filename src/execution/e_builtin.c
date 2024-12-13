@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:14 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/12 18:11:41 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:36:05 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool	is_builtin(char *cmd)
 ** - Exit status of the builtin command (0 for success)
 ** - EXIT_FAILURE if command not found or error
 */
-int	execute_builtin(t_cmd *cmd, t_list *env)
+int	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
 	t_builtin	builtins[8];
 	int			i;
@@ -77,7 +77,7 @@ int	execute_builtin(t_cmd *cmd, t_list *env)
 	while (builtins[i].name)
 	{
 		if (!strcmp(cmd->args[0], builtins[i].name))
-			return (builtins[i].func(cmd->args, env));
+			return (builtins[i].func(cmd->args, shell));
 		i++;
 	}
 	return (EXIT_FAILURE);

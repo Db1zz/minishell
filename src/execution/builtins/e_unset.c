@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 15:59:23 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:36:40 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	remove_env_var(t_list *env, const char *name)
 ** Returns 0 on success, 1 if any argument is invalid
 */
 
-int	builtin_unset(char **args, t_list *env)
+int	builtin_unset(char **args, t_shell *shell)
 {
 	int	i;
 	int	status;
@@ -100,7 +100,7 @@ int	builtin_unset(char **args, t_list *env)
 			status = EXIT_FAILURE;
 		}
 		else
-			remove_env_var(env, args[i]);
+			remove_env_var(shell->env, args[i]);
 		i++;
 	}
 	return (status);

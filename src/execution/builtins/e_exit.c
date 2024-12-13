@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   e_exit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/12 18:08:20 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:03:12 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
+#include "minishell.h"
 #include <limits.h>
 
 /*
@@ -77,29 +78,24 @@ static int get_exit_code(const char *str)
 ** n is optional exit code (0-255)
 ** Without n, uses last command's exit status
 */
-int builtin_exit(char **args, t_list *env)
+int builtin_exit(char **args, t_shell *shell)
 {
 	int exit_code;
 
-	(void)env;
-	ft_printf("exit\n");
-
+	(void)shell;
 	if (!args[1])
-		exit(EXIT_SUCCESS);
-
+		(destroy_shell(shell), exit(EXIT_SUCCESS));
 	if (!is_num(args[1]))
 	{
 		ft_dprintf(STDERR_FILENO, "exit: %s: numeric argument required\n", 
 			args[1]);
-		exit(EXIT_MISUSE);
+		return (EXIT_MISUSE);
 	}
-
 	if (args[2])
 	{
 		ft_dprintf(STDERR_FILENO, "exit: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-
 	exit_code = get_exit_code(args[1]);
-	exit(exit_code);
+	(destroy_shell(shell), exit(exit_code));
 }

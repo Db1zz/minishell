@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/12 17:59:10 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:18:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ static void	restore_fds(int og_fds[2])
 **	main entry point for command execution,
 **	which then delegates to either builtin or external command handling.
 */
-int	execute_cmd(t_cmd *cmd, t_list *env)
+int	execute_cmd(t_shell *shell)
 {
 	int	og_fds[2];
 	int	status;
+	t_cmd	*cmd;
 
+	cmd = shell->cmds;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (EXIT_SUCCESS);
 	save_fds(og_fds);
@@ -49,11 +51,11 @@ int	execute_cmd(t_cmd *cmd, t_list *env)
 		}
 	}
 	if (cmd->next)
-		status = execute_pipeline(cmd, env);
+		status = execute_pipeline(shell);
 	else if (is_builtin(cmd->args[0]))
-		status = execute_builtin(cmd, env);
+		status = execute_builtin(cmd, shell);
 	else
-		status = execute_external(cmd, env);
+		status = execute_external(cmd, shell);
 	restore_fds(og_fds);
 	return (status);
 }

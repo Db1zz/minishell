@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/13 15:59:30 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:34:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define FILE_PERMISSIONS 0644
 
 // Function type for builtin commands
-typedef int	(*t_builtin_func)(char **args, t_list *env);
+typedef int	(*t_builtin_func)(char **args, t_shell *shell);
 
 // Built in comman struct
 // maps cmds to their implementation to be + simple
@@ -64,8 +64,8 @@ typedef struct s_builtin
 /* Prototypes */
 
 // main exec
-int		execute_cmd(t_cmd *cmd, t_list *env);
-int		execute_external(t_cmd *cmd, t_list *env);
+int		execute_cmd(t_shell *shell);
+int		execute_external(t_cmd *cmd, t_shell *shell);
 
 // Path handling function (used by external execution)
 char	*find_cmd_path(char *cmd, t_list *env);
@@ -75,18 +75,18 @@ char	*find_cmd_path(char *cmd, t_list *env);
 	the prototypes follow the same structure for simplicity,
 	when not needed, env set to void
 */
-int		builtin_echo(char **args, t_list *env);
-int		builtin_cd(char **args, t_list *env);
-int		builtin_pwd(char **args, t_list *env);
-int		builtin_env(char **args, t_list *env);
-int		builtin_export(char **args, t_list *env);
-int		builtin_unset(char **args, t_list *env);
-int		builtin_exit(char **args, t_list *env);
+int		builtin_echo(char **args, t_shell *shell);
+int		builtin_cd(char **args, t_shell *shell);
+int		builtin_pwd(char **args, t_shell *shell);
+int		builtin_env(char **args, t_shell *shell);
+int		builtin_export(char **args, t_shell *shell);
+int		builtin_unset(char **args, t_shell *shell);
+int		builtin_exit(char **args, t_shell *shell);
 bool	is_builtin(char *cmd);
 
 // Builtin utilities
 //int		is_builtin(char *cmd);
-int		execute_builtin(t_cmd *cmd, t_list *env);
+int		execute_builtin(t_cmd *cmd, t_shell *shell);
 
 // redirections
 typedef struct s_redir_data
@@ -98,9 +98,7 @@ int		setup_redirections(t_token *redirections);
 int		heredoc_redirection(const char *delimiter);
 
 // pipes
-int		execute_pipeline(t_cmd *cmd_list, t_list *env);
-int		exec_pipe_cmds(t_cmd *cmd_list, t_list *env,
-			int pipes[2][2], int cmd_count);
-void	close_pipes(int cmd_count, int pipes[2][2]);
+int		exec_pipeline_routine(t_shell *shell, int pipes[][2], int cmd_count);
+int		execute_pipeline(t_shell *shell);
 
 #endif // EXECUTE_H
