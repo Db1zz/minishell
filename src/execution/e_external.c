@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_external.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:28:41 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/12 17:50:33 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:59:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 static void	execute_child(char *cmd_path, t_cmd *cmd, t_list *env)
 {
-	char **envp;
+	char	**envp;
 
 	envp = env_list_to_array(env);
 	execve(cmd_path, cmd->args, envp);
-	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
+	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",
 		cmd->args[0], strerror(errno));
 	free_2dmatrix(envp);
 	free(cmd_path);
@@ -28,16 +28,16 @@ static void	execute_child(char *cmd_path, t_cmd *cmd, t_list *env)
 
 int	execute_external(t_cmd *cmd, t_list *env)
 {
-	char    *cmd_path;
-	pid_t   pid;
-	int     status;
+	char	*cmd_path;
+	pid_t	pid;
+	int		status;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (EXIT_FAILURE);
 	cmd_path = find_cmd_path(cmd->args[0], env);
 	if (!cmd_path)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", 
+		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",
 			cmd->args[0]);
 		return (EXIT_NOT_FOUND);
 	}

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:15:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 15:57:25 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:14:39 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*alloc_token(t_token_type type, char *value)
 
 	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
-		return (ft_printf("Calloc error\n"), NULL); // TODO: handle error
+		return (ft_dprintf(STDERR_FILENO, "Calloc error\n"), NULL);
 	token->type = type;
 	token->value = value;
 	return (token);

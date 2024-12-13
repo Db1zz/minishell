@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 15:59:00 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:13:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ char	*get_env(t_list *env_list, char *key);
 t_list	*get_env_node(t_list *env, const char *key);
 t_list	*create_env_list(char **envp);
 char	**env_list_to_array(t_list *env);
-/*
-	error.c
-*/
-void	display_error(char *data, t_error error);
 
 /*
 	execution
@@ -67,8 +63,5 @@ void	display_error(char *data, t_error error);
 bool	is_builtin(char *cmd);
 int		execute_builtin(t_cmd *cmd, t_list *env);
 int		execute_external(t_cmd *cmd, t_list *env);
-
-
-
 
 #endif // MINISHELL_H

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 15:59:51 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:15:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static size_t	count_args(t_token *tokens)
 	return (result);
 }
 
-static t_token *get_redirection(t_token **tokens, t_error *error)
+static t_token	*get_redirection(t_token **tokens, t_error *error)
 {
 	t_token	*redirection;
 	char	*err_msg_val;
@@ -54,7 +54,7 @@ static t_cmd	*extract_cmd(t_token **tokens, t_error *error)
 	const size_t	args_size = count_args(*tokens);
 	t_cmd			*cmd;
 	int				arg_index;
-	
+
 	arg_index = 0;
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	cmd->args = ft_calloc(args_size + 1, sizeof(char *));

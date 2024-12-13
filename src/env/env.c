@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 13:50:40 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:29:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int get_env_size(t_list *env)
+static int	get_env_size(t_list *env)
 {
-	int     size;
-	t_list  *current;
+	int		size;
+	t_list	*current;
 
 	size = 0;
 	current = env;
@@ -40,31 +40,31 @@ char	*get_env(t_list *env_list, char *key)
 	{
 		equal_sign = ft_strchr((char *)env_list->content, '=');
 		env_key_len = equal_sign - (char *)env_list->content;
-		if (env_key_len == key_len &&
-				ft_strncmp((char *)env_list->content, key, key_len) == 0)
+		if (env_key_len == key_len
+			&& ft_strncmp((char *)env_list->content, key, key_len) == 0)
 			return ((char *)env_list->content);
 		env_list = env_list->next;
 	}
 	return (NULL);
 }
 
-t_list *get_env_node(t_list *env, const char *key)
+t_list	*get_env_node(t_list *env, const char *key)
 {
 	t_list	*current;
-	char *content;
+	char	*content;
 	size_t	key_len;
 
 	current = env;
 	key_len = ft_strlen(key);
-
 	while (current)
 	{
-		content = (char *)current->content; // cast content to char to go through it
-		if (ft_strncmp(current->content, key, key_len) == 0 && content[key_len] == '=')
-			return (current); //return the node to the environment variable
-		current = current->next; //if not yet found, continue
+		content = (char *)current->content;
+		if (ft_strncmp(current->content, key, key_len) == 0
+			&& content[key_len] == '=')
+			return (current);
+		current = current->next;
 	}
-	return (NULL); // not found
+	return (NULL);
 }
 
 t_list	*create_env_list(char **envp)
@@ -79,16 +79,15 @@ t_list	*create_env_list(char **envp)
 	return (env_list);
 }
 
-char **env_list_to_array(t_list *env)
+char	**env_list_to_array(t_list *env)
 {
-	char    **arr;
-	t_list  *current;
-	int     i;
+	char	**arr;
+	t_list	*current;
+	int		i;
 
 	arr = malloc(sizeof(char *) * (get_env_size(env) + 1));
 	if (!arr)
 		return (NULL);
-
 	i = 0;
 	current = env;
 	while (current)

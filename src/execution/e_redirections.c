@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   e_redirections.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:40 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/11 19:50:50 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:37:58 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
 
-static int input_redirection(char *file)
+static int	input_redirection(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY, FILE_PERMISSIONS);
 	if (fd < 0)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",
 			file, strerror(errno));
 		return (EXIT_FAILURE);
 	}
@@ -40,8 +40,8 @@ static int input_redirection(char *file)
 */
 static int	output_redirection(char *file, bool to_append)
 {
-	int fd;
-	int flags;
+	int	fd;
+	int	flags;
 
 	flags = O_WRONLY | O_CREAT;
 	if (to_append)
@@ -51,7 +51,7 @@ static int	output_redirection(char *file, bool to_append)
 	fd = open(file, flags, FILE_PERMISSIONS);
 	if (fd < 0)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", 
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",
 			file, strerror(errno));
 		return (EXIT_FAILURE);
 	}
@@ -64,10 +64,9 @@ static int	output_redirection(char *file, bool to_append)
 	return (EXIT_SUCCESS);
 }
 
-
 int	setup_redirections(t_token *redirections)
 {
-	t_token *curr;
+	t_token	*curr;
 	int		status;
 
 	curr = redirections;

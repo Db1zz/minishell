@@ -6,13 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 16:40:10 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:57:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 /*
-	TODO: $(), $, $?, $VAR_NAME123, $1, ${13} $((2+2*2)) ;)
+	TODO: $(), $, $?, $	, $1, ${13} $((2+2*2)) ;)
 */
 int	expand_variable(char *s, t_buffer *buffer, t_list *env)
 {
@@ -40,7 +40,15 @@ int	expand_variable(char *s, t_buffer *buffer, t_list *env)
 	return (i);
 }
 
-int	expand_error_code()
+int	expand_error_code(t_buffer *buffer, t_error *e_codes)
 {
-	
+	char	*err_code_str;
+	size_t	str_size;
+
+	err_code_str = ft_itoa(e_codes->exit);
+	str_size = ft_strlen(err_code_str);
+	ft_strncpy(&buffer->array[buffer->index], err_code_str, str_size);
+	buffer->index += str_size;
+	free(err_code_str);
+	return (1);
 }

@@ -6,14 +6,14 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:24:24 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 16:40:09 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:06:02 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 
 int	parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
-{	
+{
 	int	i;
 
 	i = 1;
@@ -22,7 +22,7 @@ int	parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
 	if (ft_isalpha(str[i]) || str[i] == '_')
 		i += expand_variable(str + i, buffer, env);
 	else if (str[i] == '?')
-		i += expand_error_code();
+		i += expand_error_code(buffer, e_codes);
 	else
 		buffer->array[buffer->index++] = '$';
 	return (i);
@@ -105,6 +105,5 @@ t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes)
 		free_cmd_list(cmd_list);
 		cmd_list = NULL;
 	}
-	print_cmd_list(cmd_list); // Debug Only
 	return (free_tokens(tokens), cmd_list);
 }
