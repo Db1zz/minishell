@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 23:38:03 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 02:01:34 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:45:16 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ size_t	get_env_size(t_env *env)
 	return (size);
 }
 
+t_env	*get_env(t_env *env, const char *key)
+{
+	t_env	*current;
+
+	if (!key)
+		return (NULL);
+	current = env;
+	while (current)
+	{
+		if (current->key && ft_strcmp(current->key, key) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
+}
+
 char	**env_list_to_array(t_env *env)
 {
 	char	**arr;
@@ -63,9 +79,14 @@ char	**env_list_to_array(t_env *env)
 	current = env;
 	while (current)
 	{
-		temp = ft_strjoin(current->key, "=");
-		arr[i] = ft_strjoin(temp, current->value);
-		free(temp);
+		if (current->value)
+		{
+			temp = ft_strjoin(current->key, "=");
+			arr[i] = ft_strjoin(temp, current->value);
+			free(temp);
+		}
+		else
+			arr[i] = ft_strdup(current->key);
 		if (!arr[i])
 		{
 			free_2dmatrix(arr);

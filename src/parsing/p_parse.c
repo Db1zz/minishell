@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_parse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:24:24 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 15:02:48 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:59:13 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,7 @@ t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes)
 	if (tokens && !e_codes->parsing)
 		cmd_list = build_cmd_list(tokens, e_codes);
 	if (e_codes->parsing)
-	{
-		free_cmd_list(cmd_list);
-		cmd_list = NULL;
-	}
+		free_cmd_list(&cmd_list);
+	print_tokens(tokens);
 	return (free_tokens(tokens), cmd_list);
 }

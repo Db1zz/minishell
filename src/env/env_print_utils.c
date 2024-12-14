@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 00:16:10 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 01:57:43 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:28:53 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	print_env(t_env *env)
 {
 	while (env)
 	{
-		if (env->key && env->value)
+		if (env->key && env->value && env->value[0])
 			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}

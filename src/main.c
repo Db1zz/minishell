@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 15:01:52 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:57:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	minishell_loop(t_shell *shell)
 		if (shell->input == NULL)
 			break ;
 		if (shell->cmds)
-			free_cmd_list(shell->cmds);
+			free_cmd_list(&shell->cmds);
 	}
 }
 

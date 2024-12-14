@@ -6,11 +6,11 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 01:32:18 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:27:39 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../e_execute.h"
+#include "e_execute.h"
 
 // TODO:
 
@@ -62,7 +62,7 @@ static int	remove_env_var(t_env *env, const char *key)
 				if (prev)
 					prev->next = current->next;
 				(free(current->key), free(current->value), free(current));
-				return (free(current->key), free(current), EXIT_SUCCESS);
+				return (EXIT_SUCCESS);
 			}
 			prev = current;
 			current = current->next;

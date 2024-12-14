@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/13 23:35:29 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:01:17 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_cmd			*build_cmd_list(t_token *tokens, t_error *error);
 /*
 	p_mem_cleaner.c
 */
-void			free_cmd_list(t_cmd *cmd_list);
+void			free_cmd_list(t_cmd **cmd_list);
 void			free_tokens(t_token *tokens);
 
 // =========================== DEBUG ONLY =========================== //
