@@ -6,13 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:24:24 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/13 16:11:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:34:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 
-int	parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
+int	parse_expansion(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int	parse_expansion(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
 	return (i);
 }
 
-int	parse_quote(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
+int	parse_quote(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
 {
 	char	quote;
 	int		i;
@@ -55,7 +55,7 @@ int	parse_quote(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
 	return (i);
 }
 
-int	parse_word(char *str, t_buffer *buffer, t_list *env, t_error *e_codes)
+int	parse_word(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
 {
 	int	i;
 
@@ -88,7 +88,7 @@ int	parse_operator(char *str, t_buffer *buffer)
 	return (i);
 }
 
-t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes)
+t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes)
 {
 	t_token	*tokens;
 	t_cmd	*cmd_list;

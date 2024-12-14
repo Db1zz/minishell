@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:46:20 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 17:13:56 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:35:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ typedef struct s_buffer
 	p_parse.c
 */
 int				parse_expansion(char *str, t_buffer *buffer,
-					t_list *env, t_error *e_codes);
+					t_env *env, t_error *e_codes);
 int				parse_quote(char *str, t_buffer *buffer,
-					t_list *env, t_error *e_codes);
+					t_env *env, t_error *e_codes);
 int				parse_word(char *str, t_buffer *buffer,
-					t_list *env, t_error *e_codes);
+					t_env *env, t_error *e_codes);
 int				parse_operator(char *str, t_buffer *buffer);
-t_cmd			*parse_input(char *input, t_list *env, t_error *e_codes);
+t_cmd			*parse_input(char *input, t_env *env, t_error *e_codes);
 
 /*
 	p_parse_helpers.c
@@ -45,7 +45,7 @@ bool			is_word(const char *s);
 /*
 	p_expansion.c
 */
-int				expand_variable(char *s, t_buffer *buffer, t_list *env);
+int				expand_variable(char *s, t_buffer *buffer, t_env *env);
 int				expand_error_code(t_buffer *buffer, t_error *e_codes);
 
 /*
@@ -53,7 +53,7 @@ int				expand_error_code(t_buffer *buffer, t_error *e_codes);
 */
 t_token			*alloc_token(t_token_type type, char *value);
 void			add_token(t_token **list, t_token *token);
-t_token			*tokenizer(char *input, t_list *env, t_error *error);
+t_token			*tokenizer(char *input, t_env *env, t_error *error);
 bool			is_redirection(t_token *token);
 bool			is_cmd_spearator(t_token *token);
 

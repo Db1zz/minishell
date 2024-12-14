@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   e_export.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 23:26:48 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 02:05:03 by gonische         ###   ########.fr       */
+/*   Created: 2024/12/14 00:26:40 by gonische          #+#    #+#             */
+/*   Updated: 2024/12/14 00:26:47 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "e_execute.h"
-#include "env.h"
+#include "libft.h"
 
-int	builtin_export(char **args, t_shell *shell)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_env	*env;
-	int		status;
-	int		i;
+	size_t	i;
 
-	env = shell->env;
 	i = 0;
-	if (!args[1])
+	while (s1[i] || s2[i])
 	{
-		print_sorted_env(shell->env);
-		return (EXIT_SUCCESS);
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
-	while (args[i])
-	{
-	}
+	return (0);
 }

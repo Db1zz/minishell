@@ -6,11 +6,12 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 17:38:38 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 01:47:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
+#include "env.h"
 #include "minishell.h"
 #include <linux/limits.h>
 
@@ -25,46 +26,23 @@
 ** - NULL if HOME not set when needed
 */
 
-static char *get_target_path(char **args, t_list *env)
+static char *get_target_path(char **args, t_env *env)
 {
-	char    *path;
-	char    *home;
+	char	*path;
+	t_env	*home;
 
 	if (!args[1])
 	{
 		home = get_env(env, "HOME");
 		if (!home)
 			return (NULL);
-		path = ft_strdup(ft_strchr(home, '=') + 1);
+		path = ft_strdup(home->value);
 	}
 	else
 		path = ft_strdup(args[1]);
 	
 	return (path);
 }
-
-// static int path_error(char **args) // path error handling
-// {
-// 	const char	*error_path;
-
-// 	error_path = "HOME";
-// 	if (args[1])
-// 		error_path = args[1];
-// 	ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, error_path, "no such variable");
-// 	return (EXIT_FAILURE);
-// }
-
-// static int	chdir_error(const char *path) // changing dir error handling
-// {
-// 	if (errno == EACCES)
-// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
-// 	else if (errno == ENOENT)
-// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
-//             "No such file or directory");
-// 	else
-// 		ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
-// 	return (EXIT_FAILURE);
-// }
 
 static int handle_path_error(char **args)
 {
@@ -94,25 +72,19 @@ static int change_dir(const char *path)
 }
 
 
-static void	update_env_var(t_list *env, const char *key, const char *value)
+static void	update_env_var(t_env *env, char *key, char *value)
 {
-	t_list *var;
-	char *new_val;
+	t_env	*var;
 
-	var = get_env_node(env, key);
-	if (var) // update existing env var
+	var = get_env(env, key);
+	if (var)
 	{
-		free(var->content); // erase old value
-		new_val = ft_strjoin(key, "="); // combine key =
-		new_val = ft_strjoin_free(new_val, value, 1); // add the value and free first string
-		var->content = new_val; // updates the var
+		if (var->value)
+			free(var->value);
+		var->value = ft_strdup(value);
 	}
-	else //add a new env var
-	{
-		new_val = ft_strjoin(key, "=");
-		new_val = ft_strjoin_free(new_val, value, 1);
-		ft_lstadd_back(&env, ft_lstnew(new_val)); // add new variable to list
-	}
+	else
+		env_push_back(&env, ft_strdup(key), ft_strdup(value));
 }
 
 /*

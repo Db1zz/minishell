@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:14:19 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/13 17:34:29 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:33:35 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		execute_cmd(t_shell *shell);
 int		execute_external(t_cmd *cmd, t_shell *shell);
 
 // Path handling function (used by external execution)
-char	*find_cmd_path(char *cmd, t_list *env);
+char	*find_cmd_path(char *cmd, t_env *env);
 
 // Builtin command functions
 /* 

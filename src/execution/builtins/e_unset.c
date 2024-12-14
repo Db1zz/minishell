@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:21 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 17:36:40 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 01:32:18 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,23 @@ static int	is_valid_identifier(const char *str)
 ** Returns EXIT_SUCCESS even if variable wasn't found (bash behavior)
 */
 
-static int	remove_env_var(t_list *env, const char *name)
+static int	remove_env_var(t_env *env, const char *key)
 {
-	t_list	*current;
-	t_list	*prev;
-	char	*equals;
-	size_t	name_len;
+	t_env	*current;
+	t_env	*prev;
 
-	name_len = ft_strlen(name);
 	prev = NULL;
 	current = env;
 	while (current)
 	{
 		while (current)
 		{
-			equals = ft_strchr(current->content, '=');
-			if (equals && !ft_strncmp(current->content, name, name_len)
-				&& ((char *)current->content)[name_len] == '=')
+			if (ft_strcmp(current->key, key) == 0)
 			{
 				if (prev)
 					prev->next = current->next;
-				return (free(current->content), free(current), EXIT_SUCCESS);
+				(free(current->key), free(current->value), free(current));
+				return (free(current->key), free(current), EXIT_SUCCESS);
 			}
 			prev = current;
 			current = current->next;

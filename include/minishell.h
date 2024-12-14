@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/13 17:39:56 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 01:34:36 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "error.h"
 # include "typedefs.h"
 # include "e_execute.h"
+# include "env.h"
 
 // Macro
 # define SHELL_NAME "Minishell"
@@ -35,7 +36,7 @@
 /*
 	parsing functions
 */
-t_cmd	*parse_input(char *input, t_list *env, t_error *e_codes);
+t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes);
 void	free_cmd_list(t_cmd *cmd_list);
 
 /*
@@ -52,18 +53,10 @@ t_shell	*init_shell(char **envp);
 void	destroy_shell(t_shell *shell);
 
 /*
-	env.c
-*/
-char	*get_env(t_list *env_list, char *key);
-t_list	*get_env_node(t_list *env, const char *key);
-t_list	*create_env_list(char **envp);
-char	**env_list_to_array(t_list *env);
-
-/*
 	execution
 */
 bool	is_builtin(char *cmd);
-int		execute_builtin(t_cmd *cmd, t_shell *env);
-int		execute_external(t_cmd *cmd, t_shell *env);
+int		execute_builtin(t_cmd *cmd, t_shell *shell);
+int		execute_external(t_cmd *cmd, t_shell *shell);
 
 #endif // MINISHELL_H

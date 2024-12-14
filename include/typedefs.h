@@ -1,6 +1,8 @@
 #ifndef TYPEDEFS_H
 # define TYPEDEFS_H
 
+#include <stdbool.h>
+
 typedef enum s_token_type
 {
 	T_UNKNOWN,
@@ -29,12 +31,19 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct s_env
+{
+	bool			is_printed;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_shell
 {
 	struct s_cmd	*cmds;
-	struct s_list	*env;
+	struct s_env	*env;
 	char			*input;
 }	t_shell;
-
 
 #endif	// TYPEDEFS_H

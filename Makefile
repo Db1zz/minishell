@@ -30,6 +30,8 @@ LIBS = $(LIBFT) $(READLINE_LIB)
 SRCS =	src/main.c							\
 		src/utils.c							\
 		src/env/env.c						\
+		src/env/env_utils.c					\
+		src/env/env_print_utils.c			\
 		src/signal/signal.c					\
 		src/parsing/p_parse.c				\
 		src/parsing/p_token.c				\

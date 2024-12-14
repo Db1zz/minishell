@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:15:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 17:14:39 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:35:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_token	*tokenize(t_buffer *buffer)
 	return (new_token);
 }
 
-t_token	*tokenizer(char *input, t_list *env, t_error *error)
+t_token	*tokenizer(char *input, t_env *env, t_error *error)
 {
 	t_token		*tokens;
 	t_buffer	buffer;

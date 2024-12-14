@@ -6,101 +6,95 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/12 17:29:47 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 01:56:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include "env.h"
+#include <stdlib.h>
 
-static int	get_env_size(t_list *env)
+t_env	*env_init(char **envp)
 {
-	int		size;
-	t_list	*current;
-
-	size = 0;
-	current = env;
-	while (current)
-	{
-		size++;
-		current = current->next;
-	}
-	return (size);
-}
-
-char	*get_env(t_list *env_list, char *key)
-{
+	t_env	*env_list;
+	char	*key;
+	char	*value;
 	size_t	key_len;
-	size_t	env_key_len;
-	char	*equal_sign;
 
-	if (!key || !key[0] || !env_list)
+	if (!envp || !envp[0])
 		return (NULL);
-	key_len = ft_strlen(key);
-	while (env_list)
+	env_list = NULL;
+	while (*envp)
 	{
-		equal_sign = ft_strchr((char *)env_list->content, '=');
-		env_key_len = equal_sign - (char *)env_list->content;
-		if (env_key_len == key_len
-			&& ft_strncmp((char *)env_list->content, key, key_len) == 0)
-			return ((char *)env_list->content);
-		env_list = env_list->next;
+		key_len = ft_strchr(*envp, '=') - *envp;
+		key = ft_substr(*envp, 0, key_len);
+		value = ft_substr(*envp, key_len + 1, ft_strlen(*envp) - key_len - 1);
+		env_push_back(&env_list, key, value);
+		envp++;
 	}
-	return (NULL);
+	return (env_list);
 }
 
-t_list	*get_env_node(t_list *env, const char *key)
+t_env	*get_env(t_env *env, const char *key)
 {
-	t_list	*current;
-	char	*content;
-	size_t	key_len;
+	t_env	*current;
 
 	current = env;
-	key_len = ft_strlen(key);
 	while (current)
 	{
-		content = (char *)current->content;
-		if (ft_strncmp(current->content, key, key_len) == 0
-			&& content[key_len] == '=')
+		if (ft_strcmp(current->key, key) == 0)
 			return (current);
 		current = current->next;
 	}
 	return (NULL);
 }
 
-t_list	*create_env_list(char **envp)
+bool	env_push_back(t_env **env, char *key, char *value)
 {
-	t_list	*env_list;
+	t_env	*new_env_node;
+	t_env	*current;
 
-	if (!envp || !envp[0])
-		return (NULL);
-	env_list = NULL;
-	while (*envp)
-		ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(*envp++)));
-	return (env_list);
+	if (!env)
+		return (false);
+	new_env_node = ft_calloc(1, sizeof(t_env));
+	new_env_node->key = key;
+	new_env_node->value = value;
+	if (!*env)
+		*env = new_env_node;
+	else
+	{
+		current = *env;
+		while (current->next)
+			current = current->next;
+		current->next = new_env_node;
+	}
+	return (true);
 }
 
-char	**env_list_to_array(t_list *env)
+void	free_env_node(t_env *env)
 {
-	char	**arr;
-	t_list	*current;
-	int		i;
+	if (env)
+	{
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
+	}
+}
 
-	arr = malloc(sizeof(char *) * (get_env_size(env) + 1));
-	if (!arr)
-		return (NULL);
-	i = 0;
-	current = env;
+void	destroy_env(t_env **env)
+{
+	t_env	*current;
+	t_env	*next;
+	if (!env || !*env)
+		return ;
+	current = *env;
 	while (current)
 	{
-		arr[i] = ft_strdup(current->content);
-		if (!arr[i])
-		{
-			free_2dmatrix(arr);
-			return (NULL);
-		}
-		i++;
-		current = current->next;
+		next = current->next;
+		free_env_node(current);
+		current = next;
 	}
-	arr[i] = NULL;
-	return (arr);
+	*env = NULL;
 }

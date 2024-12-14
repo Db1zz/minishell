@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:25 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/12 17:40:44 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 01:41:26 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static char	*search_in_paths(char **paths, char *cmd)
 	return (full_path);
 }
 
-char	*find_cmd_path(char *cmd, t_list *env)
+char	*find_cmd_path(char *cmd, t_env *env)
 {
 	char	**paths;
-	char	*path_var;
+	t_env	*path_var;
 	char	*direct_path;
 
 	if (!cmd || !cmd[0])
@@ -68,7 +68,7 @@ char	*find_cmd_path(char *cmd, t_list *env)
 	path_var = get_env(env, "PATH");
 	if (!path_var)
 		return (NULL);
-	paths = ft_split(ft_strchr(path_var, '=') + 1, ':');
+	paths = ft_split(path_var->value, ':');
 	if (!paths)
 		return (NULL);
 	return (search_in_paths(paths, cmd));
