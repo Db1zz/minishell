@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/14 16:48:02 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:59:15 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	execute_cmd(t_shell *shell)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (EXIT_SUCCESS);
 	save_fds(og_fds);
-	if (cmd->redirections)
+	if (cmd->redirections && !cmd->next)
 	{
 		status = setup_redirections(cmd->redirections);
 		if (status != EXIT_SUCCESS)

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 18:21:55 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:09:09 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static int	setup_pipes_and_redirections(int index, int pipes[][2],
 	int	status;
 
 	status = EXIT_SUCCESS;
-	setup_pipe(index, pipes, cmd_list);
 	close_unused_pipes(index, pipes, cmd_count);
+	setup_pipe(index, pipes, cmd_list);
 	if (cmd_list->redirections)
 	{
 		status = setup_redirections(cmd_list->redirections);
