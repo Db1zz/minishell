@@ -6,14 +6,19 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 01:47:31 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:16:54 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
 #include "env.h"
 #include "minishell.h"
-#include <linux/limits.h>
+
+# ifdef __APPLE__
+	#  include <limits.h>
+# elif __linux__
+	#  include <linux/limits.h>
+# endif
 
 /*
 ** get_target_path - Get the target directory for cd

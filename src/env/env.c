@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 01:56:26 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:47:56 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,16 @@ t_env	*env_init(char **envp)
 	return (env_list);
 }
 
-t_env	*get_env(t_env *env, const char *key)
+t_env	*alloc_env_node(char *key, char *value, bool is_printed)
 {
-	t_env	*current;
+	t_env	*new_env_node;
 
-	current = env;
-	while (current)
-	{
-		if (ft_strcmp(current->key, key) == 0)
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
+	new_env_node = ft_calloc(1, sizeof(t_env));
+	if (!new_env_node)
+		return (NULL);
+	new_env_node->key = key;
+	new_env_node->value = value;
+	return (new_env_node);
 }
 
 bool	env_push_back(t_env **env, char *key, char *value)
@@ -56,9 +54,17 @@ bool	env_push_back(t_env **env, char *key, char *value)
 
 	if (!env)
 		return (false);
-	new_env_node = ft_calloc(1, sizeof(t_env));
-	new_env_node->key = key;
-	new_env_node->value = value;
+	current = get_env(*env, key);
+	if (current)
+	{
+		if (current->value && value != NULL)
+		{
+			free(current->value);
+			current->value = value;
+		}
+		return (free(key), true);
+	}
+	new_env_node = alloc_env_node(key, value, false);
 	if (!*env)
 		*env = new_env_node;
 	else

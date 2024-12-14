@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 00:39:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:59:29 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	minishell_loop(t_shell *shell)
 		if (shell->input == NULL)
 			break ;
 		if (shell->cmds)
-			free_cmd_list(shell->cmds);
+			free_cmd_list(&shell->cmds);
 	}
 }
 
@@ -43,9 +43,8 @@ int	main(int argc, char **argv, char **envp)
 
 	((void)argc, (void)argv);
 	shell = init_shell(envp);
-	print_sorted_env(shell->env);
-	// minishell_loop(shell);
-	// destroy_shell(shell);
+	minishell_loop(shell);
+	destroy_shell(shell);
 	shell = NULL;
 	return (0);
 }

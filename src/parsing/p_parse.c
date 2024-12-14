@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:24:24 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/13 23:34:57 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:00:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes)
 	if (tokens && !e_codes->parsing)
 		cmd_list = build_cmd_list(tokens, e_codes);
 	if (e_codes->parsing)
-	{
-		free_cmd_list(cmd_list);
-		cmd_list = NULL;
-	}
+		free_cmd_list(&cmd_list);
 	print_tokens(tokens);
 	return (free_tokens(tokens), cmd_list);
 }

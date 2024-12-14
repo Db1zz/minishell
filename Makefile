@@ -6,9 +6,9 @@ OS := $(shell uname -s)
 INCLUDE = -I src/execution -I include -I src/parsing -I libft 
 
 ifneq ($(ARCH), x86_64)
-	CFLAGS = -arch $(ARCH) -Wall -Wextra
+	CFLAGS = -arch $(ARCH) -Wall -Wextra -fsanitize=address
 else
-	CFLAGS = -Wall -Wextra
+	CFLAGS = -Wall -Wextra -fsanitize=address
 endif
 
 # For MacOS lreadline from brew is mandatory.

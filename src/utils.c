@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 20:31:54 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 00:01:24 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:00:09 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	destroy_shell(t_shell *shell)
 	if (!shell)
 		return ;
 	if (shell->cmds)
-		free_cmd_list(shell->cmds);
+		free_cmd_list(&shell->cmds);
 	if (shell->env)
 		destroy_env(&shell->env);
 	if (shell->input)
