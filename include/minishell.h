@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:01:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:25:58 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	free_cmd_list(t_cmd **cmd_list);
 	signal.c
 */
 void	setup_signals(void);
+void	signal_handler(int signum);
 
 /*
 	utils.c

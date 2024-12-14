@@ -6,14 +6,12 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 16:53:59 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:21:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
-/*
-	TODO: $(), $, $?, $	, $1, ${13} $((2+2*2)) ;)
-*/
+
 int	expand_variable(char *s, t_buffer *buffer, t_env *env)
 {
 	int		i;
