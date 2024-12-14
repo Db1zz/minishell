@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 00:16:10 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:28:53 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:36:31 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	reset_printed_states(t_env *env)
 	}
 }
 
-static t_env *get_smallest_available_env(t_env *env)
+static t_env	*get_smallest_available_env(t_env *env)
 {
 	t_env	*current;
 	t_env	*smallest_env;
@@ -62,7 +62,8 @@ void	print_sorted_env(t_env *env)
 		{
 			to_print->is_printed = true;
 			if (to_print->key && to_print->value)
-				printf("declare -x %s=\"%s\"\n", to_print->key, to_print->value);
+				printf("declare -x %s=\"%s\"\n", \
+					to_print->key, to_print->value);
 			else
 				printf("declare -x %s\n", to_print->key);
 		}

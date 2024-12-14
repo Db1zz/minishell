@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_exit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 16:46:06 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:08:03 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 ** is_numeric - Checks if string is a valid number
 ** Allows for one optional leading + or -
 */
-
 static int	is_num(const char *str)
 {
 	int	i;

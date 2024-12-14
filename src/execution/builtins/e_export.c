@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 23:26:48 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 15:58:53 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:42:19 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*env_extract_value(const char *env_var, const char *key)
 {
 	char	*value;
 	size_t	key_lenght;
-	
+
 	if (!env_var || !key)
 		return (NULL);
 	key_lenght = ft_strlen(key);

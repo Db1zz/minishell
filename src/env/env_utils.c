@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 23:38:03 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:45:16 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:39:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,25 @@ char	**env_list_to_array(t_env *env)
 {
 	char	**arr;
 	char	*temp;
-	t_env	*current;
 	int		i;
 
 	arr = malloc(sizeof(char *) * (get_env_size(env) + 1));
 	if (!arr)
 		return (NULL);
 	i = 0;
-	current = env;
-	while (current)
+	while (env)
 	{
-		if (current->value)
+		if (env->value)
 		{
-			temp = ft_strjoin(current->key, "=");
-			arr[i] = ft_strjoin(temp, current->value);
-			free(temp);
+			temp = ft_strjoin(env->key, "=");
+			arr[i] = ft_strjoin_free(temp, env->value, JOIN_FREE_S1);
 		}
 		else
-			arr[i] = ft_strdup(current->key);
+			arr[i] = ft_strdup(env->key);
 		if (!arr[i])
-		{
-			free_2dmatrix(arr);
-			return (NULL);
-		}
+			return (free_2dmatrix(arr), NULL);
 		i++;
-		current = current->next;
+		env = env->next;
 	}
 	arr[i] = NULL;
 	return (arr);

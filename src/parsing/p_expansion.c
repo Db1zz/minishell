@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 01:39:20 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:53:59 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	expand_variable(char *s, t_buffer *buffer, t_env *env)
 	var = get_env(env, key);
 	if (var)
 	{
-		val = var->value; 
+		val = var->value;
 		if (val)
 		{
 			ft_strncpy(&buffer->array[buffer->index], val, ft_strlen(val));

@@ -31,6 +31,7 @@ SRCS =	src/main.c							\
 		src/utils.c							\
 		src/env/env.c						\
 		src/env/env_utils.c					\
+		src/env/env_utils2.c				\
 		src/env/env_print_utils.c			\
 		src/signal/signal.c					\
 		src/parsing/p_parse.c				\
@@ -79,8 +80,9 @@ $(NAME): $(LIBFT) $(SRCS)
 clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
-fclean: clean
-	rm -f $(NAME)
+
+fclean:
+	rm -f $(NAME) $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
