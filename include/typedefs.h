@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   typedefs.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/14 16:57:00 by gonische          #+#    #+#             */
+/*   Updated: 2024/12/14 16:57:13 by gonische         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TYPEDEFS_H
 # define TYPEDEFS_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 
 typedef enum s_token_type
 {

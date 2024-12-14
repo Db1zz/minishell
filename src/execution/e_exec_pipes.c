@@ -6,13 +6,13 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 16:09:38 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:53:36 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "e_execute.h"
 
-static void setup_pipe(int index, int pipes[][2], t_cmd *cmd)
+static void	setup_pipe(int index, int pipes[][2], t_cmd *cmd)
 {
 	if (index > 0)
 		dup2(pipes[index - 1][0], STDIN_FILENO);
