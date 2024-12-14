@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 22:47:29 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 14:59:24 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:09:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@
  * - NULL if memory allocation fails.
  */
 
-char *ft_strjoin_free(char *s1, char *s2, int free_flag)
+char	*ft_strjoin_free(char *s1, char *s2, int free_flag)
 {
 	char	*result;
-	size_t	len1; 
+	size_t	len1;
 	size_t	len2;
 
 	if (!s1 || !s2)
 		return (NULL);
-
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	result = malloc(len1 + len2 + 1);

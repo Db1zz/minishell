@@ -2,9 +2,9 @@
 CC = cc
 ARCH := $(shell uname -m)
 ifneq ($(ARCH),x86_64)
-	CFLAGS = -arch $(ARCH) -Wall -Werror -Wextra -g
+	CFLAGS = -arch $(ARCH) -Wall -Werror -Wextra
 else
-	CFLAGS = -Wall -Werror -Wextra -g
+	CFLAGS = -Wall -Werror -Wextra
 endif
 # CFLAGS = -fsanitize=address
 
