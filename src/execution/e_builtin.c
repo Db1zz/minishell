@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 21:45:14 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/14 13:24:06 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:07:42 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_builtin(char *cmd)
 	i = 0;
 	while (builtins[i].name)
 	{
-		if (!strcmp(cmd, builtins[i].name))
+		if (ft_strcmp(cmd, builtins[i].name) == 0)
 			return (true);
 		i++;
 	}
@@ -76,7 +76,7 @@ int	execute_builtin(t_cmd *cmd, t_shell *shell)
 	i = 0;
 	while (builtins[i].name)
 	{
-		if (!strcmp(cmd->args[0], builtins[i].name))
+		if (!ft_strcmp(cmd->args[0], builtins[i].name))
 			return (builtins[i].func(cmd->args, shell));
 		i++;
 	}

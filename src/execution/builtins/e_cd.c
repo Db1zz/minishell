@@ -6,10 +6,11 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 15:57:49 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:00:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "e_builtins.h"
 #include "e_execute.h"
 #include "env.h"
 #include "minishell.h"

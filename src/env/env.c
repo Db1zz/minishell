@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:53:57 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:09:55 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_env	*alloc_env_node(char *key, char *value, bool is_printed)
 	new_env_node = ft_calloc(1, sizeof(t_env));
 	if (!new_env_node)
 		return (NULL);
+	new_env_node->is_printed = is_printed;
 	new_env_node->key = key;
 	new_env_node->value = value;
 	return (new_env_node);

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:03:59 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 17:33:53 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:09:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	exec_pipeline_routine(t_shell *shell, int pipes[][2], int cmd_count)
 			status = setup_pipes_and_redirections(i, pipes,
 					cmd_count, cmd_list);
 			if (is_builtin(cmd_list->args[0]))
-				execute_builtin(cmd_list, shell);
+				exit(execute_builtin(cmd_list, shell));
 			exit(execute_external(cmd_list, shell));
 		}
 		cmd_list = cmd_list->next;
