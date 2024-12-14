@@ -6,24 +6,29 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 17:34:51 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:14:47 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:59:24 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 
-void	free_cmd_list(t_cmd *cmd_list)
+void	free_cmd_list(t_cmd **cmd_list)
 {
 	t_cmd	*next;
+	t_cmd	*current;
 
-	while (cmd_list)
+	if (!cmd_list)
+		return ;
+	current = *cmd_list;
+	while (current)
 	{
-		free_tokens(cmd_list->redirections);
-		free_2dmatrix(cmd_list->args);
-		next = cmd_list->next;
-		free(cmd_list);
-		cmd_list = next;
+		free_tokens(current->redirections);
+		free_2dmatrix(current->args);
+		next = current->next;
+		free(current);
+		current = next;
 	}
+	*cmd_list = NULL;
 }
 
 /**
@@ -38,7 +43,7 @@ void	free_cmd_list(t_cmd *cmd_list)
  */
 void	free_tokens(t_token *tokens)
 {
-	t_token *next;
+	t_token	*next;
 
 	while (tokens)
 	{

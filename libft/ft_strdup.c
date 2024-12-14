@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 10:58:19 by gonische          #+#    #+#             */
-/*   Updated: 2024/06/20 19:47:51 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:39:01 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(char *src)
 	size_t	len;
 	char	*result;
 
+	if (!src)
+		return (NULL);
 	len = ft_strlen(src);
 	result = (char *)malloc(len + 1);
 	if (!result)

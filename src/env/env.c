@@ -6,41 +6,73 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:29:11 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:35:27 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include "env.h"
+#include <stdlib.h>
 
-char	*get_env(t_list *env_list, char *key)
+t_env	*env_init(char **envp)
 {
+	t_env	*env_list;
+	char	*key;
+	char	*value;
 	size_t	key_len;
-	size_t	env_key_len;
-	char	*equal_sign;
-
-	if (!key || !key[0] || !env_list)
-		return (NULL);
-	key_len = ft_strlen(key);
-	while (env_list)
-	{
-		equal_sign = ft_strchr((char *)env_list->content, '=');
-		env_key_len = equal_sign - (char *)env_list->content;
-		if (env_key_len == key_len &&
-				ft_strncmp((char *)env_list->content, key, key_len) == 0)
-			return ((char *)env_list->content);
-		env_list = env_list->next;
-	}
-	return (NULL);
-}
-
-t_list	*create_env_list(char **envp)
-{
-	t_list	*env_list;
 
 	if (!envp || !envp[0])
 		return (NULL);
 	env_list = NULL;
 	while (*envp)
-		ft_lstadd_back(&env_list, ft_lstnew(ft_strdup(*envp++)));
+	{
+		key_len = ft_strchr(*envp, '=') - *envp;
+		key = ft_substr(*envp, 0, key_len);
+		value = ft_substr(*envp, key_len + 1, ft_strlen(*envp) - key_len - 1);
+		env_push_back(&env_list, key, value);
+		envp++;
+	}
 	return (env_list);
+}
+
+t_env	*alloc_env_node(char *key, char *value, bool is_printed)
+{
+	t_env	*new_env_node;
+
+	new_env_node = ft_calloc(1, sizeof(t_env));
+	if (!new_env_node)
+		return (NULL);
+	new_env_node->is_printed = is_printed;
+	new_env_node->key = key;
+	new_env_node->value = value;
+	return (new_env_node);
+}
+
+void	free_env_node(t_env *env)
+{
+	if (env)
+	{
+		if (env->key)
+			free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
+	}
+}
+
+void	destroy_env(t_env **env)
+{
+	t_env	*current;
+	t_env	*next;
+
+	if (!env || !*env)
+		return ;
+	current = *env;
+	while (current)
+	{
+		next = current->next;
+		free_env_node(current);
+		current = next;
+	}
+	*env = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 17:18:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/28 23:47:46 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:06:46 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	skip_spaces(char const *s)
 
 	i = 0;
 	if (!s)
-		return (0); 
+		return (0);
 	while (is_space(s[i]))
 		i++;
 	return (i);

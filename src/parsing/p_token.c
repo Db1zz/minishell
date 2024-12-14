@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:15:35 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:14:37 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/13 23:35:37 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*alloc_token(t_token_type type, char *value)
 
 	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
-		return (ft_printf("Calloc error\n"), NULL); // TODO: handle error
+		return (ft_dprintf(STDERR_FILENO, "Calloc error\n"), NULL);
 	token->type = type;
 	token->value = value;
 	return (token);
@@ -64,34 +64,33 @@ void	add_token(t_token **list, t_token *token)
 	}
 }
 
-static t_token	*tokenize(char buffer[])
+static t_token	*tokenize(t_buffer *buffer)
 {
 	t_token	*new_token;
 	char	*token_value;
 
-	token_value = ft_strdup(&buffer[0]);
-	new_token = alloc_token(str_to_token_type(&buffer[0]), token_value);
+	token_value = ft_strdup(&buffer->array[0]);
+	new_token = alloc_token(str_to_token_type(&buffer->array[0]), token_value);
 	return (new_token);
 }
 
-t_token	*tokenizer(char *input, t_list *env, t_error *error)
+t_token	*tokenizer(char *input, t_env *env, t_error *error)
 {
-	t_token	*tokens;
-	char	buffer[ARG_BUFF_SIZE];
-	int		buff_index;
+	t_token		*tokens;
+	t_buffer	buffer;
 
 	tokens = NULL;
-	while (*input && *error == NO_ERROR)
+	while (*input && error->parsing == NO_ERROR)
 	{
-		buff_index = 0;
+		buffer.index = 0;
 		if (is_space(*input))
 			input += skip_spaces(input);
 		else if (is_operator(input))
-			input += parse_operator(input, buffer, &buff_index);
+			input += parse_operator(input, &buffer);
 		else
-			input += parse_word(input, buffer, &buff_index, env, error);
-		if (buff_index > 0 && *error == NO_ERROR)
-			add_token(&tokens, tokenize(buffer));
+			input += parse_word(input, &buffer, env, error);
+		if (buffer.index > 0 && error->parsing == NO_ERROR)
+			add_token(&tokens, tokenize(&buffer));
 	}
 	return (tokens);
 }

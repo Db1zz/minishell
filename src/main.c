@@ -6,47 +6,45 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 01:29:31 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:57:49 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
+#include "p_parsing.h"
+#include "env.h"
 
-void	minishell_loop(char	**envp)
+void	minishell_loop(t_shell *shell)
 {
-	char	*input;
-	t_list	*env_list;
-	t_cmd	*cmd_list;
+	t_error	e_codes;
 
-	env_list = create_env_list(envp);
-	cmd_list = NULL;
+	e_codes.exit = 0;
 	while (true)
 	{
-		input = readline("minishell-beta$ ");
-		if (input && input[0])
+		shell->input = readline("minishell-beta$ ");
+		if (shell->input && shell->input[0])
 		{
-			add_history(input);
-			cmd_list = parse_input(input, env_list);
-			free(input);
+			add_history(shell->input);
+			shell->cmds = parse_input(shell->input, shell->env, &e_codes);
+			if (shell->cmds && shell->cmds->args && shell->cmds->args[0])
+				e_codes.exit = execute_cmd(shell);
+			free(shell->input);
 		}
-		if (input == NULL)
-		{
-			ft_printf("exit\n");
+		if (shell->input == NULL)
 			break ;
-		}
-		/*
-			Put execution here
-		*/
-		if (cmd_list)
-			free_cmd_list(cmd_list);
+		if (shell->cmds)
+			free_cmd_list(&shell->cmds);
 	}
-	rl_clear_history();
-	ft_lstclear(&env_list, free);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	setup_signals();
-	minishell_loop(envp);
+	t_shell	*shell;
+
+	((void)argc, (void)argv);
+	shell = init_shell(envp);
+	minishell_loop(shell);
+	destroy_shell(shell);
+	shell = NULL;
 	return (0);
 }

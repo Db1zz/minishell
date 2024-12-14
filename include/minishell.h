@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:25:50 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:33:35 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:01:48 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,52 +23,21 @@
 # include <signal.h>
 # include <stdlib.h>
 # include "limits.h"
-# include "../libft/libft.h"
+# include "libft.h"
 # include "error.h"
+# include "typedefs.h"
+# include "e_execute.h"
+# include "env.h"
 
 // Macro
 # define SHELL_NAME "Minishell"
 # define ARG_BUFF_SIZE 1024
 
-// Typedefs
-typedef enum s_token_type
-{
-	T_UNKNOWN,
-	T_IN,
-	T_OUT,
-	T_HEREDOC,
-	T_APPEND,
-	T_WORD,
-	T_PIPE,
-	T_AND,
-	T_OR
-}	t_token_type;
-
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}	t_token;
-
-typedef struct s_cmd
-{
-	char			**args;
-	struct s_token	*redirections;
-	struct s_cmd	*next;
-}	t_cmd;
-
-typedef struct s_shell
-{
-	struct s_token	*tokens;
-	struct s_cmd	*cmds;
-}	t_shell;
-
 /*
 	parsing functions
 */
-t_cmd	*parse_input(char *input, t_list *env);
-void	free_cmd_list(t_cmd *cmd_list);
+t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes);
+void	free_cmd_list(t_cmd **cmd_list);
 
 /*
 	signal.c
@@ -80,15 +49,14 @@ void	setup_signals(void);
 */
 void	print_2dmatrix(char const **matrix);
 void	free_2dmatrix(char **matrix);
+t_shell	*init_shell(char **envp);
+void	destroy_shell(t_shell *shell);
 
 /*
-	env.c
+	execution
 */
-char	*get_env(t_list *env_list, char *key);
-t_list	*create_env_list(char **envp);
-/*
-	error.c
-*/
-void	display_error(char *data, t_error error);
+bool	is_builtin(char *cmd);
+int		execute_builtin(t_cmd *cmd, t_shell *shell);
+int		execute_external(t_cmd *cmd, t_shell *shell);
 
 #endif // MINISHELL_H

@@ -6,28 +6,29 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:24:24 by gonische          #+#    #+#             */
-/*   Updated: 2024/10/02 13:47:08 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:11:20 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 
-int	parse_expansion(char *str, char buffer[], int *buffer_index, t_list *env)
-{	
+int	parse_expansion(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
+{
 	int	i;
 
 	i = 1;
 	if ((str[0] != '$'))
 		return (0);
 	if (ft_isalpha(str[i]) || str[i] == '_')
-		i += expand_variable(str + i, buffer, buffer_index, env);
+		i += expand_variable(str + i, buffer, env);
+	else if (str[i] == '?')
+		i += expand_error_code(buffer, e_codes);
 	else
-		buffer[(*buffer_index)++] = '$';
+		buffer->array[buffer->index++] = '$';
 	return (i);
 }
 
-int	parse_quote(char *str, char buffer[], int *buff_index, t_list *env, 
-		t_error *error)
+int	parse_quote(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
 {
 	char	quote;
 	int		i;
@@ -37,9 +38,9 @@ int	parse_quote(char *str, char buffer[], int *buff_index, t_list *env,
 	while (str[i] && quote)
 	{
 		if (str[i] == '$' && quote == '\"')
-			i += parse_expansion(str + i, buffer, buff_index, env);
+			i += parse_expansion(str + i, buffer, env, e_codes);
 		else if (str[i] != quote)
-			buffer[(*buff_index)++] = str[i++];
+			buffer->array[buffer->index++] = str[i++];
 		else
 		{
 			quote = '\0';
@@ -48,32 +49,31 @@ int	parse_quote(char *str, char buffer[], int *buff_index, t_list *env,
 	}
 	if (quote)
 	{
-		*error = ERROR_UNCLOSED_QUOTE;
+		e_codes->parsing = ERROR_UNCLOSED_QUOTE;
 		ft_dprintf(STDERR_FILENO, MSG_UNCLOSED_QUOTE, quote);
 	}
 	return (i);
 }
 
-int	parse_word(char *str, char buffer[], int *buff_index, t_list *env,
-		t_error *error)
+int	parse_word(char *str, t_buffer *buffer, t_env *env, t_error *e_codes)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && !is_metachar(str + i) && *error == NO_ERROR)
+	while (str[i] && !is_metachar(str + i) && e_codes->parsing == NO_ERROR)
 	{
 		if (is_quote(str[i]))
-			i += parse_quote(str + i, buffer, buff_index, env, error);
+			i += parse_quote(str + i, buffer, env, e_codes);
 		else if (str[i] == '$')
-			i += parse_expansion(str + i, buffer, buff_index, env);
+			i += parse_expansion(str + i, buffer, env, e_codes);
 		else
-			buffer[(*buff_index)++] = str[i++];
+			buffer->array[buffer->index++] = str[i++];
 	}
-	buffer[(*buff_index)] = '\0';
+	buffer->array[buffer->index] = '\0';
 	return (i);
 }
 
-int	parse_operator(char *str, char buffer[], int *buff_index)
+int	parse_operator(char *str, t_buffer *buffer)
 {
 	int	operator_len;
 	int	i;
@@ -83,33 +83,24 @@ int	parse_operator(char *str, char buffer[], int *buff_index)
 	if (!operator_len)
 		return (0);
 	while (i < operator_len)
-		buffer[(*buff_index)++] = str[i++];
-	buffer[(*buff_index)] = '\0';
+		buffer->array[buffer->index++] = str[i++];
+	buffer->array[buffer->index] = '\0';
 	return (i);
 }
 
-t_cmd	*parse_input(char *input, t_list *env)
+t_cmd	*parse_input(char *input, t_env *env, t_error *e_codes)
 {
 	t_token	*tokens;
 	t_cmd	*cmd_list;
-	t_error	error;
 
 	if (!input)
 		return (NULL);
-	error = NO_ERROR;
+	e_codes->parsing = NO_ERROR;
 	cmd_list = NULL;
-	tokens = tokenizer(input, env, &error);
-	if (tokens && !error)
-		cmd_list = build_cmd_list(tokens, &error);
-	if (error)
-	{
-		free_cmd_list(cmd_list);
-		cmd_list = NULL;
-	}
-	// Debug only
-	// print_tokens(tokens);
-	print_cmd_list(cmd_list);
-	//
-	free_tokens(tokens);
-	return (cmd_list); // TODO
+	tokens = tokenizer(input, env, e_codes);
+	if (tokens && !e_codes->parsing)
+		cmd_list = build_cmd_list(tokens, e_codes);
+	if (e_codes->parsing)
+		free_cmd_list(&cmd_list);
+	return (free_tokens(tokens), cmd_list);
 }

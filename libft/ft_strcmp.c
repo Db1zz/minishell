@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/25 17:20:12 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 17:09:18 by gonische         ###   ########.fr       */
+/*   Created: 2024/12/14 00:26:40 by gonische          #+#    #+#             */
+/*   Updated: 2024/12/14 13:57:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dest, char const *src, size_t n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
-	if (!dest || !src)
-		return (dest);
 	i = 0;
-	while (i < n)
+	while (s1[i] || s2[i])
 	{
-		dest[i] = src[i];
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	return (dest);
+	return (0);
 }

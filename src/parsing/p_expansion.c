@@ -6,36 +6,48 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 13:29:05 by gonische          #+#    #+#             */
-/*   Updated: 2024/09/29 00:04:52 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:53:59 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "p_parsing.h"
 /*
-	TODO: $(), $, $?, $VAR_NAME123, $1, ${13} $((2+2*2)) ;)
+	TODO: $(), $, $?, $	, $1, ${13} $((2+2*2)) ;)
 */
-int	expand_variable(char *s, char buffer[], int *buffer_index, t_list *env)
+int	expand_variable(char *s, t_buffer *buffer, t_env *env)
 {
 	int		i;
 	char	*key;
 	char	*val;
-	char	*env_val;
+	t_env	*var;
 
 	i = 0;
 	while (ft_isalpha(s[i]) || ft_isdigit(s[i]) || s[i] == '_')
 		i++;
 	key = ft_substr(s, 0, i);
-	env_val = get_env(env, key);
-	if (env_val)
+	var = get_env(env, key);
+	if (var)
 	{
-		val = ft_substr(env_val, i + 1, ft_strlen(env_val + i));
-		if (val && *val)
+		val = var->value;
+		if (val)
 		{
-			ft_strncpy(&buffer[*buffer_index], val, ft_strlen(val));
-			*buffer_index += ft_strlen(val);
+			ft_strncpy(&buffer->array[buffer->index], val, ft_strlen(val));
+			buffer->index += ft_strlen(val);
 		}
-		free(val);
 	}
 	free(key);
 	return (i);
+}
+
+int	expand_error_code(t_buffer *buffer, t_error *e_codes)
+{
+	char	*err_code_str;
+	size_t	str_size;
+
+	err_code_str = ft_itoa(e_codes->exit);
+	str_size = ft_strlen(err_code_str);
+	ft_strncpy(&buffer->array[buffer->index], err_code_str, str_size);
+	buffer->index += str_size;
+	free(err_code_str);
+	return (1);
 }

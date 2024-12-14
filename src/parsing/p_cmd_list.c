@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:29 by gonische          #+#    #+#             */
-/*   Updated: 2024/10/02 13:47:35 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:15:32 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static size_t	count_args(t_token *tokens)
 	return (result);
 }
 
-static t_token *get_redirection(t_token **tokens, t_error *error)
+static t_token	*get_redirection(t_token **tokens, t_error *error)
 {
 	t_token	*redirection;
 	char	*err_msg_val;
@@ -35,7 +35,7 @@ static t_token *get_redirection(t_token **tokens, t_error *error)
 	redirection->type = (*tokens)->type;
 	if (!(*tokens)->next || (*tokens)->next->type != T_WORD)
 	{
-		*error = ERROR_SYNTAX_ERROR;
+		error->parsing = ERROR_SYNTAX_ERROR;
 		if ((*tokens)->next)
 			err_msg_val = (*tokens)->next->value;
 		else
@@ -54,11 +54,11 @@ static t_cmd	*extract_cmd(t_token **tokens, t_error *error)
 	const size_t	args_size = count_args(*tokens);
 	t_cmd			*cmd;
 	int				arg_index;
-	
+
 	arg_index = 0;
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	cmd->args = ft_calloc(args_size + 1, sizeof(char *));
-	while ((*tokens) && !is_cmd_spearator(*tokens) && !*error)
+	while ((*tokens) && !is_cmd_spearator(*tokens) && !error->parsing)
 	{
 		if (is_redirection(*tokens))
 			add_token(&cmd->redirections, get_redirection(tokens, error));
@@ -80,7 +80,7 @@ t_cmd	*build_cmd_list(t_token *tokens, t_error *error)
 	if (!tokens)
 		return (NULL);
 	cmd_list = NULL;
-	while (tokens && !*error)
+	while (tokens && !error->parsing)
 	{
 		cmd = extract_cmd(&tokens, error);
 		if (!cmd_list)
@@ -118,7 +118,7 @@ void	print_cmd_list(t_cmd *cmd_table)
 		ft_printf("\nRedirections: ");
 		while (redirections)
 		{
-			ft_printf("[%s]", redirections->value);
+			ft_printf("[%s %d]", redirections->value, redirections->type);
 			redirections = redirections->next;
 		}
 		ft_printf("\n");
