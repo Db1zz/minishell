@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:21:03 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 14:24:33 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:42:21 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 int	builtin_env(char **args, t_shell *shell)
 {
-	// check for args (not supported)
 	if (args[1])
 	{
 		ft_dprintf(STDERR_FILENO, MSG_ENV_ERROR, "too many arguments");

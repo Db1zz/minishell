@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 14:24:23 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:03:54 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,25 @@
 static int	check_flag(char **args, int *newline)
 {
 	int	i;
+	int	j;
 
 	i = 1;
 	*newline = 0;
-
-	while (args[i] && !strcmp(args[i], "-n"))
+	while (args[i])
 	{
-		*newline = 1;
-		i++;
+		if (args[i][0] == '-' && args[i][1] == 'n')
+		{
+			j = 2;
+			while (args[i][j] == 'n')
+				j++;
+			if (args[i][j] == '\0')
+			{
+				*newline = 1;
+				i++;
+				continue ;
+			}
+		}
+		break ;
 	}
 	return (i);
 }
@@ -52,17 +63,13 @@ static int	check_flag(char **args, int *newline)
 ** echo                -> prints: \n
 ** echo -n             -> prints: nothing
 */
-
 int	builtin_echo(char **args, t_shell *shell)
 {
-	int		i;
+	int	i;
 	int	newline;
 
 	(void)shell;
-
-
-	i = check_flag(args, &newline); // check for -n flag
-
+	i = check_flag(args, &newline);
 	while (args[i])
 	{
 		printf("%s", args[i]);
@@ -72,6 +79,5 @@ int	builtin_echo(char **args, t_shell *shell)
 	}
 	if (!newline)
 		printf("\n");
-
 	return (EXIT_SUCCESS);
 }

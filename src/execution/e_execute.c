@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execute.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 18:12:47 by zrz               #+#    #+#             */
-/*   Updated: 2024/12/13 17:18:02 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:48:02 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	restore_fds(int og_fds[2])
 */
 int	execute_cmd(t_shell *shell)
 {
-	int	og_fds[2];
-	int	status;
+	int		og_fds[2];
+	int		status;
 	t_cmd	*cmd;
 
 	cmd = shell->cmds;

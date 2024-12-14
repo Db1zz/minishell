@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   e_cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 16:00:55 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:29:30 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifdef __APPLE__
+# include <limits.h>
+#elif __linux__
+# include <linux/limits.h>
+#endif
 
 #include "e_builtins.h"
 #include "e_execute.h"
 #include "env.h"
 #include "minishell.h"
-
-# ifdef __APPLE__
-	#  include <limits.h>
-# elif __linux__
-	#  include <linux/limits.h>
-# endif
 
 /*
 ** validate_cd_args - Validates the number of arguments for the cd command
@@ -33,9 +33,10 @@
 ** Notes:
 ** - Prints usage error if too many arguments are provided.
 */
-static int validate_cd_args(char **args)
+static int	validate_cd_args(char **args)
 {
-	if (args[1] && args[2]) {
+	if (args[1] && args[2])
+	{
 		ft_dprintf(STDERR_FILENO, MSG_CD_USAGE);
 		return (0);
 	}
@@ -52,12 +53,11 @@ static int validate_cd_args(char **args)
 ** - Allocated string with the resolved target directory
 ** - NULL if the path could not be resolved
 */
-char *resolve_cd_path(char **args, t_env *env)
+char	*resolve_cd_path(char **args, t_env *env)
 {
 	if (args[1] && ft_strcmp(args[1], "-") == 0)
-		return handle_minus(env);
-
-	return get_target_path(args, env);
+		return (handle_minus(env));
+	return (get_target_path(args, env));
 }
 
 /*
@@ -74,19 +74,15 @@ char *resolve_cd_path(char **args, t_env *env)
 ** Notes:
 ** - Updates PWD and OLDPWD environment variables on success.
 */
-int perform_cd(char *path, t_env *env, char cwd[PATH_MAX])
+int	perform_cd(char *path, t_env *env, char cwd[PATH_MAX])
 {
 	if (!getcwd(cwd, PATH_MAX))
 		return (0);
-
 	if (change_dir(path) != EXIT_SUCCESS)
 		return (0);
-
 	update_env_var(env, "OLDPWD", cwd);
-
 	if (getcwd(cwd, PATH_MAX))
 		update_env_var(env, "PWD", cwd);
-
 	return (1);
 }
 
@@ -100,27 +96,23 @@ int perform_cd(char *path, t_env *env, char cwd[PATH_MAX])
 ** - EXIT_SUCCESS on successful directory change
 ** - EXIT_FAILURE on any error
 */
-int builtin_cd(char **args, t_shell *shell)
+int	builtin_cd(char **args, t_shell *shell)
 {
-	char cwd[PATH_MAX];
-	char *path;
-	int ret;
-	
+	char	cwd[PATH_MAX];
+	char	*path;
+	int		ret;
+
 	ret = EXIT_FAILURE;
 	if (!validate_cd_args(args))
 		return (EXIT_FAILURE);
-
 	path = resolve_cd_path(args, shell->env);
 	if (!path)
 		return (handle_path_error(args));
-
 	if (perform_cd(path, shell->env, cwd))
 		ret = EXIT_SUCCESS;
-
 	free(path);
 	return (ret);
 }
-
 
 /*
 **	$ cd				# Goes to home directory

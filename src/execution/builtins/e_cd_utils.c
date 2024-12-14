@@ -6,7 +6,7 @@
 /*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 14:20:57 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 15:14:23 by jroseiro         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:40:51 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 */
 char	*get_target_path(char **args, t_env *env)
 {
-	char *path;
-	t_env *home;
+	char	*path;
+	t_env	*home;
 
 	if (!args[1] || args[1][0] == '~')
 	{
@@ -33,15 +33,13 @@ char	*get_target_path(char **args, t_env *env)
 		if (!home || !home->value)
 		{
 			ft_dprintf(STDERR_FILENO, "cd: HOME not set\n");
-			return (NULL); // Signal error to the caller
+			return (NULL);
 		}
-		if (!args[1]) // No argument: just go to HOME
-			return ft_strdup(home->value);
-		// Handle '~' case: concatenate HOME with the rest of the path
+		if (!args[1])
+			return (ft_strdup(home->value));
 		path = ft_strjoin(home->value, args[1] + 1);
 	}
-	else // Use the provided argument as is
-		path = ft_strdup(args[1]);	
+	path = ft_strdup(args[1]);
 	return (path);
 }
 
@@ -59,15 +57,15 @@ char	*get_target_path(char **args, t_env *env)
 */
 int	handle_path_error(char **args)
 {
-	const char *error_path;
+	const char	*error_path;
 
 	if (args[1])
 		error_path = args[1];
 	else
 		error_path = "HOME";
-
-	ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, error_path, "no such file or directory");
-	return EXIT_FAILURE;
+	ft_dprintf(STDERR_FILENO, MSG_CD_ERROR,
+		error_path, "no such file or directory");
+	return (EXIT_FAILURE);
 }
 
 /*
@@ -85,15 +83,16 @@ int	handle_path_error(char **args)
 */
 char	*handle_minus(t_env *env)
 {
-   t_env *oldpwd = get_env(env, "OLDPWD");
+	t_env	*oldpwd;
 
-	if (!oldpwd || !oldpwd->value) {
+	oldpwd = get_env(env, "OLDPWD");
+	if (!oldpwd || !oldpwd->value)
+	{
 		ft_dprintf(STDERR_FILENO, "cd: OLDPWD not set\n");
-		return NULL;
+		return (NULL);
 	}
-
 	printf("%s\n", oldpwd->value);
-	return ft_strdup(oldpwd->value);
+	return (ft_strdup(oldpwd->value));
 }
 
 /*
@@ -109,7 +108,6 @@ char	*handle_minus(t_env *env)
 ** - Prints specific error messages for permission issues, non-existent paths,
 **   or other errors based on errno.
 */
-
 int	change_dir(const char *path)
 {
 	if (chdir(path) < 0)
@@ -117,7 +115,7 @@ int	change_dir(const char *path)
 		if (errno == EACCES)
 			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
 		else if (errno == ENOENT)
-			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
+			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path,
 				"No such file or directory");
 		else
 			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
