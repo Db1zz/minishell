@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 16:09:55 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:35:27 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,36 +46,6 @@ t_env	*alloc_env_node(char *key, char *value, bool is_printed)
 	new_env_node->key = key;
 	new_env_node->value = value;
 	return (new_env_node);
-}
-
-bool	env_push_back(t_env **env, char *key, char *value)
-{
-	t_env	*new_env_node;
-	t_env	*current;
-
-	if (!env)
-		return (false);
-	current = get_env(*env, key);
-	if (current)
-	{
-		if (current->value && value != NULL)
-		{
-			free(current->value);
-			current->value = value;
-		}
-		return (free(key), true);
-	}
-	new_env_node = alloc_env_node(key, value, false);
-	if (!*env)
-		*env = new_env_node;
-	else
-	{
-		current = *env;
-		while (current->next)
-			current = current->next;
-		current->next = new_env_node;
-	}
-	return (true);
 }
 
 void	free_env_node(t_env *env)
