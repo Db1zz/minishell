@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_export.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 23:26:48 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 02:05:03 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:24:56 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "e_execute.h"
-#include "env.h"
+#include "e_builtins.h"
 
 int	builtin_export(char **args, t_shell *shell)
 {

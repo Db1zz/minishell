@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:34 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 17:37:07 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:25:06 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../e_execute.h"
+#include "e_builtins.h"
 
 /*
 ** builtin_pwd - Implements the pwd command (print working directory)

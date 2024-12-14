@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_echo.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:17:16 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 17:38:18 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:24:23 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../e_execute.h"
+#include "e_builtins.h"
 
 /*
 ** check_flag - check if arg is -n

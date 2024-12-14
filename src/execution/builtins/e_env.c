@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_env.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:21:03 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 00:06:47 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:24:33 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "e_execute.h"
+#include "e_builtins.h"
 #include "env.h"
 
 /*

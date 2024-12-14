@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:22:53 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 00:39:48 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:01:52 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ int	main(int argc, char **argv, char **envp)
 
 	((void)argc, (void)argv);
 	shell = init_shell(envp);
-	print_sorted_env(shell->env);
-	// minishell_loop(shell);
-	// destroy_shell(shell);
+	minishell_loop(shell);
+	destroy_shell(shell);
 	shell = NULL;
 	return (0);
 }

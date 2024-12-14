@@ -3,131 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   e_cd.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:16:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/14 01:47:31 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:58:40 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "e_execute.h"
-#include "env.h"
-#include "minishell.h"
-#include <linux/limits.h>
+#include "e_builtins.h"
 
 /*
-** get_target_path - Get the target directory for cd
+** validate_cd_args - Validates the number of arguments for the cd command
 **
-** @args: Command arguments (args[1] is the target path if provided)
-** @env: Environment variables list (for HOME directory)
+** @args: Command arguments (args[0] is "cd", args[1] is the target path)
 **
 ** Returns:
-** - Allocated string with target path
-** - NULL if HOME not set when needed
+** - 1 if arguments are valid
+** - 0 if too many arguments are passed
+**
+** Notes:
+** - Prints usage error if too many arguments are provided.
 */
-
-static char *get_target_path(char **args, t_env *env)
+static int validate_cd_args(char **args)
 {
-	char	*path;
-	t_env	*home;
-
-	if (!args[1])
-	{
-		home = get_env(env, "HOME");
-		if (!home)
-			return (NULL);
-		path = ft_strdup(home->value);
+	if (args[1] && args[2]) {
+		ft_dprintf(STDERR_FILENO, MSG_CD_USAGE);
+		return (0);
 	}
-	else
-		path = ft_strdup(args[1]);
-	
-	return (path);
+	return (1);
 }
 
-static int handle_path_error(char **args)
+/*
+** resolve_cd_path - Resolves the target directory for the cd command
+**
+** @args: Command arguments (args[1] is the target path, optional)
+** @env: Environment variables list (for HOME and OLDPWD resolution)
+**
+** Returns:
+** - Allocated string with the resolved target directory
+** - NULL if the path could not be resolved
+*/
+char *resolve_cd_path(char **args, t_env *env)
 {
-	const char  *error_path;
+	if (args[1] && ft_strcmp(args[1], "-") == 0)
+		return handle_minus(env);
 
-	error_path = "HOME";
-	if (args[1])
-		error_path = args[1];
-	ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, error_path, "no such variable");
-	return (EXIT_FAILURE);
+	return get_target_path(args, env);
 }
 
-static int change_dir(const char *path)
+/*
+** perform_cd - Performs the directory change and updates environment variables
+**
+** @path: Target directory to change to
+** @env: Environment variables list (for updating PWD and OLDPWD)
+** @cwd: Buffer for storing the current working directory
+**
+** Returns:
+** - 1 if directory change was successful
+** - 0 if an error occurred
+**
+** Notes:
+** - Updates PWD and OLDPWD environment variables on success.
+*/
+int perform_cd(char *path, t_env *env, char cwd[PATH_MAX])
 {
-	if (chdir(path) < 0)
-	{
-		if (errno == EACCES)
-			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, "Permission denied");
-		else if (errno == ENOENT)
-			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, 
-				"No such file or directory");
-		else
-			ft_dprintf(STDERR_FILENO, MSG_CD_ERROR, path, strerror(errno));
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
+	if (!getcwd(cwd, PATH_MAX))
+		return (0);
 
+	if (change_dir(path) != EXIT_SUCCESS)
+		return (0);
 
-static void	update_env_var(t_env *env, char *key, char *value)
-{
-	t_env	*var;
+	update_env_var(env, "OLDPWD", cwd);
 
-	var = get_env(env, key);
-	if (var)
-	{
-		if (var->value)
-			free(var->value);
-		var->value = ft_strdup(value);
-	}
-	else
-		env_push_back(&env, ft_strdup(key), ft_strdup(value));
+	if (getcwd(cwd, PATH_MAX))
+		update_env_var(env, "PWD", cwd);
+
+	return (1);
 }
 
 /*
 ** builtin_cd - Implements the cd command
 **
-** @args: NULL-terminated array of arguments
-**        args[0] is "cd"
-**        args[1] is target path (optional)
-** @env: environment list (needed for HOME)
+** @args: Command arguments (args[0] is "cd", args[1] is the target path)
+** @shell: Shell structure containing environment variables
 **
-** cd behavior:
-** - With no args: change to HOME directory
-** - With path arg: change to specified path
-** - Returns 0 on success, 1 on any error
-** - Prints appropriate error messages to stderr
+** Returns:
+** - EXIT_SUCCESS on successful directory change
+** - EXIT_FAILURE on any error
 */
-
 int builtin_cd(char **args, t_shell *shell)
 {
-	char	cwd[PATH_MAX];
-	char    *path;
-	int     ret;
-
-	if (args[1] && args[2])
-	{
-		ft_dprintf(STDERR_FILENO, MSG_CD_USAGE);
+	char cwd[PATH_MAX];
+	char *path;
+	int ret;
+	
+	ret = EXIT_FAILURE;
+	if (!validate_cd_args(args))
 		return (EXIT_FAILURE);
-	}
 
-	// Get target path
-	path = get_target_path(args, shell->env);
+	path = resolve_cd_path(args, shell->env);
 	if (!path)
 		return (handle_path_error(args));
-	
-	// Update OLDPWD bfr changing dirs
-	if (getcwd(cwd, sizeof(cwd)))
-		update_env_var(shell->env, "OLDPWD", cwd);
-	ret = change_dir(path);
-	free(path);
 
-	// Update PWD on success
-	if (ret == EXIT_SUCCESS && getcwd(cwd, sizeof(cwd)))
-		update_env_var(shell->env, "PWD", cwd);
+	if (perform_cd(path, shell->env, cwd))
+		ret = EXIT_SUCCESS;
+
+	free(path);
 	return (ret);
 }
 

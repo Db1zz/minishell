@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   e_exit.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: jroseiro <jroseiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:19:38 by jroseiro          #+#    #+#             */
-/*   Updated: 2024/12/13 18:03:12 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:24:47 by jroseiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "e_execute.h"
-#include "minishell.h"
-#include <limits.h>
+#include "e_builtins.h"
 
 /*
 ** is_numeric - Checks if string is a valid number
