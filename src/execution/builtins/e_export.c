@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 23:26:48 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:34:14 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:00:53 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,4 @@ int	builtin_export(char **args, t_shell *shell)
 	while (args[++i])
 		status = check_asign_key(args[i], &shell->env);
 	return (status);
-
 }

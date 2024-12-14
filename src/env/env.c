@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 13:36:18 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 14:47:56 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:53:57 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	destroy_env(t_env **env)
 {
 	t_env	*current;
 	t_env	*next;
+
 	if (!env || !*env)
 		return ;
 	current = *env;

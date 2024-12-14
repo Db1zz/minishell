@@ -6,7 +6,7 @@
 /*   By: gonische <gonische@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 14:30:25 by gonische          #+#    #+#             */
-/*   Updated: 2024/12/14 00:27:09 by gonische         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:58:38 by gonische         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(char *src);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strjoin_free(char *s1, const char *s2, int free_flag);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char delimeter);
 char	*ft_itoa(int n);
@@ -56,6 +55,11 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+#define JOIN_FREE_S1	1
+#define JOIN_FREE_S2	1
+#define JOIN_FREE_BOTH	1
+char	*ft_strjoin_free(char *s1, char *s2, int free_flag);
 
 /*
 	Libft bonus functions and structure declaration
